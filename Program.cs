@@ -1,9 +1,7 @@
-﻿using AdventOfCode._2022;
-
-namespace AdventOfCode {
+﻿namespace AdventOfCode {
     public class Program {
         static void Main(string[] args) {
-            IAdventDay day = new Day12();
+            IAdventDay day = new _2015.Day5();
             Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - - ");
             long resultPartOne = day.PartOne();
             if (resultPartOne != long.MinValue) Console.WriteLine(resultPartOne);
