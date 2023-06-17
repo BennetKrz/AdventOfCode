@@ -7,7 +7,7 @@
         }
 
         public static string GetInputOneLine(int day) {
-            return File.ReadAllText($"DefaultPath{day}.txt");
+            return File.ReadAllText($"{DefaultPath}{day}.txt");
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace AdventOfCode {
     public class Program {
         static void Main(string[] args) {
-            IAdventDay day = new Day5();
+            IAdventDay day = new Day12();
             Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - - ");
             long resultPartOne = day.PartOne();
             if (resultPartOne != long.MinValue) Console.WriteLine(resultPartOne);
