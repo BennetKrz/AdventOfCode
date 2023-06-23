@@ -74,11 +74,7 @@
             return lowPoints.Sum() + lowPoints.Count;
         }
 
-        public record Coord(int Row, int Col);
-
         public long PartTwo() {
-            List<List<Coord>> basins = new();
-
             return 0;
         }
 
@@ -90,27 +86,6 @@
                 }
             }
             return map;
-        }
-
-        List<Coord> FindLowPoints() {
-            List<Coord> points = new();
-            int[,] map = ParseInput();
-            for (int row = 0; row < input.Length; row++) {
-                for (int col = 0; col < input[row].Length; col++) {
-                    int height = map[col, row];
-                    var neighbours =
-                }
-            }
-        }
-
-        List<Coord> Neighbours(int row, int col) {
-            List<Coord> points = new() {
-                new Coord(row-1, col),
-                new Coord(row, col + 1),
-                new Coord(row + 1, col),
-                new Coord(row, col - 1),
-            };
-
         }
     }
 }
