@@ -38,18 +38,6 @@
                     map[allThatHaveToFlash[i].x, allThatHaveToFlash[i].y] = 0;
                     flashed++;
                 }
-                //DEBUG: PRINT OUT THE MAP
-                /*
-                string output = string.Empty;
-                for (int i = 0; i < map.GetLength(1); i++) {
-                    string part = string.Empty;
-                    for (int j = 0; j < map.GetLength(0); j++) {
-                        part += map[i, j];
-                    }
-                    output += part + "\n";
-                }
-                Console.WriteLine(output);
-                */
             }
             return flashed;
         }
@@ -89,7 +77,6 @@
                     hasFlashed[(allThatHaveToFlash[i].x, allThatHaveToFlash[i].y)] = true;
                     map[allThatHaveToFlash[i].x, allThatHaveToFlash[i].y] = 0;
                 }
-
                 if (hasFlashed.All(x => x.Value == true)) return step + 1;
             }
             return 0;
