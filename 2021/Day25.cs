@@ -47,11 +47,11 @@
                 }
                 //PrintArray(map);
             }
-            return 0;
+            return long.MinValue;
         }
 
         public long PartTwo() {
-            return 0;
+            return long.MinValue;
         }
 
         char[,] MoveAll(List<(int tx, int ty, int ox, int oy)> moves, char[,] map) {
