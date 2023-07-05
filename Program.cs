@@ -1,17 +1,26 @@
-﻿namespace AdventOfCode {
+﻿using System.Diagnostics;
+
+namespace AdventOfCode {
     public class Program {
         static void Main(string[] args) {
-            IAdventDay day = new _2021.Day17();
-            Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - - ");
+            IAdventDay day = new _2021.Day21();
+            Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
+            Stopwatch sw = Stopwatch.StartNew();
             long resultPartOne = day.PartOne();
             if(resultPartOne != long.MinValue) {
                 Console.WriteLine(resultPartOne);
             }
-            Console.WriteLine("- - - - - - - - - PART TWO - - - - - - - - - ");
+            sw.Stop();
+            Console.WriteLine($"Finished part one. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms");
+            Console.WriteLine("- - - - - - - - - PART TWO - - - - - - - - -  Starting Stopwatch...");
+            sw.Restart();
             long resultPartTwo = day.PartTwo();
             if(resultPartTwo != long.MinValue) {
                 Console.WriteLine(resultPartTwo);
             }
+            sw.Stop();
+            Console.WriteLine($"Finished part two. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms");
+            Console.WriteLine();
         }
     }
 
