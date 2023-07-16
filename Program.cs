@@ -3,7 +3,7 @@
 namespace AdventOfCode {
     public class Program {
         static void Main(string[] args) {
-            IAdventDay day = new _2019.Day2();
+            IAdventDay day = new _2019.Day3();
             Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
             Stopwatch sw = Stopwatch.StartNew();
             long resultPartOne = day.PartOne();
