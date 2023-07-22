@@ -1,7 +1,5 @@
 ﻿namespace AdventOfCode._2019 {
 
-    using Point = (int x, int y);
-
     public class Day3 : IAdventDay {
         string[] input;
 
@@ -10,27 +8,27 @@
         }
 
         public long PartOne() {
-            Dictionary<Point, int> wireOne = SimulateWire(input[0]);
-            Dictionary<Point, int> wireTwo = SimulateWire(input[1]);
-            List<Point> intersects = wireOne.Keys.Intersect(wireTwo.Keys).ToList();
-            Point closest = intersects.OrderBy(p => Math.Abs(p.x) + Math.Abs(p.y)).First();
+            Dictionary<(int x, int y), int> wireOne = SimulateWire(input[0]);
+            Dictionary<(int x, int y), int> wireTwo = SimulateWire(input[1]);
+            List<(int x, int y)> intersects = wireOne.Keys.Intersect(wireTwo.Keys).ToList();
+            (int x, int y) closest = intersects.OrderBy(p => Math.Abs(p.x) + Math.Abs(p.y)).First();
             int distance = Math.Abs(closest.x) + Math.Abs(closest.y);
             return distance;
         }
 
         public long PartTwo() {
-            Dictionary<Point, int> wireOne = SimulateWire(input[0]);
-            Dictionary<Point, int> wireTwo = SimulateWire(input[1]);
-            List<Point> intersects = wireOne.Keys.Intersect(wireTwo.Keys).ToList();
+            Dictionary<(int x, int y), int> wireOne = SimulateWire(input[0]);
+            Dictionary<(int x, int y), int> wireTwo = SimulateWire(input[1]);
+            List<(int x, int y)> intersects = wireOne.Keys.Intersect(wireTwo.Keys).ToList();
             List<int> steps = intersects.Select(p => wireOne[p] + wireTwo[p]).OrderBy(i => i).ToList();
             return steps.Min();
         }
 
-        Dictionary<Point, int> SimulateWire(string wireInstructions) {
+        Dictionary<(int x, int y), int> SimulateWire(string wireInstructions) {
             string[] instructions = wireInstructions.Split(',');
-            Dictionary<Point, int> wire = new();
+            Dictionary<(int x, int y), int> wire = new();
             int stepCount = 0;
-            Point currentPosition = (0, 0);
+            (int x, int y) currentPosition = (0, 0);
             for(int i = 0; i < instructions.Length; i++) {
                 int length = int.Parse(instructions[i].Substring(1));
                 int xOffset = 0;
@@ -52,7 +50,8 @@
                 }
 
                 for(int counter = 0; counter < length; counter++) {
-                    currentPosition = (currentPosition.x + xOffset, currentPosition.y + yOffset);
+                    currentPosition.x = currentPosition.x + xOffset; 
+                    currentPosition.y =  currentPosition.y + yOffset;
                     if(!wire.ContainsKey(currentPosition)) {
                         wire.Add(currentPosition, stepCount++);
                     }

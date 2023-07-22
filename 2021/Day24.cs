@@ -1,7 +1,5 @@
 ﻿namespace AdventOfCode._2021 {
 
-    using SecondValue = (string valueOrVariable, bool isNumber);
-
     public class Day24 : IAdventDay {
         string[] input;
 
@@ -44,7 +42,7 @@
                     counter++;
                     continue;
                 }
-                SecondValue val = GetSecondValue(instruction);
+                (string valueOrVariable, bool isNumber) val = GetSecondValue(instruction);
                 int b = val.isNumber ? int.Parse(val.valueOrVariable) : variables[val.valueOrVariable[0]];
                 char target = instruction[4];
                 switch(instructionType) {
@@ -97,7 +95,7 @@
             return a == b ? 1 : 0;
         }
 
-        SecondValue GetSecondValue(string s) {
+        (string valueOrVariable, bool isNumber) GetSecondValue(string s) {
             if(s[0] == 'i') {
                 return ("", true);
             }

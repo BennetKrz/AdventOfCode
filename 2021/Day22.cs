@@ -1,8 +1,5 @@
 ﻿namespace AdventOfCode._2021 {
 
-    using Cube = (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn);
-    using Point = (int x, int y, int z);
-
     public class Day22 : IAdventDay {
 
         string[] input;
@@ -12,10 +9,10 @@
         }
 
         public long PartOne() {
-            Dictionary<Point, bool> reactor = new();
-            List<Cube> cubes = ParseInput();
+            Dictionary< (int x, int y, int z), bool> reactor = new();
+            List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> cubes = ParseInput();
             for(int i = 0; i < cubes.Count; i++) {
-                Cube cube = cubes[i];
+                (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn) cube = cubes[i];
                 if(cube.x1 > 50 || cube.x1 < -50) {
                     continue;
                 }
@@ -36,10 +33,10 @@
         }
 
         public long PartTwo() {
-            List<Cube> resultCubes = new();
-            List<Cube> cubes = ParseInput();
+            List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> resultCubes = new();
+            List< (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> cubes = ParseInput();
             for(int i = 0; i < cubes.Count; i++) {
-                List<Cube> cubesToAdd = new();
+                List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> cubesToAdd = new();
                 if(cubes[i].turnOn) {
                     cubesToAdd.Add(cubes[i]);
                 }
@@ -47,7 +44,7 @@
                 for(int j = 0; j < resultCubes.Count; j++) {
                     //Wenn würfel an ist, dann alle wo doppelt an ist entfernen und wo off ist
                     //Wenn würfel aus, dann doppelt aus gezählte und ans entfernen
-                    Cube? intersectingCube = DoCubesIntersect(cubes[i], resultCubes[j], !resultCubes[j].turnOn);
+                    (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)? intersectingCube = DoCubesIntersect(cubes[i], resultCubes[j], !resultCubes[j].turnOn);
                     if(intersectingCube != null) {
                         cubesToAdd.Add(intersectingCube.Value);
                     }
@@ -57,13 +54,13 @@
             return resultCubes.Aggregate(0L, (totalVolumen, c) => totalVolumen + Volumen(c) * (c.turnOn ? 1 : -1));
         }
 
-        long Volumen(Cube c) => (c.x2 - c.x1 + 1L) * (c.y2 - c.y1 + 1L) * (c.z2 - c.z1 + 1L);
+        long Volumen((int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn) c) => (c.x2 - c.x1 + 1L) * (c.y2 - c.y1 + 1L) * (c.z2 - c.z1 + 1L);
 
-        Cube? DoCubesIntersect(Cube a, Cube b, bool turnOn) {
+        (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)? DoCubesIntersect((int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn) a, (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn) b, bool turnOn) {
             if(a.x1 > b.x2 || a.x2 < b.x1 || a.y1 > b.y2 || a.y2 < b.y1 || a.z1 > b.z2 || a.z2 < b.z1) {
                 return null;
             }
-            Cube cube = new();
+            (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn) cube = new();
             cube.x1 = Math.Max(a.x1, b.x1);
             cube.y1 = Math.Max(a.y1, b.y1);
             cube.z1 = Math.Max(a.z1, b.z1);
@@ -74,11 +71,11 @@
             return cube;
         }
 
-        List<Cube> ParseInput() {
-            List<Cube> cubes = new();
+        List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> ParseInput() {
+            List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> cubes = new();
             for(int i = 0; i < input.Length; i++) {
                 string line = input[i];
-                Cube cube = new();
+                (int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn) cube = new();
                 if(line[1] == 'f') {
                     cube.turnOn = false;
                     line.Remove(0, 3);

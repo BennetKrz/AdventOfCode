@@ -1,7 +1,7 @@
 ﻿namespace AdventOfCode._2015 {
     public static class Helper {
 
-        private static string DefaultPath = @"G:\C#\AdventOfCode\2015\Input\day_";
+        private static string DefaultPath = @"/home/d0d0/RiderProjects/AdventOfCode/2015/Input/day_";
         public static string[] GetInput(int day) {
             return File.ReadAllLines($"{DefaultPath}{day}.txt");
         }
