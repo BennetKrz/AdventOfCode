@@ -42,7 +42,7 @@
         private bool PartTwoRuleOne(string line)
         {
             string pair;
-            for (int i = 0; i < line.Length - 4; i++)
+            for (int i = 0; i < line.Length - 3; i++)
             {
                 pair = line.Substring(i, 2);
                 for (int j = i + 2; j < line.Length - 1; j++)
