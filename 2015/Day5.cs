@@ -6,6 +6,14 @@
             this.input = Helper.GetInput(5);
         }
 
+        private string[] test = new[]
+        {
+            "qjhvhtzxzqqjkmpb",
+            "xxyxx",
+            "uurcxstgmygtbstg",
+            "ieodomkazucvgmuy",
+        };
+
         public long PartOne() {
             string[] badStringParts = { "ab", "cd", "pq", "xy" };
             int niceStrings = 0;
@@ -25,8 +33,32 @@
             return niceStrings;
         }
 
-        public long PartTwo() {
+        public long PartTwo()
+        {
+            foreach (string s in test)
+            {
+                Console.WriteLine(PartTwoRuleOne(s));
+            }
+
             return 0;
+        }
+
+        private bool PartTwoRuleOne(string line)
+        {
+            string pair;
+            for (int i = 0; i < line.Length - 4; i++)
+            {
+                pair = line.Substring(i, 2);
+                for (int j = i + 2; j < line.Length; j++)
+                {
+                    string pairTwo = line.Substring(j, 2);
+                    if (pairTwo == pair)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool stringContainsBadString(string input, string[] stringToCheckFor) {
