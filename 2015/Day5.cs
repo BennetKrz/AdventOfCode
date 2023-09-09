@@ -6,14 +6,6 @@
             this.input = Helper.GetInput(5);
         }
 
-        private string[] test = new[]
-        {
-            "qjhvhtzxzqqjkmpb",
-            "xxyxx",
-            "uurcxstgmygtbstg",
-            "ieodomkazucvgmuy",
-        };
-
         public long PartOne() {
             string[] badStringParts = { "ab", "cd", "pq", "xy" };
             int niceStrings = 0;
@@ -35,12 +27,16 @@
 
         public long PartTwo()
         {
-            foreach (string s in test)
+            int counter = 0;
+            foreach (string s in input)
             {
-                Console.WriteLine(PartTwoRuleOne(s));
+                if (PartTwoRuleOne(s) && PartTwoRuleTwo(s))
+                {
+                    counter++;
+                }
             }
 
-            return 0;
+            return counter;
         }
 
         private bool PartTwoRuleOne(string line)
@@ -49,13 +45,25 @@
             for (int i = 0; i < line.Length - 4; i++)
             {
                 pair = line.Substring(i, 2);
-                for (int j = i + 2; j < line.Length; j++)
+                for (int j = i + 2; j < line.Length - 1; j++)
                 {
                     string pairTwo = line.Substring(j, 2);
                     if (pairTwo == pair)
                     {
                         return true;
                     }
+                }
+            }
+            return false;
+        }
+
+        private bool PartTwoRuleTwo(string line)
+        {
+            for (int i = 0; i < line.Length - 2; i++)
+            {
+                if (line[i] == line[i + 2])
+                {
+                    return true;
                 }
             }
             return false;
