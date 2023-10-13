@@ -1,39 +1,49 @@
-﻿namespace AdventOfCode._2022 {
-    public class Day1 : IAdventDay {
-        string[] input;
-        public Day1() {
-            this.input = Helper.GetInput(1);
-        }
-        public long PartOne() {
+﻿namespace AdventOfCode._2022;
 
-            List<int> CaloriesPerElf = new List<int>();
-            int count = 0;
-            for (int i = 0; i < input.Length; i++) {
-                if (int.TryParse(input[i], out _)) {
-                    count += Convert.ToInt32(input[i]);
-                } else {
-                    CaloriesPerElf.Add(count);
-                    count = 0;
-                }
-            }
+public class Day1 : IAdventDay
+{
+	private readonly string[] input;
 
-            return CaloriesPerElf.Max();
-        }
+	public Day1()
+	{
+		input = Helper.GetInput(1);
+	}
 
-        public long PartTwo() {
+	public long PartOne()
+	{
+		List<int> CaloriesPerElf = new();
+		int count = 0;
+		for (int i = 0; i < input.Length; i++)
+		{
+			if (int.TryParse(input[i], out _))
+			{
+				count += Convert.ToInt32(input[i]);
+			} else
+			{
+				CaloriesPerElf.Add(count);
+				count = 0;
+			}
+		}
 
-            List<int> CaloriesPerElf = new List<int>();
-            int count = 0;
-            for (int i = 0; i < input.Length; i++) {
-                if (int.TryParse(input[i], out _)) {
-                    count += Convert.ToInt32(input[i]);
-                } else {
-                    CaloriesPerElf.Add(count);
-                    count = 0;
-                }
-            }
+		return CaloriesPerElf.Max();
+	}
 
-            return CaloriesPerElf.OrderByDescending(i => i).Take(3).Sum();
-        }
-    }
+	public long PartTwo()
+	{
+		List<int> CaloriesPerElf = new();
+		int count = 0;
+		for (int i = 0; i < input.Length; i++)
+		{
+			if (int.TryParse(input[i], out _))
+			{
+				count += Convert.ToInt32(input[i]);
+			} else
+			{
+				CaloriesPerElf.Add(count);
+				count = 0;
+			}
+		}
+
+		return CaloriesPerElf.OrderByDescending(i => i).Take(3).Sum();
+	}
 }
