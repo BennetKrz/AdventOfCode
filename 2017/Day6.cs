@@ -17,6 +17,38 @@ public class Day6 : IAdventDay
 		return redistributionCounter;
 	}
 
+
+	public long PartTwo()
+	{
+		this.memoryStates.Clear();
+		int[] memoryBanks = ParseInput("\t");
+		int redistributionCounter = 0;
+		string targetMemoryConfig = string.Empty;
+		while (this.memoryStates.Count == this.memoryStates.Distinct().ToList().Count)
+		{
+			memoryBanks = redistributeMemory(memoryBanks);
+			this.memoryStates.Add(string.Join("-", memoryBanks));
+			redistributionCounter++;
+		}
+
+		targetMemoryConfig = string.Join("-", memoryBanks);
+		int counter = 0;
+		while (true)
+		{
+			memoryBanks = redistributeMemory(memoryBanks);
+			counter++;
+			if (string.Join("-", memoryBanks) == targetMemoryConfig)
+			{
+				return counter;
+			}
+		}
+	}
+
+	private int[] ParseInput(string splitByValue)
+	{
+		return this.input.Split(splitByValue).Select(s => int.Parse(s)).ToArray();
+	}
+	
 	private int[] redistributeMemory(int[] memoryBanks)
 	{
 		int index = IndexOfHighest(memoryBanks);
@@ -42,15 +74,5 @@ public class Day6 : IAdventDay
 	private int IndexOfHighest(int[] memoryBanks)
 	{
 		return memoryBanks.ToList().IndexOf(memoryBanks.Max());
-	}
-
-	public long PartTwo()
-	{
-		return 0;
-	}
-
-	private int[] ParseInput(string splitByValue)
-	{
-		return this.input.Split(splitByValue).Select(s => int.Parse(s)).ToArray();
 	}
 }
