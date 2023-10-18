@@ -24,10 +24,10 @@ public class Day6 : IAdventDay
 		int[] memoryBanks = ParseInput("\t");
 		int redistributionCounter = 0;
 		string targetMemoryConfig = string.Empty;
-		while (this.memoryStates.Count == this.memoryStates.Distinct().ToList().Count)
+		while (memoryStates.Count == memoryStates.Distinct().ToList().Count)
 		{
 			memoryBanks = redistributeMemory(memoryBanks);
-			this.memoryStates.Add(string.Join("-", memoryBanks));
+			memoryStates.Add(string.Join("-", memoryBanks));
 			redistributionCounter++;
 		}
 
