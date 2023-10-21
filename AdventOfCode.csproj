@@ -18,7 +18,6 @@
     <ItemGroup>
         <Folder Include="2018\Input\"/>
         <Folder Include="2020\Input\"/>
-        <Folder Include="2022\Input\"/>
     </ItemGroup>
 
     <ItemGroup>
