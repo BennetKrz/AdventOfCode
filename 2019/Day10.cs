@@ -67,10 +67,6 @@ public class Day10 : IAdventDay
 				destroyedIndex.Add(asteroidDestroyedCounter + 1, asteroidToCheck);
 				degreesToEveryAsteroid.Remove(asteroidToCheck);
 				asteroidDestroyedCounter++;
-				#if DEBUG
-				Console.WriteLine(
-					$"{asteroidDestroyedCounter}th asteroid destroyed at {asteroidToCheck.x}|{asteroidToCheck.y}");
-				#endif
 				if (internalCounter >= degreesToEveryAsteroid.Count) internalCounter = 0;
 				continue;
 			}
