@@ -1,23 +1,20 @@
-﻿using System.Net;
-using AdventOfCode._2017;
-
-namespace AdventOfCode._2017;
+﻿namespace AdventOfCode._2017;
 
 public class Day8 : IAdventDay
 {
-	private List<string> input;
-	private Dictionary<string, int> registers = new();
+	private readonly List<string> input;
+	private readonly Dictionary<string, int> registers = new();
 
 	public Day8()
 	{
-		this.input = Helper.GetInput(8).ToList();
+		input = Helper.GetInput(8).ToList();
 	}
 
-	
+
 	public long PartOne()
 	{
 		InitializeRegisters();
-		
+
 		foreach (string s in input)
 		{
 			//Erst in instruction umwandeln
@@ -25,6 +22,7 @@ public class Day8 : IAdventDay
 			//Instruction ausführen:
 			ExecuteInstruction(currentInstruction);
 		}
+
 		return registers.MaxBy(kvp => kvp.Value).Value;
 	}
 
@@ -59,24 +57,18 @@ public class Day8 : IAdventDay
 			_ => throw new Exception()
 		};
 	}
-	
+
 	private void ExecuteInstruction(Instruction currentInstruction)
 	{
-		if (IsConditionSatisfied(currentInstruction))
-		{
-			DoInstruction(currentInstruction);
-		}
+		if (IsConditionSatisfied(currentInstruction)) DoInstruction(currentInstruction);
 	}
 
 	private void DoInstruction(Instruction currentInstruction)
 	{
 		if (currentInstruction.Decrease)
-		{
 			registers[currentInstruction.TargetRegister] -= currentInstruction.ValueToChangeBy;
-		} else
-		{
+		else
 			registers[currentInstruction.TargetRegister] += currentInstruction.ValueToChangeBy;
-		}
 	}
 
 	private Instruction ParseInstruction(string s)
@@ -109,18 +101,14 @@ public class Day8 : IAdventDay
 			_ => throw new Exception()
 		};
 	}
-	
+
 	private int GetConditionValue(string s)
 	{
 		if (int.TryParse(s, out _))
-		{
 			return int.Parse(s);
-		} else
-		{
-			return registers[s];
-		}
+		return registers[s];
 	}
-	
+
 	private void InitializeRegisters()
 	{
 		registers.Clear();
@@ -132,7 +120,8 @@ public class Day8 : IAdventDay
 	}
 }
 
-public record Instruction(string TargetRegister, bool Decrease, int ValueToChangeBy, int ConditionValueOne, int ConditionValueTwo, Operator Operator)
+public record Instruction(string TargetRegister, bool Decrease, int ValueToChangeBy, int ConditionValueOne,
+                          int ConditionValueTwo, Operator Operator)
 {
 	public string TargetRegister { get; set; } = TargetRegister;
 	public bool Decrease { get; set; } = Decrease;
@@ -149,5 +138,5 @@ public enum Operator
 	More,
 	Less,
 	LessOrEquals,
-	MoreOrEquals,
+	MoreOrEquals
 }

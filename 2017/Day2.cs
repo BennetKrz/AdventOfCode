@@ -37,17 +37,12 @@ public class Day2 : IAdventDay
 			{
 				for (int j = 0; j < row.Count; j++)
 				{
-					if (row[i] == 0 || row[j] == 0 || row[i] == row[j])
-					{
-						continue;
-					}
-					if (row[i] % row[j] == 0)
-					{
-						counter += row[i] / row[j];
-					}
+					if (row[i] == 0 || row[j] == 0 || row[i] == row[j]) continue;
+					if (row[i] % row[j] == 0) counter += row[i] / row[j];
 				}
 			}
 		}
+
 		return counter;
 	}
 }

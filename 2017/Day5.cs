@@ -1,14 +1,12 @@
-﻿using AdventOfCode._2017;
-
-namespace AdventOfCode._2017;
+﻿namespace AdventOfCode._2017;
 
 public class Day5 : IAdventDay
 {
-	List<string> input;
+	private readonly List<string> input;
 
 	public Day5()
 	{
-		this.input = Helper.GetInput(5).ToList();
+		input = Helper.GetInput(5).ToList();
 	}
 
 	public long PartOne()
@@ -22,8 +20,8 @@ public class Day5 : IAdventDay
 			pos += instructions[pos];
 			instructions[oldPos]++;
 			steps++;
-			
 		}
+
 		return steps;
 	}
 
@@ -38,15 +36,12 @@ public class Day5 : IAdventDay
 			int jumpWidth = instructions[pos];
 			pos += jumpWidth;
 			if (jumpWidth > 2)
-			{
 				instructions[oldPos]--;
-			} else
-			{
+			else
 				instructions[oldPos]++;
-			}
 			steps++;
-			
 		}
+
 		return steps;
 	}
 }

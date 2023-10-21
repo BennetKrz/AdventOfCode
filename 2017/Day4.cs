@@ -1,14 +1,12 @@
-﻿using AdventOfCode._2017;
-
-namespace AdventOfCode._2017;
+﻿namespace AdventOfCode._2017;
 
 public class Day4 : IAdventDay
 {
-	List<string> input;
+	private readonly List<string> input;
 
 	public Day4()
 	{
-		this.input = Helper.GetInput(4).ToList();
+		input = Helper.GetInput(4).ToList();
 	}
 
 	public long PartOne()
@@ -18,11 +16,9 @@ public class Day4 : IAdventDay
 		{
 			List<string> words = s.Split(" ").ToList();
 			int sizeOld = words.Count;
-			if (sizeOld == words.Distinct().ToList().Count)
-			{
-				valid++;
-			}
+			if (sizeOld == words.Distinct().ToList().Count) valid++;
 		}
+
 		return valid;
 	}
 
@@ -42,10 +38,7 @@ public class Day4 : IAdventDay
 			{
 				for (int j = 0; j < tmp.Count; j++)
 				{
-					if (i == j)
-					{
-						continue;
-					}
+					if (i == j) continue;
 
 					if (tmp[i].OrderBy(x => x).SequenceEqual(tmp[j].OrderBy(x => x)))
 					{
@@ -54,9 +47,11 @@ public class Day4 : IAdventDay
 					}
 				}
 			}
+
 			GoHere:
 			int t = 0;
 		}
+
 		return input.Count - notValid;
 	}
 }

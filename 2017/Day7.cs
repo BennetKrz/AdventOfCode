@@ -1,15 +1,12 @@
-﻿using System.Security.Cryptography;
-using AdventOfCode._2017;
-
-namespace AdventOfCode._2017;
+﻿namespace AdventOfCode._2017;
 
 public class Day7 : IAdventDay
 {
-	List<string> input;
+	private readonly List<string> input;
 
 	public Day7()
 	{
-		this.input = Helper.GetInput(7).ToList();
+		input = Helper.GetInput(7).ToList();
 	}
 
 	public long PartOne()
@@ -28,7 +25,7 @@ public class Day7 : IAdventDay
 		for(int i = 0; i < allPaths.Count;)
 		{
 			string key = allPaths.Keys.ToArray()[i];
-			List<string> 
+			List<string>
 			allDiscs[key]
 		}*/
 		return 0;
@@ -42,7 +39,7 @@ public class Day7 : IAdventDay
 	private Disc ParseLineSimple(string line)
 	{
 		string[] values = line.Split(" ");
-		Disc d = new Disc(values[0], int.Parse(values[1].Replace("(", "").Replace(")", "")));
+		Disc d = new(values[0], int.Parse(values[1].Replace("(", "").Replace(")", "")));
 		return d;
 	}
 
@@ -60,15 +57,12 @@ public class Day7 : IAdventDay
 
 	private List<string> GetNextDiscs(string line)
 	{
-		return line.Replace(" ","").Remove(0, line.IndexOf("->")).Split(",").ToList();
+		return line.Replace(" ", "").Remove(0, line.IndexOf("->")).Split(",").ToList();
 	}
 }
 
 public class Disc
 {
-	public Disc previousDisc { get; set; }
-	public HashSet<Disc> nextDisc { get; private set; }
-
 	public string name;
 	public int size;
 
@@ -78,18 +72,16 @@ public class Disc
 		this.size = size;
 	}
 
+	public Disc previousDisc { get; set; }
+	public HashSet<Disc> nextDisc { get; }
+
 	public Disc getFirstDisc()
 	{
-		if (previousDisc != null)
-		{
-			return previousDisc.getFirstDisc();
-		}
+		if (this.previousDisc != null) return this.previousDisc.getFirstDisc();
 
 		return this;
 	}
 
 	public void AddDisc(Disc discToAdd, string nameOfDisc)
-	{
-		
-	}
+	{ }
 }

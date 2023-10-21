@@ -14,11 +14,9 @@ public class Day1 : IAdventDay
 		int counter = 0;
 		for (int i = 0; i < input.Length; i++)
 		{
-			if (input[i] == input[i + 1 == input.Length ? 0 : i + 1])
-			{
-				counter += int.Parse(input[i].ToString());
-			}
+			if (input[i] == input[i + 1 == input.Length ? 0 : i + 1]) counter += int.Parse(input[i].ToString());
 		}
+
 		return counter;
 	}
 
@@ -27,13 +25,14 @@ public class Day1 : IAdventDay
 		int counter = 0;
 		for (int i = 0; i < input.Length; i++)
 		{
-			int halfLengthOfList = (input.Length / 2);
-			if (input[i] == input[i + halfLengthOfList >= input.Length ? i + halfLengthOfList - input.Length : i +
-			                                                                                         halfLengthOfList])
-			{
+			int halfLengthOfList = input.Length / 2;
+			if (input[i] == input[i + halfLengthOfList >= input.Length
+				                      ? i + halfLengthOfList - input.Length
+				                      : i +
+				                        halfLengthOfList])
 				counter += int.Parse(input[i].ToString());
-			}
 		}
+
 		return counter;
 	}
 }
