@@ -16,13 +16,19 @@ public class Day15 : IAdventDay
 		int counter = 0;
 		GeneratorPartOne genA = new GeneratorPartOne(GeneratorAStartingValue, GeneratorAFactor);
 		GeneratorPartOne genB = new GeneratorPartOne(GeneratorBStartingValue, GeneratorBFactor);
+		string resultGenAString;
+		string resultGenBString;
+		string compareA;
+		string compareB;
 		for (int i = 0; i < 40_000_000; i++)
 		{
 			long resultGenA = genA.GenerateNextValue();
 			long resultGenB = genB.GenerateNextValue();
-			string resultGenAString = ConvertToBinaryString(resultGenA);
-			string resultGenBString = ConvertToBinaryString(resultGenB);
-			if (resultGenAString.Substring(16) == resultGenBString.Substring(16))
+			resultGenAString = ConvertToBinaryString(resultGenA);
+			resultGenBString = ConvertToBinaryString(resultGenB);
+			compareA = resultGenAString[16..];
+			compareB = resultGenBString[16..];
+			if (compareA == compareB)
 			{
 				counter++;
 			}
@@ -60,7 +66,7 @@ public class Day15 : IAdventDay
 			{
 				result += "0";
 			}
-
+			
 			return result + s;
 		}
 
