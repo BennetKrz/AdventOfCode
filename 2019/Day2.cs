@@ -2,7 +2,7 @@
 
 public class Day2 : IAdventDay
 {
-	private readonly string[] input;
+	private string[] input;
 
 	public Day2()
 	{
@@ -11,27 +11,32 @@ public class Day2 : IAdventDay
 
 	public long PartOne()
 	{
-		string[] input = new string[this.input.Length];
-		Array.Copy(this.input, input, this.input.Length);
 		input[1] = 12.ToString();
 		input[2] = 2.ToString();
-		return ExecuteProgram(input);
+		IntCodeEmulator emulator = new(input, null, false);
+		emulator.ExecuteProgram();
+		return long.Parse(emulator.GetAddress(0));
 	}
 
 	public long PartTwo()
 	{
-		string[] input = new string[this.input.Length];
-		Array.Copy(this.input, input, this.input.Length);
+		input = Helper.GetInputOneLine(2).Split(",");
+		string[] instructions = new string[input.Length];
+		Array.Copy(input, instructions, this.input.Length);
 		for (int noun = 0; noun < 100; noun++)
 		{
 			for (int verb = 0; verb < 100; verb++)
 			{
-				Array.Copy(this.input, input, this.input.Length);
+				Array.Copy(this.input, instructions, this.input.Length);
 				//replace
-				input[1] = noun.ToString();
-				input[2] = verb.ToString();
-				long result = ExecuteProgram(input);
-				if (result == 19690720) return 100 * noun + verb;
+				instructions[1] = noun.ToString();
+				instructions[2] = verb.ToString();
+				IntCodeEmulator emulator = new(instructions, null, false);
+				emulator.ExecuteProgram();
+				if (long.Parse(emulator.GetAddress(0)) == 19690720)
+				{
+					return 100 * noun + verb;
+				}
 			}
 		}
 
