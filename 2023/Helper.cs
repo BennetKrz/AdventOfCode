@@ -8,7 +8,7 @@ public static class Helper
     {
         string defaultPath = "";
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            defaultPath = @"C:\C#\AdventOfCode\2023\Input\day_";
+            defaultPath = @"G:\C#\AdventOfCode\2023\Input\day_";
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             defaultPath = @"/home/d0d0/RiderProjects/AdventOfCode/2023/Input/day_";
 
