@@ -2,10 +2,7 @@ namespace AdventOfCode._2023;
 
 public class Day1 : IAdventDay
 {
-	private readonly List<string> input;
-
-	private readonly List<string> numbers = new()
-		{ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+	private List<string> input;
 
 	public Day1()
 	{
@@ -14,11 +11,10 @@ public class Day1 : IAdventDay
 
 	public long PartOne()
 	{
-		return 0;
 		long sum = 0;
 		foreach (string line in input)
 		{
-			sum += CombineTwoNumbersPartOne(line);
+			sum += GetTwoNumbers(line);
 		}
 
 		return sum;
@@ -26,16 +22,36 @@ public class Day1 : IAdventDay
 
 	public long PartTwo()
 	{
+		ReplaceEverything();
 		long sum = 0;
 		foreach (string line in input)
 		{
-			sum += CombineTwoNumbersPartTwo(line);
+			sum += GetTwoNumbers(line);
 		}
 
 		return sum;
 	}
 
-	private int CombineTwoNumbersPartOne(string line)
+	private void ReplaceEverything()
+	{
+		List<string> result = new();
+		for (int i = 0; i < input.Count; i++)
+		{
+			result.Add(input[i]
+				           .Replace("one", "o1e")
+				           .Replace("two", "t2o")
+				           .Replace("three", "t3e")
+				           .Replace("four", "f4r")
+				           .Replace("five", "f5e")
+				           .Replace("six", "s6x")
+				           .Replace("seven", "s7n")
+				           .Replace("eight", "e8t")
+				           .Replace("nine", "n9e"));
+		}
+		input = result;
+	}
+
+	private int GetTwoNumbers(string line)
 	{
 		string numberOne = string.Empty;
 		string numberTwo = string.Empty;
@@ -61,7 +77,34 @@ public class Day1 : IAdventDay
 
 		return int.Parse(numberOne + numberTwo);
 	}
+}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Alter müll code
+ 
+ 	private readonly List<string> numbers = new()
+		{ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+ 
 	private int CombineTwoNumbersPartTwo(string line)
 	{
 		int numberOne = 0;
@@ -105,7 +148,7 @@ public class Day1 : IAdventDay
 				}
 			}
 		} else {
-			numberOne = CombineTwoNumbersPartOne(line) / 10;
+			numberOne = GetTwoNumbers(line) / 10;
 		}
 		
 		ZweiteNummer:
@@ -142,7 +185,7 @@ public class Day1 : IAdventDay
 				}
 			}
 		} else {
-			numberTwo = CombineTwoNumbersPartOne(line) % 10;
+			numberTwo = GetTwoNumbers(line) % 10;
 		}
 		Ende:
 		return int.Parse(numberOne.ToString() + numberTwo.ToString());
@@ -202,5 +245,4 @@ public class Day1 : IAdventDay
 		}
 
 		return -1;
-	}
-}
+	}*/
