@@ -4,7 +4,11 @@ namespace AdventOfCode._2023;
 
 public class Day2 : IAdventDay
 {
-	List<string> input;
+	private List<string> input;
+	
+	private const int MaxRed = 12;
+	private const int MaxGreen = 13;
+	private const int MaxBlue = 14;
 
 	public Day2()
 	{
@@ -13,9 +17,6 @@ public class Day2 : IAdventDay
 
 	public long PartOne()
 	{
-		const int maxRed = 12;
-		const int maxGreen = 13;
-		const int maxBlue = 14;
 		List<Game> games = ParseInput();
 
 		int sum = 0;
@@ -23,7 +24,7 @@ public class Day2 : IAdventDay
 		for (int i = 0; i < games.Count; i++)
 		{
 			Game g = games[i];
-			if (g is { Red: <= maxRed, Green: <= maxGreen, Blue: <= maxBlue })
+			if (g is { Red: <= MaxRed, Green: <= MaxGreen, Blue: <= MaxBlue })
 			{
 				sum += (i + 1);
 			}
@@ -41,20 +42,20 @@ public class Day2 : IAdventDay
 	private List<Game> ParseInput()
 	{
 		List<Game> games = new();
-		for (int i = 0; i < input.Count; i++)
+		foreach (string line in input)
 		{
-			string importantPart = input[i].Split(":")[1];
+			string importantPart = line.Split(":")[1];
 			string[] allTakes = importantPart.Split(";");
 
 			List<int> red = new();
 			List<int> green = new();
 			List<int> blue = new();
 			
-			for (int t = 0; t < allTakes.Length; t++)
+			foreach (string take in allTakes)
 			{
-				List<string> colors = allTakes[t].Split(",")
-				                                 .Select(s => s.Trim())
-				                                 .ToList();
+				List<string> colors = take.Split(",")
+				                        .Select(s => s.Trim())
+				                        .ToList();
 				(int r, int g, int b) color = GetColors(colors);
 				red.Add(color.r);
 				green.Add(color.g);
