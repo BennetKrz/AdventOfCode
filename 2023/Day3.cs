@@ -19,7 +19,22 @@ public class Day3 : IAdventDay
 
 	public long PartTwo()
 	{
-		return 0;
+		long sum = 0;
+		
+		List<Part> parts = ParseInput();
+		List<Part> possibleGears = parts.Where(p => p.PartSign == '*').ToList();
+		for (int i = 0; i < possibleGears.Count; i++)
+		{
+			if(possibleGears.Count(p => possibleGears[i].PosX == p.PosX && possibleGears[i].PosY == p.PosY) == 2)
+			{
+				List<Part> both = possibleGears
+				                  .Where(p => possibleGears[i].PosX == p.PosX && possibleGears[i].PosY == p.PosY)
+				                  .ToList();
+				sum += both[0].PartId * both[1].PartId;
+			}
+		}
+		
+		return sum / 2;
 	}
 
 	private List<Part> ParseInput()
@@ -40,25 +55,26 @@ public class Day3 : IAdventDay
 				} else
 				{
 					if (number == string.Empty) continue;
-					char sign = GetPartSign((number, x - 1, y));
-					if (sign != '\0')
+					(char sign, int posX, int posY) sign = GetPartSign((number, x - 1, y));
+					if (sign.sign != '\0')
 					{
-						parts.Add(new Part(int.Parse(number), sign, x - 1, y));
+						parts.Add(new Part(int.Parse(number), sign.sign, sign.posX, sign.posY));
 					}
 					number = string.Empty;
 				}
 			}
 			if (number == string.Empty) continue;
-			if (GetPartSign((number, input[y].Length - 1, y)) != '\0')
+			(char si, int posX, int poxY) result = GetPartSign((number, input[y].Length - 1, y)); 
+			if (result.si != '\0')
 			{
-				parts.Add(new Part(int.Parse(number), GetPartSign((number, input[y].Length - 1, y)), input[y].Length - 1, y));
+				parts.Add(new Part(int.Parse(number), result.si, result.posX, result.poxY));
 			}
 		}
 		
 		return parts;
 	}
 
-	private char GetPartSign((string number, int posX, int posY) data)
+	private (char sign, int posX, int posY) GetPartSign((string number, int posX, int posY) data)
 	{
 		char sign;
 		string line = GetStringFromArray(data.posY);
@@ -69,7 +85,7 @@ public class Day3 : IAdventDay
 			{ //Ist nicht in der obersten Zeile --> Prüfen
 				if (IsSign(i, data.posY - 1))
 				{
-					return input[data.posY - 1][i];
+					return (input[data.posY - 1][i], i, data.posY - 1);
 				}
 			}
 
@@ -77,7 +93,7 @@ public class Day3 : IAdventDay
 			{
 				if (IsSign(i, data.posY + 1))
 				{
-					return input[data.posY + 1][i];
+					return (input[data.posY + 1][i], i, data.posY + 1);
 				}
 			}
 			
@@ -86,14 +102,14 @@ public class Day3 : IAdventDay
 			{
 				if(IsSign(i + 1, data.posY))
 				{
-					return input[data.posY][i + 1];
+					return (input[data.posY][i + 1], i + 1, data.posY);
 				}
 				
 				if (data.posY > 0)
 				{ //Ist nicht in der obersten Zeile --> Prüfen
 					if (IsSign(i + 1, data.posY - 1))
 					{
-						return input[data.posY - 1][i + 1];
+						return (input[data.posY - 1][i + 1], i + 1, data.posY - 1);
 					}
 				}
 
@@ -101,7 +117,7 @@ public class Day3 : IAdventDay
 				{
 					if (IsSign(i + 1, data.posY + 1))
 					{
-						return input[data.posY + 1][i + 1];
+						return (input[data.posY + 1][i + 1], i + 1, data.posY + 1);
 					}
 				}
 				
@@ -111,14 +127,14 @@ public class Day3 : IAdventDay
 			{
 				if(IsSign(i - 1, data.posY))
 				{
-					return input[data.posY][i - 1];
+					return (input[data.posY][i - 1], i - 1, data.posY);
 				}
 				
 				if (data.posY > 0)
 				{ //Ist nicht in der obersten Zeile --> Prüfen
 					if (IsSign(i - 1, data.posY - 1))
 					{
-						return input[data.posY - 1][i - 1];
+						return (input[data.posY - 1][i - 1], i - 1, data.posY - 1);
 					}
 				}
 
@@ -126,7 +142,7 @@ public class Day3 : IAdventDay
 				{
 					if (IsSign(i - 1, data.posY + 1))
 					{
-						return input[data.posY + 1][i - 1];
+						return (input[data.posY + 1][i - 1], i - 1, data.posY + 1);
 					}
 				}
 			}
@@ -138,7 +154,7 @@ public class Day3 : IAdventDay
 			}
 		}
 
-		return (char)0x0;
+		return ((char)0x0, -1, -1);
 	}
 
 	private string GetStringFromArray(int dataPosY)
