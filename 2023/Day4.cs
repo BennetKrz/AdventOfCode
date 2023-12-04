@@ -11,21 +11,40 @@ public class Day4 : IAdventDay
     public long PartOne()
     {
         List<Card> cards = ParseInput();
-        return cards.Sum(card => AnalyseCard(card));
+        return cards.Sum(card => CalculateCardPoints(card));
     }
 
     public long PartTwo()
     {
-        return 0;
+        List<Card> cards = ParseInput();
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            Card card = cards[i];
+            int winningCards = GetWinnerAmount(card);
+
+            for(int index = i + 1; (index <= i + winningCards) && (index < cards.Count); index++){
+                
+                Card oldCard = cards[index];
+                cards[index] = new Card(oldCard.CardId, oldCard.CardNumbers, oldCard.WinningNumbers,
+                                        oldCard.Amount + card.Amount);
+            }
+        }
+        
+        return cards.Sum(c => c.Amount);
     }
 
-    private int AnalyseCard(Card card)
+    private int CalculateCardPoints(Card card)
     {
-        int numbersThatWonCount = card.WinningNumbers
-            .Intersect(card.CardNumbers)
-            .ToHashSet()
-            .Count;
-        return numbersThatWonCount > 0 ? (int)Math.Pow(2, numbersThatWonCount - 1) : 0;
+        return GetWinnerAmount(card) > 0 ? (int)Math.Pow(2, GetWinnerAmount(card) - 1) : 0;
+    }
+    
+    private int GetWinnerAmount(Card card)
+    {
+        return card.WinningNumbers
+                    .Intersect(card.CardNumbers)
+                    .ToHashSet()
+                    .Count;
     }
 
     private List<Card> ParseInput()
@@ -47,12 +66,12 @@ public class Day4 : IAdventDay
                 .Where(n => n != "")
                 .Select(n => int.Parse(n.Trim()))
                 .ToHashSet();
-            cards.Add(new (i, cardNumbers, winningNumbers));
+            cards.Add(new (i, cardNumbers, winningNumbers, 1L));
 
         }
         
         return cards;
     }
 
-    private record Card(int CardId, HashSet<int> CardNumbers, HashSet<int> WinningNumbers);
+    private record Card(int CardId, HashSet<int> CardNumbers, HashSet<int> WinningNumbers, long Amount);
 }
