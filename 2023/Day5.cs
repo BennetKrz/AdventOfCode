@@ -39,6 +39,7 @@ public class Day5 : IAdventDay
     }
 
 
+    //Runtime 22 Minuten xD
     public long PartTwo()
     {
         List<long> rawSeeds = GetSeeds();
