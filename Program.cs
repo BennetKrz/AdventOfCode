@@ -6,7 +6,7 @@ public class Program
 {
 	private static void Main(string[] args)
 	{
-		IAdventDay day = new AdventOfCode._2023.Day4();
+		IAdventDay day = new AdventOfCode._2023.Day5();
 		Console.WriteLine(day.GetType().FullName + ":");
 		Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
 		Stopwatch sw = Stopwatch.StartNew();
