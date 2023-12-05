@@ -7,11 +7,11 @@ public class IntCodeEmulator(string[] instructions, List<int>? inputs, bool prin
     private bool printOutputs = printOutputs;
     
     private int inputCounter = 0;
-    private string latestOutput;
+    private List<string> latestOutput;
 
     public string GetLatestOutput()
     {
-        return latestOutput;
+        return latestOutput[^1];
     }
 
     public string GetAddress(int addressPosition)
@@ -101,7 +101,7 @@ public class IntCodeEmulator(string[] instructions, List<int>? inputs, bool prin
     {
         (int mode1, int mode2, int mode3) modes = GetParameterMode(values[0]);
         int output = modes.mode1 == 1 ? int.Parse(values[1]) : int.Parse(instructions[int.Parse(values[1])]);
-        latestOutput = output.ToString();
+        latestOutput.Add(output.ToString());
         if (printOutputs)
         {
             Console.WriteLine(output);  
