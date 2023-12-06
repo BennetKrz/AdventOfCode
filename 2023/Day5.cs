@@ -16,15 +16,13 @@ public class Day5 : IAdventDay
 
         List<long> results = new();
 
-        for (int i = 0; i < seeds.Count; i++)
+        foreach (long tmpSeed in seeds)
         {
-            long seed = seeds[i];
-            for (int level = 0; level < maps.Length; level++)
+            long seed = tmpSeed;
+            foreach (List<(long start, long dest, long length)> currentMap in maps)
             {
-                List<(long start, long dest, long length)> currentMap = maps[level];
-                for (int j = 0; j < currentMap.Count; j++)
+                foreach ((long start, long dest, long length) cur in currentMap)
                 {
-                    (long start, long dest, long length) cur = currentMap[j];
                     if (seed >= cur.start && seed < cur.start + cur.length)
                     {
                         seed = (seed - cur.start) + cur.dest;
@@ -39,7 +37,7 @@ public class Day5 : IAdventDay
     }
 
 
-    //Runtime 22 Minuten xD
+    //Runtime 22 Minuten xD - 10 als exe
     public long PartTwo()
     {
         List<long> rawSeeds = GetSeeds();
@@ -58,12 +56,10 @@ public class Day5 : IAdventDay
             for (long s = 0; s < seeds[i].length; s++)
             {
                 long seed = seeds[i].start + s;
-                for (int level = 0; level < maps.Length; level++)
+                foreach (List<(long start, long dest, long length)> currentMap in maps)
                 {
-                    List<(long start, long dest, long length)> currentMap = maps[level];
-                    for (int j = 0; j < currentMap.Count; j++)
+                    foreach ((long start, long dest, long length) cur in currentMap)
                     {
-                        (long start, long dest, long length) cur = currentMap[j];
                         if (seed >= cur.start && seed < cur.start + cur.length)
                         {
                             seed = (seed - cur.start) + cur.dest;
@@ -77,6 +73,8 @@ public class Day5 : IAdventDay
                     lowestResult = seed;
                 }
             }
+
+            Console.WriteLine($"Durchlauf von {i + 1}. Seed beendet");
         }
 
         return lowestResult;
@@ -141,6 +139,7 @@ public class Day5 : IAdventDay
             }
         }
     }
+    
     private List<long> GetSeeds()
     {
         return input[0]
