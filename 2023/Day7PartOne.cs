@@ -181,6 +181,59 @@ public class Day7PartOne : IAdventDay
 			            .OrderByDescending(x => x.Value)
 			            .ToDictionary();
 		}
+		
+		public override string ToString()
+		{
+			string result = string.Empty;
+			for (int i = 0; i < this.Cards.Count; i++)
+			{
+				switch (this.Cards[i])
+				{
+					case Card.Ace:
+						result += 'A';
+						break;
+					case Card.King:
+						result += 'K';
+						break;
+					case Card.Queen:
+						result += 'Q';
+						break;
+					case Card.Ten:
+						result += 'T';
+						break;
+					case Card.Nine:
+						result += '9';
+						break;
+					case Card.Eight:
+						result += '8';
+						break;
+					case Card.Seven:
+						result += '7';
+						break;
+					case Card.Six:
+						result += '6';
+						break;
+					case Card.Five:
+						result += '5';
+						break;
+					case Card.Four:
+						result += '4';
+						break;
+					case Card.Three:
+						result += '3';
+						break;
+					case Card.Two:
+						result += '2';
+						break;
+					case Card.Jack:
+						result += 'J';
+						break;
+				}
+			}
+
+			result += " " + Bid;
+			return result;
+		}
 	}
 
 	private enum Card
