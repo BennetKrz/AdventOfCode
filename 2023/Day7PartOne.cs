@@ -92,7 +92,7 @@ public class Day7PartOne : IAdventDay
 
 		return result;
 	}
-
+	
 	private record CardDeck(List<Card> Cards, long Bid) : IComparable<CardDeck>
 	{
 		public int CompareTo(CardDeck? other)
