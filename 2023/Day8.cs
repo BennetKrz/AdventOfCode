@@ -4,7 +4,7 @@ namespace AdventOfCode._2023;
 
 public class Day8 : IAdventDay
 {
-	private List<string> input;
+	private readonly List<string> input;
 
 	public Day8()
 	{
