@@ -156,7 +156,6 @@ public class Day10 : IAdventDay
 	private Dictionary<Position, Result> TransferLoop()
 	{
 		Dictionary<Position, Result> tmp = new();
-		//Maximale/Minimale X/Y Werte Bekommen
 		int minX = loopPositions.MinBy(r => r.Key.x).Key.x;
 		int minY = loopPositions.MinBy(r => r.Key.y).Key.y;
 		for (short y = 0; y <= 150; y++)
@@ -235,99 +234,78 @@ public class Day10 : IAdventDay
 				switch (pipe)
 				{
 					case '|':
-						//oberste reihe
 						map[y - 1, x - 1] = 0;
 						map[y - 1, x] = 1;
 						map[y - 1, x + 1] = 0;
-						//Mittlere reihe
 						map[y, x - 1] = 0;
 						map[y, x] = 1;
 						map[y, x + 1] = 0;
-						//Unterste Reihe
 						map[y + 1, x - 1] = 0;
 						map[y + 1, x] = 1;
 						map[y + 1, x + 1] = 0;
 						break;
 					case '-':
-						//oberste reihe
 						map[y - 1, x - 1] = 0;
 						map[y - 1, x] = 0;
 						map[y - 1, x + 1] = 0;
-						//Mittlere reihe
 						map[y, x - 1] = 1;
 						map[y, x] = 1;
 						map[y, x + 1] = 1;
-						//Unterste Reihe
 						map[y + 1, x - 1] = 0;
 						map[y + 1, x] = 0;
 						map[y + 1, x + 1] = 0;
 						break;
 					case 'L':
-						//oberste reihe
 						map[y - 1, x - 1] = 0;
 						map[y - 1, x] = 1;
 						map[y - 1, x + 1] = 0;
-						//Mittlere reihe
 						map[y, x - 1] = 0;
 						map[y, x] = 1;
 						map[y, x + 1] = 1;
-						//Unterste Reihe
 						map[y + 1, x - 1] = 0;
 						map[y + 1, x] = 0;
 						map[y + 1, x + 1] = 0;
 						break;
 					case 'J':
-						//oberste reihe
 						map[y - 1, x - 1] = 0;
 						map[y - 1, x] = 1;
 						map[y - 1, x + 1] = 0;
-						//Mittlere reihe
 						map[y, x - 1] = 1;
 						map[y, x] = 1;
 						map[y, x + 1] = 0;
-						//Unterste Reihe
 						map[y + 1, x - 1] = 0;
 						map[y + 1, x] = 0;
 						map[y + 1, x + 1] = 0;
 						break;
 					case '7':
-						//oberste reihe
 						map[y - 1, x - 1] = 0;
 						map[y - 1, x] = 0;
 						map[y - 1, x + 1] = 0;
-						//Mittlere reihe
 						map[y, x - 1] = 1;
 						map[y, x] = 1;
 						map[y, x + 1] = 0;
-						//Unterste Reihe
 						map[y + 1, x - 1] = 0;
 						map[y + 1, x] = 1;
 						map[y + 1, x + 1] = 0;
 						break;
 					case 'F':
-						//oberste reihe
 						map[y - 1, x - 1] = 0;
 						map[y - 1, x] = 0;
 						map[y - 1, x + 1] = 0;
-						//Mittlere reihe
 						map[y, x - 1] = 0;
 						map[y, x] = 1;
 						map[y, x + 1] = 1;
-						//Unterste Reihe
 						map[y + 1, x - 1] = 0;
 						map[y + 1, x] = 1;
 						map[y + 1, x + 1] = 0;
 						break;
 					default:
-						//oberste reihe
 						map[y - 1, x - 1] = 0;
 						map[y - 1, x] = 0;
 						map[y - 1, x + 1] = 0;
-						//Mittlere reihe
 						map[y, x - 1] = 0;
 						map[y, x] = 0;
 						map[y, x + 1] = 0;
-						//Unterste Reihe
 						map[y + 1, x - 1] = 0;
 						map[y + 1, x] = 0;
 						map[y + 1, x + 1] = 0;
