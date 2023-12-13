@@ -1,5 +1,5 @@
 ﻿namespace AdventOfCode._2023;
-using Position = (int x, int y);
+using Position = (long x, long y);
 
 public class Day11 : IAdventDay
 {
@@ -14,30 +14,90 @@ public class Day11 : IAdventDay
 	{
 		List<string> map = ExpandStarMap();
 		Dictionary<int, Position> positionsOfStars = GetPositionsOfStars(map);
-		HashSet<(int starIdOne, int starIdTwo, int distance)> sumOfDistances = GetSumOfDistances(positionsOfStars);
-		return sumOfDistances.Sum(d => d.distance);
+		HashSet<(int starIdOne, int starIdTwo, long distance)> distances = GetSumOfDistances(positionsOfStars);
+		return distances.Sum(d => d.distance);
 	}
 	
 	public long PartTwo()
 	{
-		/*Idee/Ansatz:
-		 * In einer Liste für alle Spalten und Reihen festhalten, welche sich erweitern würden
-		 * Dann für jeden Stern in der Original Position gucken, über wieviele Spalten/Reihen man gehen muss, welche erweitert werden.
-		 * Dann die Anzahl der Überschrittenen Reihen oder Spalten mit 1000000 multiplizieren.
-		 * Somit hat man dann den neuen abstand der Positionen
-		*/
+		Dictionary<int, Position> positionOfStars = GetPositionsOfStars(input);
+		positionOfStars = UpdatePositions(positionOfStars, 1_000_000 - 1);
+		HashSet<(int starIdOne, int starIdTwo, long distance)> distances = GetSumOfDistances(positionOfStars);
+		return distances.Sum(d => d.distance);
+	}
+
+	private Dictionary<int,Position> UpdatePositions(Dictionary<int,Position> positionOfStars, int offset)
+	{
+		int found = 0;
+		for (int y = 0; y < input.Count; y++)
+		{
+			if (input[y].Any(c => c != '.')) continue;
+			List<int> starsToMove = GetRequiredStarsY(positionOfStars, y + offset * found);
+			foreach (int index in starsToMove)
+			{
+				positionOfStars[index] = (positionOfStars[index].x, positionOfStars[index].y + offset);
+			}
+
+			found++;
+		}
+
+		found = 0;
+		for (int x = 0; x < input[0].Length; x++)
+		{
+			bool empty = true;
+			foreach (string line in input)
+			{
+				if (line[x] != '.')
+				{
+					empty = false;
+				}
+			}
+
+			if (!empty) continue;
+			List<int> starsToMove = GetRequiredStarsX(positionOfStars, x + offset * found);
+			foreach (int index in starsToMove)
+			{
+				positionOfStars[index] = (positionOfStars[index].x + offset, positionOfStars[index].y);
+			}
+
+			found++;
+		}
 		
-		/*
-		 * Anderer Ansatz:
-		 * Beim Ausweiten der Sterne, nicht wirklich die Leere speichern, sondern nur die Sterne und deren Position
-		 * somit würde man nur die Sterne extrem weit verschieben müssen, aber nicht den ganzen leeren Raum darstellen müssen
-		 */
-		return 0;
+		
+		return positionOfStars;
 	}
 	
-	private HashSet<(int starIdOne, int starIdTwo, int distance)> GetSumOfDistances(Dictionary<int, Position> positionsOfStars)
+	private List<int> GetRequiredStarsX(Dictionary<int, Position> positionOfStars, long pos)
 	{
-		HashSet<(int starIdOne, int starIdTwo, int distance)> result = new();
+		List<int> result = new();
+		foreach (KeyValuePair<int,Position> star in positionOfStars)
+		{
+			if (star.Value.x > pos)
+			{
+				result.Add(star.Key);
+			}
+		}
+
+		return result;
+	}
+
+	private List<int> GetRequiredStarsY(Dictionary<int, Position> positionOfStars, long pos)
+	{
+		List<int> result = new();
+		foreach (KeyValuePair<int,Position> star in positionOfStars)
+		{
+			if (star.Value.y > pos)
+			{
+				result.Add(star.Key);
+			}
+		}
+
+		return result;
+	}
+
+	private HashSet<(int starIdOne, int starIdTwo, long distance)> GetSumOfDistances(Dictionary<int, Position> positionsOfStars)
+	{
+		HashSet<(int starIdOne, int starIdTwo, long distance)> result = new();
 		for (int i = 0; i < positionsOfStars.Count; i++)
 		{
 			for (int j = i; j < positionsOfStars.Count; j++)
@@ -53,7 +113,7 @@ public class Day11 : IAdventDay
 		return result;
 	}
 
-	private int CalculateDistanceBetweenStars(Position posStarOne, Position posStarTwo)
+	private long CalculateDistanceBetweenStars(Position posStarOne, Position posStarTwo)
 	{
 		return (Math.Abs(posStarOne.x - posStarTwo.x) + Math.Abs(posStarOne.y - posStarTwo.y));
 	}
@@ -116,18 +176,5 @@ public class Day11 : IAdventDay
 			result.Add(line);
 		}
 		return result;
-	}
-
-	private void Print(List<List<char>> map)
-	{
-		for (int y = 0; y < map.Count; y++)
-		{
-			for (int x = 0; x < map[y].Count; x++)
-			{
-				Console.Write(map[y][x]);
-			}
-
-			Console.Write("\n");
-		}
 	}
 }
