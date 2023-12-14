@@ -15,7 +15,6 @@ public class Day14 : IAdventDay
 
 	public long PartOne()
 	{
-		long sum = 0;
 		positionsOfFixedRocks = GetPositionsOf('#');
 		positionOfRocks = GetPositionsOf('O');
 		for (int i = 0; i < positionOfRocks.Count; i++)
@@ -27,36 +26,72 @@ public class Day14 : IAdventDay
 				rock = positionOfRocks[i];
 			}
 		}
-
-		for (int y = 0; y < input.Count; y++)
-		{
-			int factor = input.Count - y;
-			sum += positionOfRocks.Count(r => r.y == y) * factor;
-		}
-
-		SchimmelPrint();
-		return sum;
+		
+		return WeightOnNorthBeams();
 	}
 
 	public long PartTwo()
 	{
-		long sum = 0;
 		positionsOfFixedRocks = GetPositionsOf('#');
 		positionOfRocks = GetPositionsOf('O');
-		for (int i = 0; i < 1_000_000_000; i++)
+
+		List<List<Position>> cycles = new();
+		
+		Cycle();
+		(int found, int current) result = (-1, -1);
+		/*while (cycles.Count < 50)
+		{
+			result = LoopDetected(cycles);
+			if (result == (-1, -1))
+			{
+				Console.WriteLine($"Loop Nr. {cycles.Count} has no loop");
+			} else
+			{ 
+				Console.WriteLine($"Map Nr. {cycles.Count} is identical to Map Nr. {result.found}");
+			}
+			cycles.Add(positionOfRocks);
+			Cycle();
+		}*/
+
+		for (int i = 0; i < 12; i++)
 		{
 			Cycle();
 		}
-		for (int y = 0; y < input.Count; y++)
+		
+		return WeightOnNorthBeams();
+	}
+
+	private (int found, int current) LoopDetected(List<List<Position>> previousMaps)
+	{
+		if (previousMaps.Count == 0)
 		{
-			int factor = input.Count - y;
-			sum += positionOfRocks.Count(r => r.y == y) * factor;
+			return (-1, -1);
 		}
-		return sum;
+
+		for (int i = 0; i < previousMaps.Count; i++)
+		{
+			bool isIdentical = true;
+			for (int p = 0; p < previousMaps[i].Count; p++)
+			{
+				if (!positionOfRocks.Contains(previousMaps[i][p]))
+				{
+					isIdentical = false;
+					break;
+				}
+			}
+
+			if (isIdentical)
+			{
+				return (i, previousMaps.Count + 1);
+			}
+		}
+
+		return (-1, -1);
 	}
 
 	private void Cycle()
 	{
+		positionOfRocks = positionOfRocks.OrderBy(p => p.y).ToList();
 		//Alle Nördlich schieben
 		for (int i = 0; i < positionOfRocks.Count; i++)
 		{
@@ -68,6 +103,7 @@ public class Day14 : IAdventDay
 			}
 		}
 		//Alle Westlich schieben
+		positionOfRocks = positionOfRocks.OrderBy(p => p.x).ToList();
 		for (int i = 0; i < positionOfRocks.Count; i++)
 		{
 			Position rock = positionOfRocks[i];
@@ -78,6 +114,7 @@ public class Day14 : IAdventDay
 			}
 		}
 		//Alle Südlich schieben
+		positionOfRocks = positionOfRocks.OrderByDescending(p => p.y).ToList();
 		for (int i = 0; i < positionOfRocks.Count; i++)
 		{
 			Position rock = positionOfRocks[i];
@@ -88,6 +125,7 @@ public class Day14 : IAdventDay
 			}
 		}
 		//Alle Östlich schieben
+		positionOfRocks = positionOfRocks.OrderByDescending(p => p.x).ToList();
 		for (int i = 0; i < positionOfRocks.Count; i++)
 		{
 			Position rock = positionOfRocks[i];
@@ -160,5 +198,17 @@ public class Day14 : IAdventDay
 		}
 
 		Console.WriteLine(result);
+	}
+	
+	private long WeightOnNorthBeams()
+	{
+		long sum = 0;
+		for (int y = 0; y < input.Count; y++)
+		{
+			int factor = input.Count - y;
+			sum += positionOfRocks.Count(r => r.y == y) * factor;
+		}
+
+		return sum;
 	}
 }
