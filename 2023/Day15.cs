@@ -25,8 +25,33 @@ public class Day15 : IAdventDay
 
     public long PartTwo()
     {
+        Box[] boxes = InitializeBoxes(256);
         List<Instruction> instructions = ParseInput();
-        return 0;
+        foreach (Instruction instruction in instructions)
+        {
+            if (instruction.Operation == Operation.Remove)
+            {
+                boxes[instruction.BoxNumber].RemoveLens(instruction.Lens);
+            }
+            else
+            {
+                boxes[instruction.BoxNumber].OverwriteLens(instruction.Lens);
+            }
+        }
+
+        return boxes.Select((b, i) => b.GetFocusingPower(i))
+                    .Sum();
+    }
+
+    private Box[] InitializeBoxes(int length)
+    {
+        Box[] boxes = new Box[length];
+        for (int i = 0; i < boxes.Length; i++)
+        {
+            boxes[i] = new Box();
+        }
+
+        return boxes;
     }
 
     private List<Instruction> ParseInput()
@@ -37,14 +62,24 @@ public class Day15 : IAdventDay
             string label = line.Split(new char[] { '=', '-' })[0];
             Hasher h = new(label);
             int box = h.Hash();
-            Operation operation = line.Contains("-") ? Operation.Remove : Operation.Replace;
-            int focal = int.Parse(line[^1].ToString());
-            instructions.Add(new Instruction(box, label, focal, operation));
+            Operation operation;
+            int focal;
+            if (line.Contains('='))
+            {
+                operation = Operation.Replace;
+                focal = int.Parse(line[^1].ToString());
+            }
+            else
+            {
+                focal = -1;
+                operation = Operation.Remove;
+            }
+            instructions.Add(new Instruction(box, new Lens(label, focal), operation));
         }
         return instructions;
     }
 
-    private record Instruction(int BoxNumber, string LensLabel, int LensFocal, Operation Operation);
+    private record Instruction(int BoxNumber, Lens Lens, Operation Operation);
 
     private enum Operation
     {
