@@ -25,32 +25,30 @@ public class Day15 : IAdventDay
 
     public long PartTwo()
     {
+        List<Instruction> instructions = ParseInput();
         return 0;
     }
-}
 
-public class Hasher(string wordToHash)
-{
-    private string wordToHash = wordToHash;
-    private int currentValue = 0;
-    private const int factor = 17;
-    private const int divisor = 256;
-
-    public int Hash()
+    private List<Instruction> ParseInput()
     {
-        foreach (int asciiValue in wordToHash)
+        List<Instruction> instructions = new();
+        foreach (string line in input)
         {
-            currentValue += asciiValue;
-            currentValue *= factor;
-            currentValue %= divisor;
+            string label = line.Split(new char[] { '=', '-' })[0];
+            Hasher h = new(label);
+            int box = h.Hash();
+            Operation operation = line.Contains("-") ? Operation.Remove : Operation.Replace;
+            int focal = int.Parse(line[^1].ToString());
+            instructions.Add(new Instruction(box, label, focal, operation));
         }
-
-        return currentValue;
+        return instructions;
     }
 
-    public void NextWord(string wordToHash)
+    private record Instruction(int BoxNumber, string LensLabel, int LensFocal, Operation Operation);
+
+    private enum Operation
     {
-        this.wordToHash = wordToHash;
-        this.currentValue = 0;
+        Replace,
+        Remove
     }
 }
