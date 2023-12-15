@@ -35,11 +35,11 @@ public class Day14 : IAdventDay
 		positionsOfFixedRocks = GetPositionsOf('#');
 		positionOfRocks = GetPositionsOf('O');
 
-		List<List<Position>> cycles = new();
+		/*List<List<Position>> cycles = new();
 		
 		Cycle();
 		(int found, int current) result = (-1, -1);
-		/*while (cycles.Count < 50)
+		while (cycles.Count < 200)
 		{
 			result = LoopDetected(cycles);
 			if (result == (-1, -1))
@@ -53,7 +53,12 @@ public class Day14 : IAdventDay
 			Cycle();
 		}*/
 
-		for (int i = 0; i < 12; i++)
+		//Gucken, wo der Loop beginnt: 129.
+		//Dann Gucken, wie lang der Loop ist: 18
+		//Dann einfach (1.000.000.000 - 129) % 18 rechnen
+		//Dann weiß man, wie viele Durchläufe man noch machen muss. Somit bleiben das: (1.000.000.000 - 129) % 18 Plus 129
+		//Also für diesen Input: 136 mal.
+		for (int i = 0; i < 136; i++)
 		{
 			Cycle();
 		}
