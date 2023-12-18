@@ -15,17 +15,17 @@ public class Day17 : IAdventDay
 	public long PartOne()
 	{
 		Map map = ParseInput();
-		return FindShortest(map, 3);
+		return FindShortest(map, 0, 3);
 	}
 
 	public long PartTwo()
 	{
-		return 0;
+		Map map = ParseInput();
+		return FindShortest(map, 4, 10);
 	}
 
-	private long FindShortest(Map map, int maxStraight)
+	private long FindShortest(Map map, int minStraight, int maxStraight)
 	{
-		Dictionary<Position, long> heatloos = new();
 		Position target = (input[0].Length - 1, input.Count - 1);
 		PriorityQueue<Crucible, int> pq = new();
 		//Da beginn oben links, nach unten und nach Rechts starten
@@ -37,18 +37,18 @@ public class Day17 : IAdventDay
 		while (pq.TryDequeue(out Crucible c, out int heatloss))
 		{
 			//Stop
-			if (c.Pos.x == target.x && c.Pos.y == target.y)
+			if (c.Pos.x == target.x && c.Pos.y == target.y && c.MovesStraight >= minStraight)
 			{
 				return heatloss;
 			}
 
-			List<Crucible> nextPositions = GetNextPositions(c, maxStraight);
+			List<Crucible> nextPositions = GetNextPositions(c, minStraight, maxStraight);
 			foreach (Crucible crucible in nextPositions)
 			{
 				if (map.ContainsKey(crucible.Pos) && !seen.Contains(crucible))
 				{
 					seen.Add(crucible);
-					pq.Enqueue(crucible, heatloss + map[c.Pos]);
+					pq.Enqueue(crucible, heatloss + map[crucible.Pos]);
 				}
 			}
 		}
@@ -56,31 +56,35 @@ public class Day17 : IAdventDay
 		return -1;
 	}
 
-	private List<Crucible> GetNextPositions(Crucible crucible, int maxStraight)
+	private List<Crucible> GetNextPositions(Crucible crucible, int minStraight, int maxStraight)
 	{
 		List<Crucible> nextPositions = new();
 		Position p = crucible.Pos;
-		
-		switch (crucible.Dir)
+
+		if (crucible.MovesStraight >= minStraight)
 		{
-			case Direction.Up:
-				nextPositions.Add(new Crucible((p.x + 1, p.y), Direction.Right, 1));
-				nextPositions.Add(new Crucible((p.x - 1, p.y), Direction.Left, 1));
-				break;
-			case Direction.Right:
-				nextPositions.Add(new Crucible((p.x, p.y - 1), Direction.Up, 1));
-				nextPositions.Add(new Crucible((p.x, p.y + 1), Direction.Down, 1));
-				break;
-			case Direction.Down:
-				nextPositions.Add(new Crucible((p.x + 1, p.y), Direction.Right, 1));
-				nextPositions.Add(new Crucible((p.x - 1, p.y), Direction.Left, 1));
-				break;
-			case Direction.Left:
-				nextPositions.Add(new Crucible((p.x, p.y + 1), Direction.Down, 1));
-				nextPositions.Add(new Crucible((p.x, p.y - 1), Direction.Up, 1));
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
+
+			switch (crucible.Dir)
+			{
+				case Direction.Up:
+					nextPositions.Add(new Crucible((p.x + 1, p.y), Direction.Right, 1));
+					nextPositions.Add(new Crucible((p.x - 1, p.y), Direction.Left, 1));
+					break;
+				case Direction.Right:
+					nextPositions.Add(new Crucible((p.x, p.y - 1), Direction.Up, 1));
+					nextPositions.Add(new Crucible((p.x, p.y + 1), Direction.Down, 1));
+					break;
+				case Direction.Down:
+					nextPositions.Add(new Crucible((p.x + 1, p.y), Direction.Right, 1));
+					nextPositions.Add(new Crucible((p.x - 1, p.y), Direction.Left, 1));
+					break;
+				case Direction.Left:
+					nextPositions.Add(new Crucible((p.x, p.y + 1), Direction.Down, 1));
+					nextPositions.Add(new Crucible((p.x, p.y - 1), Direction.Up, 1));
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 
 		if (crucible.MovesStraight < maxStraight)
