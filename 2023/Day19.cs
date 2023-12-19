@@ -14,15 +14,71 @@ public class Day19 : IAdventDay
 
 	public long PartOne()
 	{
+		long sum = 0;
 		Dictionary<string, Workflow> workflows = new();
 		List<Part> parts = new();
 		ParseInput(workflows, parts);
-		return 0;
+		
+		for (int i = 0; i < parts.Count; i++)
+		{
+			Part p = parts[i];
+			string nextWorkflow = "in";
+			Workflow currentWorkflow;
+			int conditionCounter = 0;
+			while (nextWorkflow != "A" && nextWorkflow != "R")
+			{
+				currentWorkflow = workflows[nextWorkflow];
+				if (conditionCounter >= currentWorkflow.Conditions.Count)
+				{
+					nextWorkflow = currentWorkflow.ExitFlow;
+					if (nextWorkflow == "A" || nextWorkflow == "R")
+					{
+						break;
+					}
+					conditionCounter = 0;
+					currentWorkflow = workflows[nextWorkflow];
+				}
+				Condition c = currentWorkflow.Conditions[conditionCounter];
+				if (IsConditionTrue(p, c))
+				{
+					nextWorkflow = c.OnTrue;
+					conditionCounter = 0;
+				}
+				else
+				{
+					conditionCounter++;
+				}
+			}
+
+			if (nextWorkflow == "A")
+			{
+				sum += CalculateRating(p);
+			}
+		}
+		return sum;
 	}
 
 	public long PartTwo()
 	{
 		return 0;
+	}
+
+	private long CalculateRating(Part part)
+	{
+		return part.values.Sum(i => i.Value);
+	}
+
+	private bool IsConditionTrue(Part part, Condition condition)
+	{
+		switch (condition.Operator)
+		{
+			case Operator.LessThan:
+				return part.values[condition.OperandOne] < condition.OperandTwo;
+			case Operator.MoreThan:
+				return part.values[condition.OperandOne] > condition.OperandTwo;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
 	}
 
 	private void ParseInput(Dictionary<string, Workflow> workflows, List<Part> parts)
@@ -47,9 +103,7 @@ public class Day19 : IAdventDay
 				string onExit = cons[c].Split(":")[1];
 				string operandOne = cons[c].Split(new char[] { '>', '<', ':' })[0];
 				string operandTwo = cons[c].Split(new char[] { '>', '<', ':' })[1];
-				char operatorHere =
-					cons[c].Contains("<") ? cons[c][cons[c].IndexOf("<")] : cons[c][cons[c].IndexOf(">")];
-				Operator o = operatorHere == '<' ? Operator.LessThan : Operator.MoreThan;
+				Operator o = cons[c].Contains("<") ? Operator.LessThan : Operator.MoreThan;
 				conditions.Add(new Condition(operandOne, o, int.Parse(operandTwo), onExit));
 			}
 		}
@@ -59,11 +113,14 @@ public class Day19 : IAdventDay
 			string[] data = input[i].Replace("{", "")
 									.Replace("}", "")
 									.Split(",");
-			parts.Add(new Part(int.Parse(data[0].Split("=")[1]),
-				int.Parse(data[1].Split("=")[1]),
-				int.Parse(data[2].Split("=")[1]),
-				int.Parse(data[3].Split("=")[1])));
-			
+			Dictionary<string, int> values = new Dictionary<string, int>
+			{
+				{ "x", int.Parse(data[0].Split("=")[1]) },
+				{ "m", int.Parse(data[1].Split("=")[1]) },
+				{ "a", int.Parse(data[2].Split("=")[1]) },
+				{ "s", int.Parse(data[3].Split("=")[1]) }
+			};
+			parts.Add(new Part(values));
 		}
 	}
 
@@ -72,7 +129,7 @@ public class Day19 : IAdventDay
 		MoreThan
 	}
 	
-	private record Part(int X, int M, int A, int S);
+	private record Part(Dictionary<string, int> values);
 
 	private record Condition(string OperandOne, Operator Operator, int OperandTwo, string OnTrue);
 
