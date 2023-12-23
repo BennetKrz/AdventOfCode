@@ -1,7 +1,5 @@
 ﻿using AdventOfCode._2023;
 
-using Position = (int x, int y);
-
 namespace AdventOfCode._2023;
 
 public class Day23 : IAdventDay
@@ -15,117 +13,127 @@ public class Day23 : IAdventDay
 
 	public long PartOne()
 	{
-		Dictionary<Position, char> map = ParseInput();
-		Position startPos = (input[0].IndexOf('.'), 0);
-		Position endPos = (input[^1].IndexOf('.'), input.Count - 1);
-		return FindLongestPath(map, startPos, endPos);
+		Position startPos = new(input[0].IndexOf('.'), 0);
+		Position endPos = new(input[^1].IndexOf('.'), input.Count - 1);
+
+		Dictionary<Position, HashSet<Position>> graph = GenerateGraph();
+		
+		return FindLongestPath(graph, [], startPos, endPos);
 	}
 
 	public long PartTwo()
 	{
-		return 0;
+		Position startPos = new(input[0].IndexOf('.'), 0);
+		Position endPos = new(input[^1].IndexOf('.'), input.Count - 1);
+
+		Dictionary<Position, HashSet<Position>> graph = GenerateGraph(false);
+		
+		return FindLongestPath(graph, [], startPos, endPos);
 	}
 
-	private long FindLongestPath(Dictionary<Position, char> map, Position startPos, Position endPos)
+	private int FindLongestPath(Dictionary<Position, HashSet<Position>> graph, HashSet<Position> visited, Position curPos, Position endPos)
 	{
-		List<long> distances = new();
-		
-		PriorityQueue<Position, StepPriority> pq = new(new StepPriorityComparer());
-		pq.Enqueue(startPos, new StepPriority(0));
-
-		HashSet<Position> seen = new();
-		while (pq.TryDequeue(out Position curPos, out StepPriority steps))
+		int result = 0;
+		if (curPos == endPos)
 		{
-			if (curPos == endPos)
+			return visited.Count;
+		}
+
+		List<Position> nextPossiblePositions = graph[curPos].ToList();
+		foreach (Position pos in nextPossiblePositions)
+		{
+			if (!visited.Add(pos))
 			{
-				distances.Add(steps.Steps);
+				continue;
 			}
 
-			List<Position> nextPositions = GetNextPositions(curPos, map);
-			foreach (Position position in nextPositions)
-			{
-				if (!seen.Contains(position))
-				{
-					seen.Add(position);
-					pq.Enqueue(position, new StepPriority(steps.Steps + 1));
-				}
-			}
-		}
-		return distances.Max();
-	}
-
-	private List<Position> GetNextPositions(Position pos, Dictionary<Position, char> map)
-	{
-		List<Position> result = new();
-		//Erstmal gucken, ob man auf einer Slope steht
-		if ("^v><".Contains(map[pos]))
-		{
-			switch (map[pos])
-			{
-				case '^':
-					result.Add((pos.x, pos.y - 1));
-					return result;
-				case '>':
-					result.Add((pos.x + 1, pos.y));
-					return result;
-				case 'v':
-					result.Add((pos.x, pos.y + 1));
-					return result;
-				case '<':
-					result.Add((pos.x - 1, pos.y));
-					return result;
-			}
+			int length = FindLongestPath(graph, visited, pos, endPos);
+			result = Math.Max(result, length);
+			visited.Remove(pos);
 		}
 		
-		
-		//Nach oben gucken
-		Position nextPos = (pos.x, pos.y - 1);
-		if (map.TryGetValue(nextPos, out char v1) && v1 != '#')
-		{
-			result.Add(nextPos);
-		}
-
-		nextPos = (pos.x + 1, pos.y);
-		if (map.TryGetValue(nextPos, out char v2) && v2 != '#')
-		{
-			result.Add(nextPos);
-		}
-		
-		nextPos = (pos.x, pos.y + 1);
-		if (map.TryGetValue(nextPos, out char v3) && v3 != '#')
-		{
-			result.Add(nextPos);
-		}
-		
-		nextPos = (pos.x - 1, pos.y);
-		if (map.TryGetValue(nextPos, out char v4) && v4 != '#')
-		{
-			result.Add(nextPos);
-		}
 		return result;
 	}
 
-	private Dictionary<Position, char> ParseInput()
+	private Dictionary<Position,HashSet<Position>> GenerateGraph(bool isPartOne = true)
 	{
-		Dictionary<Position, char> map = new();
+		Dictionary<Position, HashSet<Position>> graph = new();
+
 		for (int y = 0; y < input.Count; y++)
 		{
-			for (int x = 0; x < input[y].Length; x++)
+			string line = input[y];
+			for (int x = 0; x < line.Length; x++)
 			{
-				map.Add((x, y), input[y][x]);
+				if (line[x] == '#')
+				{
+					continue;
+				}
+
+				Position pos = new(x, y);
+				graph.Add(pos, []);
+
+				if (isPartOne)
+				{
+					switch (line[x])
+					{
+						case '^':
+							graph[pos].Add(pos.Move(Direction.Up));
+							continue;
+						case '>':
+							graph[pos].Add(pos.Move(Direction.Right));
+							continue;
+						case 'v':
+							graph[pos].Add(pos.Move(Direction.Down));
+							continue;
+						case '<':
+							graph[pos].Add(pos.Move(Direction.Left));
+							continue;
+					}
+				}
+
+				Position targetPos = new(pos.X , pos.Y - 1);
+				if (IsInBounds(targetPos) && input[targetPos.Y][targetPos.X] != '#')
+				{
+					graph[pos].Add(targetPos);
+				}
+				targetPos = new(pos.X + 1, pos.Y);
+				if (IsInBounds(targetPos) && input[targetPos.Y][targetPos.X] != '#')
+				{
+					graph[pos].Add(targetPos);
+				}
+				targetPos = new(pos.X, pos.Y + 1);
+				if (IsInBounds(targetPos) && input[targetPos.Y][targetPos.X] != '#')
+				{
+					graph[pos].Add(targetPos);
+				}
+				targetPos = new(pos.X - 1, pos.Y);
+				if (IsInBounds(targetPos) && input[targetPos.Y][targetPos.X] != '#')
+				{
+					graph[pos].Add(targetPos);
+				}
 			}
 		}
 
-		return map;
+		return graph;
 	}
 
-	private record StepPriority(int Steps);
-	
-	private class StepPriorityComparer : IComparer<StepPriority>
+	private bool IsInBounds(Position pos)
 	{
-		public int Compare(StepPriority? x, StepPriority? y)
+		return pos.X >= 0 && pos.X < input[0].Length && pos.Y >= 0 && pos.Y < input.Count;
+	}
+
+	private record Direction(int X, int Y)
+	{
+		public static Direction Up = new(0, -1);
+		public static Direction Right = new(1, 0);
+		public static Direction Down = new(0, 1);
+		public static Direction Left = new(-1, 0);
+	}
+	
+	private record Position(int X, int Y){
+		public Position Move(Direction dir)
 		{
-			return y.Steps - x.Steps;
+			return new Position(this.X + dir.X, this.Y + dir.Y);
 		}
 	}
 }
