@@ -55,7 +55,7 @@ public class Day23 : IAdventDay
 		return result;
 	}
 
-	private Dictionary<Position,HashSet<Position>> GenerateGraph(bool isPartOne = true)
+	private Dictionary<Position, HashSet<Position>> GenerateGraph(bool isPartOne = true)
 	{
 		Dictionary<Position, HashSet<Position>> graph = new();
 
