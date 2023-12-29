@@ -25,8 +25,6 @@ public class Program
         Console.WriteLine(
             $"Finished part two. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms");
         Console.WriteLine();
-        Console.WriteLine("Press enter to close...");
-        Console.ReadLine();
     }
 }
 

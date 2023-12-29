@@ -20,14 +20,10 @@ public class Day10 : IAdventDay
 			File.Delete(@"G:\C#\AdventOfCode\2018\result.txt");
 		}
 		List<(Position, Position)> positions = ParseInput();
-		for (int i = 0; i < 11_000; i++)
+		for (int i = 0; i < 10597; i++)
 		{
-			if (i > 10_000)
-			{
-				Console.WriteLine($"Durchlauf: {i}: \n");
-			}
-			Print(positions);
-			positions = Move(positions);
+			Print(positions, false, i);
+			Move(positions);
 		}
 		return long.MinValue;
 	}
@@ -37,31 +33,28 @@ public class Day10 : IAdventDay
 		return long.MinValue;
 	}
 	
-	private List<(Position, Position)> Move(List<(Position, Position)> positions)
+	private void Move(List<(Position, Position)> positions)
 	{
-		List<(Position, Position)> newPositions = new();
 		for (int i = 0; i < positions.Count; i++)
 		{
 			Position curPos = positions[i].Item1;
 			Position vel = positions[i].Item2;
 			Position nextPos = new(curPos.X + vel.X, curPos.Y + vel.Y);
-			newPositions.Add((nextPos, vel));
+			positions[i] = (nextPos, vel);
 		}
-
-		return newPositions;
 	}
 
-	private void Print(List<(Position, Position)> positions, bool toTextFile = false)
+	private void Print(List<(Position, Position)> positions, bool toTextFile = false, int index = 0)
 	{
-		int minX = positions.MinBy(p => p.Item1.X).Item1.X - 5;
-		int minY = positions.MinBy(p => p.Item1.Y).Item1.Y - 5;
-		int maxX = positions.MaxBy(p => p.Item1.X).Item1.X + 5;
-		int maxY = positions.MaxBy(p => p.Item1.Y).Item1.Y + 5;
-		if (Math.Abs(maxX - minX) > 1000 || Math.Abs(maxY - minY) > 200)
+		int minX = positions.MinBy(p => p.Item1.X).Item1.X - 2;
+		int minY = positions.MinBy(p => p.Item1.Y).Item1.Y - 1;
+		int maxX = positions.MaxBy(p => p.Item1.X).Item1.X + 2;
+		int maxY = positions.MaxBy(p => p.Item1.Y).Item1.Y + 1;
+		if (Math.Abs(maxX - minX) > 77 || Math.Abs(maxY - minY) > 16)
 		{
 			return;
 		}
-		StringBuilder sb = new();
+		StringBuilder sb = new($"Durchlauf {index}:\n");
 		for (int y = minY; y <= maxY; y++)
 		{
 			for (int x = minX; x <= maxX; x++)
