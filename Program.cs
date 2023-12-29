@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using AdventOfCode._2023;
 
 namespace AdventOfCode;
 
@@ -7,7 +6,7 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        IAdventDay day = new Day24();
+        IAdventDay day = new AdventOfCode._2018.Day10();
         Console.WriteLine(day.GetType().FullName + ":");
         Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
         var sw = Stopwatch.StartNew();
@@ -26,6 +25,8 @@ public class Program
         Console.WriteLine(
             $"Finished part two. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms");
         Console.WriteLine();
+        Console.WriteLine("Press enter to close...");
+        Console.ReadLine();
     }
 }
 
