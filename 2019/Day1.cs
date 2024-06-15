@@ -11,14 +11,7 @@ public class Day1 : IAdventDay
 
 	public long PartOne()
 	{
-		int[] fuel = new int[input.Length];
-		for (int i = 0; i < input.Length; i++)
-		{
-			int.TryParse(input[i], out fuel[i]);
-			fuel[i] = fuel[i] / 3 - 2;
-		}
-
-		return fuel.Sum();
+		return input.Select(i => Convert.ToInt32(i) / 3 - 2).Sum();
 	}
 
 	public long PartTwo()

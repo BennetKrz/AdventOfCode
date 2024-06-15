@@ -2,10 +2,6 @@ namespace AdventOfCode._2019;
 
 public class IntCodeEmulator(string[] instructions, List<int>? inputs, bool printOutputs)
 {
-    private string[] instructions = instructions;
-    private List<int>? inputs = inputs;
-    private bool printOutputs = printOutputs;
-    
     private int inputCounter = 0;
     private List<string> latestOutput;
 

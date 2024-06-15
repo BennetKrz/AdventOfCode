@@ -6,7 +6,7 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        IAdventDay day = new AdventOfCode._2018.Day10();
+        IAdventDay day = new AdventOfCode._2019.Day6();
         Console.WriteLine(day.GetType().FullName + ":");
         Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
         var sw = Stopwatch.StartNew();
@@ -15,7 +15,7 @@ public class Program
 
         sw.Stop();
         Console.WriteLine(
-            $"Finished part one. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms");
+            $"Finished part one. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms : {sw.Elapsed.Microseconds}µs");
         Console.WriteLine("- - - - - - - - - PART TWO - - - - - - - - -  Starting Stopwatch...");
         sw.Restart();
         var resultPartTwo = day.PartTwo();
@@ -23,7 +23,7 @@ public class Program
 
         sw.Stop();
         Console.WriteLine(
-            $"Finished part two. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms");
+            $"Finished part two. Time needed: {sw.Elapsed.Minutes}m : {sw.Elapsed.Seconds}s : {sw.Elapsed.Milliseconds}ms : {sw.Elapsed.Microseconds}µs");
         Console.WriteLine();
     }
 }
