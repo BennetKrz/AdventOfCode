@@ -13,18 +13,17 @@ public class Day6 : IAdventDay
 
     public long PartOne()
     {
-        Dictionary<string, string> objects = CreatePlanets();
+        Dictionary<string, Planet> planets = CreatePlanetSystem();
 
         long orbits = 0;
         
-        foreach (KeyValuePair<string,string> kvp in objects)
+        foreach (KeyValuePair<string, Planet> kvp in planets)
         {
             string planet = kvp.Key;
-            orbits++;
-            while (objects[planet] != "COM")
+            while (planets[planet].Name != "COM")
             {
                 orbits++;
-                planet = objects[planet];
+                planet = planets[planet].Previous.Name;
             }
         }
         
@@ -33,10 +32,43 @@ public class Day6 : IAdventDay
 
     public long PartTwo()
     {
-        return 0;
+        Dictionary<string, Planet> planets = CreatePlanetSystem();
+        return ShortestTransfer(planets, planets["YOU"], planets["SAN"]) - 1;
     }
 
-    private Dictionary<string, Planet> CreatePlanets()
+    private long ShortestTransfer(Dictionary<string, Planet> map, Planet startPoint, Planet target)
+    {
+        PriorityQueue<Planet, int> pq = new();
+        List<Planet> tmp = startPoint.GetNextPossible();
+        foreach (Planet planet in tmp)
+        {
+            pq.Enqueue(planet, 0);
+        }
+
+        HashSet<Planet> seen = new();
+
+        while (pq.TryDequeue(out Planet curPlanet, out int priority))
+        {
+            if (curPlanet.Equals(target))
+            {
+                return priority;
+            }
+
+            List<Planet> next = curPlanet.GetNextPossible();
+            foreach (Planet planet in next)
+            {
+                if (!seen.Contains(planet))
+                {
+                    seen.Add(planet);
+                    pq.Enqueue(planet, priority + 1);
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    private Dictionary<string, Planet> CreatePlanetSystem()
     {
         HashSet<string> allPlanets = GetAllPlanets();
         Dictionary<string, Planet> planets = new();
@@ -48,7 +80,11 @@ public class Day6 : IAdventDay
         
         foreach (string line in this.input)
         {
-            
+            string[] p = line.Split(")");
+            Planet parent = planets[p[0]];
+            Planet child = planets[p[1]];
+            parent.AddNext(child);
+            child.Previous = parent;
         }
 
         return planets;
@@ -59,7 +95,9 @@ public class Day6 : IAdventDay
         HashSet<string> planets = new();
         foreach (string line in this.input)
         {
-            line.Split(")").Select(p => planets.Add(p));
+            string[] p = line.Split(")");
+            planets.Add(p[0]);
+            planets.Add(p[1]);
         }
 
         return planets;
@@ -68,39 +106,50 @@ public class Day6 : IAdventDay
     private class Planet
     {
 
-        private List<Planet> next;
-        public Planet previous { get; set; }
-        public readonly string name;
+        private List<Planet> neighbors;
+        private Planet previous;
+        
+        public Planet Previous
+        {
+            get => previous;
+            set
+            {
+                neighbors.Add(value);
+                previous = value;
+            }
+        }
+
+        public readonly string Name;
 
         public Planet(string name)
         {
-            this.name = name;
-            this.next = new();
+            this.Name = name;
+            this.neighbors = new();
         }
 
         public void AddNext(Planet p)
         {
-            next.Add(p);
+            neighbors.Add(p);
         }
 
         public List<Planet> GetNextPossible()
         {
-            return this.next;
+            return this.neighbors;
         }
 
         public static bool operator ==(Planet p1, Planet p2)
         {
-            return p1.name == p2.name;
+            return p1.Name == p2.Name;
         }
         
         public static bool operator !=(Planet p1, Planet p2)
         {
-            return p1.name != p2.name;
+            return p1.Name != p2.Name;
         }
         
         protected bool Equals(Planet other)
         {
-            return name == other.name;
+            return Name == other.Name;
         }
 
         public override bool Equals(object? obj)
@@ -113,7 +162,7 @@ public class Day6 : IAdventDay
 
         public override int GetHashCode()
         {
-            return name.GetHashCode();
+            return Name.GetHashCode();
         }
     }
 }
