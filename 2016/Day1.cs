@@ -1,71 +1,60 @@
-namespace AdventOfCode._2016;
+﻿namespace AdventOfCode._2016 {
+    public class Day1 : IAdventDay {
+        string[] input;
 
-public class Day1 : IAdventDay
-{
-	private readonly List<(int x, int y)> directions = new()
-	{
-		(0, 1),
-		(1, 0),
-		(0, -1),
-		(-1, 0)
-	};
+        List<(int x, int y)> directions = new() {
+            (0, 1),
+            (1, 0),
+            (0, -1),
+            (-1, 0)
+        };
 
-	private readonly string[] input;
+        public Day1() {
+            this.input = Helper.GetInput(1)[0].Split(',');
+        }
 
-	public Day1()
-	{
-		input = Helper.GetInput(1)[0].Split(',');
-	}
+        public long PartOne() {
+            (int x, int y) position = (0, 0);
+            int direction = 0;
+            for(int i = 0; i < input.Length; i++) {
+                input[i] = input[i].Replace(" ", "");
+                if(input[i][0] == 'R') {
+                    direction = (direction + 1) % 4;
+                } else {
+                    direction = (direction - 1) % 4;
+                    if(direction < 0) {
+                        direction += 4;
+                    }
+                }
+                position.x += directions[direction].x * int.Parse(input[i].Substring(1));
+                position.y += directions[direction].y * int.Parse(input[i].Substring(1));
+            }
+            return Math.Abs(position.x) + Math.Abs(position.y);
+        }
 
-	public long PartOne()
-	{
-		(int x, int y) position = (0, 0);
-		int direction = 0;
-		for (int i = 0; i < input.Length; i++)
-		{
-			input[i] = input[i].Replace(" ", "");
-			if (input[i][0] == 'R')
-			{
-				direction = (direction + 1) % 4;
-			} else
-			{
-				direction = (direction - 1) % 4;
-				if (direction < 0) direction += 4;
-			}
-
-			position.x += directions[direction].x * int.Parse(input[i].Substring(1));
-			position.y += directions[direction].y * int.Parse(input[i].Substring(1));
-		}
-
-		return Math.Abs(position.x) + Math.Abs(position.y);
-	}
-
-	public long PartTwo()
-	{
-		(int x, int y) position = (0, 0);
-		int direction = 0;
-		Dictionary<(int x, int y), int> allCoords = new();
-		for (int i = 0; i < input.Length; i++)
-		{
-			if (input[i][0] == 'R')
-			{
-				direction = (direction + 1) % 4;
-			} else
-			{
-				direction = (direction - 1) % 4;
-				if (direction < 0) direction += 4;
-			}
-
-			for (int j = 0; j < int.Parse(input[i].Substring(1)); j++)
-			{
-				position.x += directions[direction].x;
-				position.y += directions[direction].y;
-				if (allCoords.ContainsKey(position)) return Math.Abs(position.x) + Math.Abs(position.y);
-
-				allCoords.Add(position, 1);
-			}
-		}
-
-		return long.MinValue;
-	}
+        public long PartTwo() {
+            (int x, int y) position = (0, 0);
+            int direction = 0;
+            Dictionary<(int x, int y), int> allCoords = new();
+            for(int i = 0; i < input.Length; i++) {
+                if(input[i][0] == 'R') {
+                    direction = (direction + 1) % 4;
+                } else {
+                    direction = (direction - 1) % 4;
+                    if(direction < 0) {
+                        direction += 4;
+                    }
+                }
+                for(int j = 0; j < int.Parse(input[i].Substring(1)); j++) {
+                    position.x += directions[direction].x;
+                    position.y += directions[direction].y;
+                    if(allCoords.ContainsKey(position)) {
+                        return Math.Abs(position.x) + Math.Abs(position.y);
+                    }
+                    allCoords.Add(position, 1);
+                }
+            }
+            return long.MinValue;
+        }
+    }
 }
