@@ -1,45 +1,44 @@
 ﻿namespace AdventOfCode._2018;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day1()
+	public Day1() : base(2018, 1)
 	{
-		input = Helper.GetInput(1);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		int[] input_int = new int[input.Length];
+		int[] inputInt = new int[input.Length];
 		for (int i = 0; i < input.Length; i++)
 		{
-			input_int[i] = Convert.ToInt32(input[i]);
+			inputInt[i] = Convert.ToInt32(input[i]);
 		}
 
-		return input_int.Sum();
+		return inputInt.Sum();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int frequency = 0;
 		Dictionary<int, bool> allValues = new();
-		int[] input_int = new int[input.Length];
+		int[] inputInt = new int[input.Length];
 		for (int i = 0; i < input.Length; i++)
 		{
-			input_int[i] = Convert.ToInt32(input[i]);
+			inputInt[i] = Convert.ToInt32(input[i]);
 		}
 
-		bool b = true;
-		while (b)
+		while (true)
 		{
-			for (int i = 0; i < input_int.Length; i++)
+			for (int i = 0; i < inputInt.Length; i++)
 			{
 				if (allValues.ContainsKey(frequency))
 					return frequency;
 				allValues.Add(frequency, true);
 
-				frequency = frequency + input_int[i];
+				frequency = frequency + inputInt[i];
 			}
 		}
 

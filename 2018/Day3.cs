@@ -1,29 +1,29 @@
 ﻿namespace AdventOfCode._2018;
 
-public class Day3 : IAdventDay
+public class Day3 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day3()
+	public Day3() : base(2018, 3)
 	{
-		input = Helper.GetInput(3);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		string[] input = new string[this.input.Length];
-		this.input.CopyTo(input, 0);
+		string[] localInput = new string[this.input.Length];
+		this.input.CopyTo(localInput, 0);
 		List<Claims> claims = new();
 
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
-			int id = int.Parse(input[i].Substring(1, input[i].IndexOf(" ")));
-			input[i] = input[i].Remove(0, input[i].IndexOf("@") + 2);
-			string s = input[i].Substring(0, input[i].IndexOf(":"));
-			input[i] = input[i].Replace(s, "").Replace(": ", "");
+			int id = int.Parse(localInput[i].Substring(1, localInput[i].IndexOf(" ")));
+			localInput[i] = localInput[i].Remove(0, localInput[i].IndexOf("@") + 2);
+			string s = localInput[i][..localInput[i].IndexOf(":")];
+			localInput[i] = localInput[i].Replace(s, "").Replace(": ", "");
 			string[] test = s.Split(",");
 			(int x, int y) position = (int.Parse(test[0]), int.Parse(test[1]));
-			string[] tmp = input[i].Split("x");
+			string[] tmp = localInput[i].Split("x");
 			(int breit, int hoch) size = (int.Parse(tmp[0]), int.Parse(tmp[1]));
 			Claims c = new(id, position, size);
 			claims.Add(c);
@@ -34,9 +34,9 @@ public class Day3 : IAdventDay
 		for (int id = 0; id < claims.Count; id++)
 		{
 			Claims c = claims[id];
-			for (int x = c.position.x; x < c.position.x + c.size.breit; x++)
+			for (int x = c.Position.x; x < c.Position.x + c.Size.breit; x++)
 			{
-				for (int y = c.position.y; y < c.position.y + c.size.hoch; y++)
+				for (int y = c.Position.y; y < c.Position.y + c.Size.hoch; y++)
 				{
 					fabric[x, y]++;
 				}
@@ -56,21 +56,21 @@ public class Day3 : IAdventDay
 		return count;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
-		string[] input = new string[this.input.Length];
-		this.input.CopyTo(input, 0);
+		string[] localInput = new string[this.input.Length];
+		this.input.CopyTo(localInput, 0);
 		List<Claims> claims = new();
 
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
-			int id = int.Parse(input[i].Substring(1, input[i].IndexOf(" ")));
-			input[i] = input[i].Remove(0, input[i].IndexOf("@") + 2);
-			string s = input[i].Substring(0, input[i].IndexOf(":"));
-			input[i] = input[i].Replace(s, "").Replace(": ", "");
+			int id = int.Parse(localInput[i].Substring(1, localInput[i].IndexOf(" ")));
+			localInput[i] = localInput[i].Remove(0, localInput[i].IndexOf("@") + 2);
+			string s = localInput[i][..localInput[i].IndexOf(":")];
+			localInput[i] = localInput[i].Replace(s, "").Replace(": ", "");
 			string[] test = s.Split(",");
 			(int x, int y) position = (int.Parse(test[0]), int.Parse(test[1]));
-			string[] tmp = input[i].Split("x");
+			string[] tmp = localInput[i].Split("x");
 			(int breit, int hoch) size = (int.Parse(tmp[0]), int.Parse(tmp[1]));
 			Claims c = new(id, position, size);
 			claims.Add(c);
@@ -81,9 +81,9 @@ public class Day3 : IAdventDay
 		for (int id = 0; id < claims.Count; id++)
 		{
 			Claims c = claims[id];
-			for (int x = c.position.x; x < c.position.x + c.size.breit; x++)
+			for (int x = c.Position.x; x < c.Position.x + c.Size.breit; x++)
 			{
-				for (int y = c.position.y; y < c.position.y + c.size.hoch; y++)
+				for (int y = c.Position.y; y < c.Position.y + c.Size.hoch; y++)
 				{
 					fabric[x, y]++;
 				}
@@ -93,32 +93,24 @@ public class Day3 : IAdventDay
 		for (int id = 0; id < claims.Count; id++)
 		{
 			Claims c = claims[id];
-			for (int x = c.position.x; x < c.position.x + c.size.breit; x++)
+			for (int x = c.Position.x; x < c.Position.x + c.Size.breit; x++)
 			{
-				for (int y = c.position.y; y < c.position.y + c.size.hoch; y++)
+				for (int y = c.Position.y; y < c.Position.y + c.Size.hoch; y++)
 				{
-					if (fabric[x, y] != 1) c.doesOverlap = true;
+					if (fabric[x, y] != 1) c.DoesOverlap = true;
 				}
 			}
 		}
 
-		Console.WriteLine(claims.FirstOrDefault(c => c.doesOverlap == false).id);
+		Console.WriteLine(claims.FirstOrDefault(c => c.DoesOverlap == false).Id);
 		return long.MinValue;
 	}
 }
 
-internal class Claims
+internal class Claims(int id, (int x, int y) position, (int breit, int hoch) size)
 {
-	public bool doesOverlap;
-	public int id;
-	public (int x, int y) position;
-	public (int breit, int hoch) size;
-
-	public Claims(int id, (int x, int y) position, (int breit, int hoch) size)
-	{
-		this.id = id;
-		this.position = position;
-		this.size = size;
-		doesOverlap = false;
-	}
+	public bool DoesOverlap = false;
+	public readonly int Id = id;
+	public (int x, int y) Position = position;
+	public (int breit, int hoch) Size = size;
 }

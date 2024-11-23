@@ -4,16 +4,16 @@ using AdventOfCode._2018;
 
 namespace AdventOfCode._2018;
 
-public class Day10 : IAdventDay
+public class Day10 : AdventBase
 {
 	List<string> input;
 
-	public Day10()
+	public Day10() : base(2018, 10)
 	{
-		this.input = Helper.GetInput(10).ToList();
+		this.input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		if (File.Exists(@"G:\C#\AdventOfCode\2018\result.txt"))
 		{
@@ -28,7 +28,7 @@ public class Day10 : IAdventDay
 		return long.MinValue;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return long.MinValue;
 	}

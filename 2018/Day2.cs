@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2018;
 
-public class Day2 : IAdventDay
+public class Day2 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day2()
+	public Day2() : base(2018, 2)
 	{
-		input = Helper.GetInput(2);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int twoSameLetterCounter = 0;
 		int threeSameLetterCounter = 0;
@@ -31,16 +31,16 @@ public class Day2 : IAdventDay
 			bool b2 = true;
 			foreach (KeyValuePair<char, int> entry in occurrence)
 			{
-				if (entry.Value == 3 && b1)
+				switch (entry.Value)
 				{
-					threeSameLetterCounter++;
-					b1 = false;
-				}
-
-				if (entry.Value == 2 && b2)
-				{
-					twoSameLetterCounter++;
-					b2 = false;
+					case 3 when b1:
+						threeSameLetterCounter++;
+						b1 = false;
+						break;
+					case 2 when b2:
+						twoSameLetterCounter++;
+						b2 = false;
+						break;
 				}
 			}
 		}
@@ -48,7 +48,7 @@ public class Day2 : IAdventDay
 		return twoSameLetterCounter * threeSameLetterCounter;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<(string one, string two)> differByOne = new();
 		for (int wordOne = 0; wordOne < input.Length; wordOne++)
