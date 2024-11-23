@@ -1,18 +1,18 @@
 ﻿namespace AdventOfCode._2015;
 
-public class Day6 : IAdventDay
+public class Day6 : AdventBase
 {
 	private readonly string[] input;
 
 	private Mode SwitchMode = Mode.OFF;
 
-	public Day6()
+	public Day6() : base(2015, 6)
 	{
-		input = Helper.GetInput(6);
+		input = Input;
 	}
 
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		bool[,] map = GenerateMapPartOne();
 		for (int i = 0; i < input.Length; i++)
@@ -57,7 +57,7 @@ public class Day6 : IAdventDay
 		return map.Cast<bool>().Count(b => b);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int[,] map = GenerateMapPartTwo();
 		for (int i = 0; i < input.Length; i++)
