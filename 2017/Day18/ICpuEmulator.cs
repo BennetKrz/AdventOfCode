@@ -1,16 +1,16 @@
 ﻿namespace AdventOfCode._2017.Day18;
 
-public abstract class ICpuEmulator
+public abstract class CpuEmulator
 {
-	public Dictionary<string, long> registers = new();
-	public long position = 0;
+	protected readonly Dictionary<string, long> Registers = new();
+	protected long Position;
 
 	private protected void Add(Operation operation)
 	{
 		string targetRegister = operation.OperandOne;
 		long value = GetValue(operation.OperandTwo);
-		registers[targetRegister] += value;
-		position++;
+		Registers[targetRegister] += value;
+		Position++;
 	}
 
 	private protected void Jgz(Operation operation)
@@ -19,40 +19,40 @@ public abstract class ICpuEmulator
 		long offset = GetValue(operation.OperandTwo);
 		if (value > 0)
 		{
-			position += offset;
+			Position += offset;
 			return;
 		}
 
-		position++;
+		Position++;
 	}
 
 	private protected void Mod(Operation operation)
 	{
 		string targetRegister = operation.OperandOne;
 		long value = GetValue(operation.OperandTwo);
-		registers[targetRegister] %= value;
-		position++;
+		Registers[targetRegister] %= value;
+		Position++;
 	}
 
 	private protected void Mul(Operation operation)
 	{
 		string targetRegister = operation.OperandOne;
 		long value = GetValue(operation.OperandTwo);
-		registers[targetRegister] *= value;
-		position++;
+		Registers[targetRegister] *= value;
+		Position++;
 	}
 
 	private protected void Set(Operation operation)
 	{
 		string targetRegister = operation.OperandOne;
 		long value = GetValue(operation.OperandTwo);
-		registers[targetRegister] = value;
-		position++;
+		Registers[targetRegister] = value;
+		Position++;
 	}
 
 	private protected long GetValue(string registerOrValue)
 	{
-		return !long.TryParse(registerOrValue, out _) ? registers[registerOrValue] : long.Parse(registerOrValue);
+		return !long.TryParse(registerOrValue, out _) ? Registers[registerOrValue] : long.Parse(registerOrValue);
 	}
 	public abstract void Rcv(Operation operation);
 	public abstract void Snd(Operation operation);

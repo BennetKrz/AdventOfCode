@@ -1,36 +1,36 @@
 ﻿namespace AdventOfCode._2017.Day18;
 
-public class InstructionEmulatorPartTwo : ICpuEmulator
+public class InstructionEmulatorPartTwo : CpuEmulator
 {
-	private Queue<long> _valuesToReceive = new();
-	private InstructionEmulatorPartTwo _otherEmulator;
-	private readonly int _programSize;
-	private readonly List<Operation> _operations;
-	private readonly int _programId;
+	private readonly Queue<long> valuesToReceive = new();
+	private InstructionEmulatorPartTwo otherEmulator;
+	private readonly int programSize;
+	private readonly List<Operation> operations;
+	private readonly int programId;
 	
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 	public InstructionEmulatorPartTwo(List<Operation> operations, int programSize, int programId)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 	{
-		_operations = operations;
-		_programSize = programSize;
-		_programId = programId;
+		this.operations = operations;
+		this.programSize = programSize;
+		this.programId = programId;
 		CreateAllRegisters();
 	}
 
 	public void SetOtherEmulator(InstructionEmulatorPartTwo otherEmulator)
 	{
-		_otherEmulator = otherEmulator;
+		this.otherEmulator = otherEmulator;
 	}
 	
 	private void CreateAllRegisters()
 	{
 		//Create all registers
-		foreach (Operation operation in _operations)
+		foreach (Operation operation in operations)
 		{
 			if (!int.TryParse(operation.OperandOne, out _))
 			{
-				registers.TryAdd(operation.OperandOne, 0);
+				Registers.TryAdd(operation.OperandOne, 0);
 			}
 
 			if (operation.OperandTwo == null)
@@ -39,39 +39,39 @@ public class InstructionEmulatorPartTwo : ICpuEmulator
 			}
 			if (!int.TryParse(operation.OperandTwo, out _))
 			{
-				registers.TryAdd(operation.OperandTwo, 0);
+				Registers.TryAdd(operation.OperandTwo, 0);
 			}
 		}
 
-		registers["p"] = _programId;
+		Registers["p"] = programId;
 	}
 	
 	public void Execute()
 	{
-		while (position < _programSize && position > -1)
+		while (Position < programSize && Position > -1)
 		{
-			Operation operation = this._operations[(int)position];
+			Operation operation = this.operations[(int)Position];
 			switch (operation.Action)
 			{
-				case Action.add:
+				case Action.Add:
 					Add(operation);
 					break;
-				case Action.jgz:
+				case Action.Jgz:
 					Jgz(operation);
 					break;
-				case Action.mod:
+				case Action.Mod:
 					Mod(operation);
 					break;
-				case Action.mul:
+				case Action.Mul:
 					Mul(operation);
 					break;
-				case Action.rcv:
+				case Action.Rcv:
 					Rcv(operation);
 					break;
-				case Action.set:
+				case Action.Set:
 					Set(operation);
 					break;
-				case Action.snd:
+				case Action.Snd:
 					Snd(operation);
 					break;
 			}
@@ -80,23 +80,23 @@ public class InstructionEmulatorPartTwo : ICpuEmulator
 
 	public void ReceiveNewValue(long newValue)
 	{
-		_valuesToReceive.Enqueue(newValue);
+		valuesToReceive.Enqueue(newValue);
 	}
 
 	public override void Rcv(Operation operation)
 	{
 		string targetRegister = operation.OperandOne;
-		if (_valuesToReceive.Count == 0)
+		if (valuesToReceive.Count == 0)
 		{
 			//TODO: Wenn keine Daten da sind, dann soll der andere Emulator weiter machen
 		}
-		long value = _valuesToReceive.Dequeue();
-		registers[targetRegister] = value;
+		long value = valuesToReceive.Dequeue();
+		Registers[targetRegister] = value;
 	}
 
 	public override void Snd(Operation operation)
 	{
 		long value = GetValue(operation.OperandOne);
-		_otherEmulator.ReceiveNewValue(value);
+		otherEmulator.ReceiveNewValue(value);
 	}
 }

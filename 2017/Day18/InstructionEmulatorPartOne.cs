@@ -1,29 +1,29 @@
 ﻿namespace AdventOfCode._2017.Day18;
 
-public class InstructionEmulatorPartOne : ICpuEmulator
+public class InstructionEmulatorPartOne : CpuEmulator
 {
 	
-	private readonly int _amountRecover;
-	private int _amountCounter = 0;
-	private readonly int _programSize;
-	private long _latestSoundFrequency = 0;
-	private List<Operation> _operations;
+	private readonly int amountRecover;
+	private int amountCounter;
+	private readonly int programSize;
+	private long latestSoundFrequency;
+	private readonly List<Operation> operations;
 	public InstructionEmulatorPartOne(List<Operation> operations, int upperLimit, int amountRecover)
 	{
-		_operations = operations;
-		_programSize = upperLimit;
-		_amountRecover = amountRecover;
+		this.operations = operations;
+		programSize = upperLimit;
+		this.amountRecover = amountRecover;
 		CreateAllRegisters();
 	}
 
 	private void CreateAllRegisters()
 	{
 		//Create all registers
-		foreach (Operation operation in _operations)
+		foreach (Operation operation in operations)
 		{
 			if (!int.TryParse(operation.OperandOne, out _))
 			{
-				registers.TryAdd(operation.OperandOne, 0);
+				Registers.TryAdd(operation.OperandOne, 0);
 			}
 
 			if (operation.OperandTwo == null)
@@ -32,37 +32,37 @@ public class InstructionEmulatorPartOne : ICpuEmulator
 			}
 			if (!int.TryParse(operation.OperandTwo, out _))
 			{
-				registers.TryAdd(operation.OperandTwo, 0);
+				Registers.TryAdd(operation.OperandTwo, 0);
 			}
 		}
 	}
 	
 	public void Execute()
 	{
-		while (position < _programSize && position > -1 && _amountCounter < _amountRecover)
+		while (Position < programSize && Position > -1 && amountCounter < amountRecover)
 		{
-			Operation operation = this._operations[(int)position];
+			Operation operation = this.operations[(int)Position];
 			switch (operation.Action)
 			{
-				case Action.add:
+				case Action.Add:
 					Add(operation);
 					break;
-				case Action.jgz:
+				case Action.Jgz:
 					Jgz(operation);
 					break;
-				case Action.mod:
+				case Action.Mod:
 					Mod(operation);
 					break;
-				case Action.mul:
+				case Action.Mul:
 					Mul(operation);
 					break;
-				case Action.rcv:
+				case Action.Rcv:
 					Rcv(operation);
 					break;
-				case Action.set:
+				case Action.Set:
 					Set(operation);
 					break;
-				case Action.snd:
+				case Action.Snd:
 					Snd(operation);
 					break;
 			}
@@ -74,17 +74,17 @@ public class InstructionEmulatorPartOne : ICpuEmulator
 		long value = GetValue(operation.OperandOne);
 		if (value != 0)
 		{
-			_amountCounter++;
-			Console.WriteLine($"Recover operation trigger, last frequency was: {_latestSoundFrequency}");
+			amountCounter++;
+			Console.WriteLine($"Recover operation trigger, last frequency was: {latestSoundFrequency}");
 		}
 
-		position++;
+		Position++;
 	}
 
 	public override void Snd(Operation operation)
 	{
 		long value = GetValue(operation.OperandOne);
-		_latestSoundFrequency = value;
-		position++;
+		latestSoundFrequency = value;
+		Position++;
 	}
 }
