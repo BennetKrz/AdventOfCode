@@ -1,26 +1,20 @@
 ﻿namespace AdventOfCode._2017;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
 	private readonly string input;
 
-	public Day1()
+	public Day1() : base(2017, 1)
 	{
-		input = Helper.GetInputOneLine(1);
+		input = InputOneLine;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		int counter = 0;
-		for (int i = 0; i < input.Length; i++)
-		{
-			if (input[i] == input[i + 1 == input.Length ? 0 : i + 1]) counter += int.Parse(input[i].ToString());
-		}
-
-		return counter;
+		return input.Where((t, i) => t == input[i + 1 == input.Length ? 0 : i + 1]).Sum(t => int.Parse(t.ToString()));
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int counter = 0;
 		for (int i = 0; i < input.Length; i++)

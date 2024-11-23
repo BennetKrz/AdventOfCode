@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2017;
 
-public class Day4 : IAdventDay
+public class Day4 : AdventBase
 {
 	private readonly List<string> input;
 
-	public Day4()
+	public Day4() : base(2017, 4)
 	{
-		input = Helper.GetInput(4).ToList();
+		input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int valid = 0;
 		foreach (string s in input)
@@ -22,7 +22,7 @@ public class Day4 : IAdventDay
 		return valid;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int notValid = 0;
 		foreach (string s in input)
@@ -49,7 +49,7 @@ public class Day4 : IAdventDay
 			}
 
 			GoHere:
-			int t = 0;
+			;
 		}
 
 		return input.Count - notValid;

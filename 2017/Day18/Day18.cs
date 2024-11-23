@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2017.Day18;
 
-public class Day18 : IAdventDay
+public class Day18 : AdventBase
 {
 	private List<string> input;
 
-	public Day18()
+	public Day18() : base(2017, 18)
 	{
-		this.input = Helper.GetInput(18).ToList();
+		this.input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<Operation> operations = ParseInput();
 		InstructionEmulatorPartOne emulatorPartOne = new InstructionEmulatorPartOne(operations, input.Count, 1);
@@ -17,7 +17,7 @@ public class Day18 : IAdventDay
 		return long.MinValue;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<Operation> operations = ParseInput();
 		InstructionEmulatorPartTwo emulatorOne = new(operations, input.Count, 0);
@@ -37,13 +37,13 @@ public class Day18 : IAdventDay
 			string[] parts = line.Split(" ");
 			operation.Action = parts[0] switch
 			{
-				"snd" => Action.snd,
-				"set" => Action.set,
-				"add" => Action.add,
-				"mul" => Action.mul,
-				"mod" => Action.mod,
-				"rcv" => Action.rcv,
-				"jgz" => Action.jgz,
+				"snd" => Action.Snd,
+				"set" => Action.Set,
+				"add" => Action.Add,
+				"mul" => Action.Mul,
+				"mod" => Action.Mod,
+				"rcv" => Action.Rcv,
+				"jgz" => Action.Jgz,
 				_ => operation.Action
 			};
 

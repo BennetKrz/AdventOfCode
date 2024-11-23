@@ -16,12 +16,10 @@ public class Day15 : IAdventDay
 		int counter = 0;
 		GeneratorPartOne genA = new GeneratorPartOne(GeneratorAStartingValue, GeneratorAFactor);
 		GeneratorPartOne genB = new GeneratorPartOne(GeneratorBStartingValue, GeneratorBFactor);
-		long resultGenA;
-		long resultGenB;
 		for (int i = 0; i < 40_000_000; i++)
 		{
-			resultGenA = genA.GenerateNextValue();
-			resultGenB = genB.GenerateNextValue();
+			long resultGenA = genA.GenerateNextValue();
+			long resultGenB = genB.GenerateNextValue();
 			//Schnellster Weg die ersten 16 bit zu bekommen.
 			if((resultGenA & 0xFFFF) == (resultGenB & 0xFFFF))
 			{
@@ -36,12 +34,10 @@ public class Day15 : IAdventDay
 		int counter = 0;
 		GeneratorPartTwo genA = new GeneratorPartTwo(GeneratorAStartingValue, GeneratorAFactor, GeneratorAAcceptableCriteria);
 		GeneratorPartTwo genB = new GeneratorPartTwo(GeneratorBStartingValue, GeneratorBFactor, GeneratorBAcceptableCriteria);
-		long resultGenB;
-		long resultGenA;
 		for (int i = 0; i < 5_000_000; i++)
 		{
-			resultGenB = genA.GenerateNextValue();
-			resultGenA = genB.GenerateNextValue();
+			long resultGenB = genA.GenerateNextValue();
+			long resultGenA = genB.GenerateNextValue();
 			//Schnellster Weg die ersten 16 bit zu bekommen.
 			if ((resultGenA & 0xFFFF) == (resultGenB & 0xFFFF))
 			{
@@ -74,9 +70,9 @@ public class GeneratorPartOne
 public class GeneratorPartTwo
 {
 	private long previousValue;
-	private long factor;
+	private readonly long factor;
 	private const long Divider = 2147483647;
-	private int acceptableCriteria;
+	private readonly int acceptableCriteria;
 	
 	public GeneratorPartTwo(long previousValue, long factor, int acceptableCriteria)
 	{

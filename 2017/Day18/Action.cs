@@ -2,11 +2,11 @@
 
 public enum Action
 {
-	snd,
-	set,
-	add,
-	mul,
-	mod,
-	rcv,
-	jgz
+	Snd,
+	Set,
+	Add,
+	Mul,
+	Mod,
+	Rcv,
+	Jgz
 }

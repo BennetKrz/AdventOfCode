@@ -1,17 +1,22 @@
 ﻿namespace AdventOfCode._2017;
 
-public class Day6 : IAdventDay
+public class Day6 : AdventBase
 {
-	private readonly string input = Helper.GetInputOneLine(6);
-	private readonly List<string> memoryStates = new();
+	private readonly string input;
+	private readonly List<string> memoryStates = [];
 
-	public long PartOne()
+	public Day6() : base(2017, 6)
+	{
+		input = InputOneLine;
+	}
+	
+	public override long PartOne()
 	{
 		int[] memoryBanks = ParseInput("\t");
 		int redistributionCounter = 0;
 		while (memoryStates.Count == memoryStates.Distinct().ToList().Count)
 		{
-			memoryBanks = redistributeMemory(memoryBanks);
+			memoryBanks = RedistributeMemory(memoryBanks);
 			memoryStates.Add(string.Join("-", memoryBanks));
 			redistributionCounter++;
 		}
@@ -20,24 +25,21 @@ public class Day6 : IAdventDay
 	}
 
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		memoryStates.Clear();
 		int[] memoryBanks = ParseInput("\t");
-		int redistributionCounter = 0;
-		string targetMemoryConfig = string.Empty;
 		while (memoryStates.Count == memoryStates.Distinct().ToList().Count)
 		{
-			memoryBanks = redistributeMemory(memoryBanks);
+			memoryBanks = RedistributeMemory(memoryBanks);
 			memoryStates.Add(string.Join("-", memoryBanks));
-			redistributionCounter++;
 		}
 
-		targetMemoryConfig = string.Join("-", memoryBanks);
+		string targetMemoryConfig = string.Join("-", memoryBanks);
 		int counter = 0;
 		while (true)
 		{
-			memoryBanks = redistributeMemory(memoryBanks);
+			memoryBanks = RedistributeMemory(memoryBanks);
 			counter++;
 			if (string.Join("-", memoryBanks) == targetMemoryConfig) return counter;
 		}
@@ -45,10 +47,10 @@ public class Day6 : IAdventDay
 
 	private int[] ParseInput(string splitByValue)
 	{
-		return input.Split(splitByValue).Select(s => int.Parse(s)).ToArray();
+		return input.Split(splitByValue).Select(int.Parse).ToArray();
 	}
 
-	private int[] redistributeMemory(int[] memoryBanks)
+	private int[] RedistributeMemory(int[] memoryBanks)
 	{
 		int index = IndexOfHighest(memoryBanks);
 		int amount = memoryBanks[index];

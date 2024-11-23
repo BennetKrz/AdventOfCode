@@ -1,34 +1,34 @@
 ﻿namespace AdventOfCode._2017;
 
-public class Day2 : IAdventDay
+public class Day2 : AdventBase
 {
 	private readonly List<string> input;
 
-	public Day2()
+	public Day2() : base(2017 , 2)
 	{
-		input = Helper.GetInput(2).ToList();
+		input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<List<int>> spreadsheet =
 			input.Select(x => x.Replace("\t", " ")
 			                   .Split(" ")
 			                   .ToList()
-			                   .Select(y => int.Parse(y))
+			                   .Select(int.Parse)
 			                   .ToList())
 			     .ToList();
 		return spreadsheet.Select(x => x.Max() - x.Min()).Sum();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		long counter = 0;
 		List<List<int>> spreadsheet =
 			input.Select(x => x.Replace("\t", " ")
 			                   .Split(" ")
 			                   .ToList()
-			                   .Select(y => int.Parse(y))
+			                   .Select(int.Parse)
 			                   .ToList())
 			     .ToList();
 		foreach (List<int> row in spreadsheet)

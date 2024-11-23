@@ -1,17 +1,17 @@
 ﻿namespace AdventOfCode._2017;
 
-public class Day8 : IAdventDay
+public class Day8 : AdventBase
 {
 	private readonly List<string> input;
 	private readonly Dictionary<string, int> registers = new();
 
-	public Day8()
+	public Day8() : base(2017, 8)
 	{
-		input = Helper.GetInput(8).ToList();
+		input = Input.ToList();
 	}
 
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		InitializeRegisters();
 
@@ -27,7 +27,7 @@ public class Day8 : IAdventDay
 	}
 
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		InitializeRegisters();
 		List<int> maxValuesDuringExecution = new();
