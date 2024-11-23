@@ -1,83 +1,73 @@
-﻿namespace AdventOfCode._2016 {
+﻿namespace AdventOfCode._2016;
 
-    using ThreeTiles = (bool left, bool center, bool right);
+using ThreeTiles = (bool left, bool center, bool right);
 
-    public class Day18 : IAdventDay {
-        List<string> input;
+public class Day18 : AdventBase
+{
+    private List<string> input;
 
-        public Day18() {
-            this.input = Helper.GetInput(18).ToList();
+    public Day18() : base(2016, 18)
+    {
+        input = Input.ToList();
+    }
+
+    public override long PartOne()
+    {
+        for (int i = 0; i < 39; i++)
+        {
+            string line = input[i];
+            string nextLine = string.Empty;
+            for (int c = 0; c < line.Length; c++)
+            {
+                ThreeTiles tiles = GetNextTiles(line, c);
+                bool conditionTrue = tiles is { left: true, center: true, right: false } 
+                    or { left: false, center: true, right: true } 
+                    or { left: true, center: false, right: false } 
+                    or { left: false, center: false, right: true };
+
+                nextLine += conditionTrue ? '^' : '.';
+            }
+
+            input.Add(nextLine);
         }
 
-        public long PartOne() {
-            for(int i = 0; i < 39; i++) {
-                string line = input[i];
-                string nextLine = string.Empty;
-                for(int c = 0; c < line.Length; c++) {
-                    ThreeTiles tiles = GetNextTiles(line, c);
-                    bool conditionTrue = false;
-                    if(tiles.left && tiles.center && !tiles.right) {
-                        conditionTrue = true;
-                    }
-                    if(!tiles.left && tiles.center && tiles.right) {
-                        conditionTrue = true;
-                    }
-                    if(tiles.left && !tiles.center && !tiles.right) {
-                        conditionTrue = true;
-                    }
-                    if(!tiles.left && !tiles.center && tiles.right) {
-                        conditionTrue = true;
-                    }
-                    nextLine += conditionTrue ? '^' : '.';
-                }
-                input.Add(nextLine);
+        return input.Sum(s => s.Count(c => c == '.'));
+    }
+
+    private ThreeTiles GetNextTiles(string line, int pos)
+    {
+        char cLeft;
+        char cCentral = line[pos];
+        char cRight;
+        cLeft = pos == 0 ? '.' : line[pos - 1];
+
+        cRight = pos == line.Length - 1 ? '.' : line[pos + 1];
+
+        return (cLeft == '^', cCentral == '^', cRight == '^');
+    }
+
+    public override long PartTwo()
+    {
+        input.Clear();
+        input = Input.ToList();
+        for (int i = 0; i < 400_000 - 1; i++)
+        {
+            string line = input[i];
+            string nextLine = string.Empty;
+            for (int c = 0; c < line.Length; c++)
+            {
+                ThreeTiles tiles = GetNextTiles(line, c);
+                bool conditionTrue = tiles is { left: true, center: true, right: false } 
+                    or { left: false, center: true, right: true }
+                    or { left: true, center: false, right: false } 
+                    or { left: false, center: false, right: true };
+
+                nextLine += conditionTrue ? '^' : '.';
             }
-            return input.Sum(s => s.Count(c => c == '.'));
+
+            input.Add(nextLine);
         }
 
-        ThreeTiles GetNextTiles(string line, int pos) {
-            char c_left;
-            char c_central = line[pos];
-            char c_right;
-            if(pos == 0) {
-                c_left = '.';
-            } else {
-                c_left = line[pos - 1];
-            }
-            if(pos == line.Length - 1) {
-                c_right = '.';
-            } else {
-                c_right = line[pos + 1];
-            }
-            return (c_left == '^', c_central == '^', c_right == '^');
-        }
-
-        public long PartTwo() {
-            input.Clear();
-            input = Helper.GetInput(18).ToList();
-            for(int i = 0; i < 400_000 - 1; i++) {
-                string line = input[i];
-                string nextLine = string.Empty;
-                for(int c = 0; c < line.Length; c++) {
-                    ThreeTiles tiles = GetNextTiles(line, c);
-                    bool conditionTrue = false;
-                    if(tiles.left && tiles.center && !tiles.right) {
-                        conditionTrue = true;
-                    }
-                    if(!tiles.left && tiles.center && tiles.right) {
-                        conditionTrue = true;
-                    }
-                    if(tiles.left && !tiles.center && !tiles.right) {
-                        conditionTrue = true;
-                    }
-                    if(!tiles.left && !tiles.center && tiles.right) {
-                        conditionTrue = true;
-                    }
-                    nextLine += conditionTrue ? '^' : '.';
-                }
-                input.Add(nextLine);
-            }
-            return input.Sum(s => s.Count(c => c == '.'));
-        }
+        return input.Sum(s => s.Count(c => c == '.'));
     }
 }

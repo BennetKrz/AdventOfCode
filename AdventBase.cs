@@ -2,18 +2,14 @@ using System.Runtime.InteropServices;
 
 namespace AdventOfCode;
 
-public abstract class AdventBase : IAdventDay
+public abstract class AdventBase(int year, int day) : IAdventDay
 {
-    protected AdventBase(int year, int day)
-    {
-        string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? @$"H:\C#\AdventOfCode\{year}\Input\day_{day}.txt" : $"/home/dodo/AdventOfCode/{year}/Input/day_{day}.txt";
-        InputOneLine = File.ReadAllText(path);
-        Input = File.ReadAllLines(path);
-    }
+    private readonly string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? @$"H:\C#\AdventOfCode\{year}\Input\day_{day}.txt" 
+        : $"/home/dodo/AdventOfCode/{year}/Input/day_{day}.txt";
 
-    protected string InputOneLine { get; }
-    
-    protected string[] Input { get; }
+    protected string InputOneLine => File.ReadAllText(path);
+
+    protected string[] Input => File.ReadAllLines(path);
 
     public virtual long PartOne()
     {
