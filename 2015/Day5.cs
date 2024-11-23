@@ -1,26 +1,26 @@
 ﻿namespace AdventOfCode._2015;
 
-public class Day5 : IAdventDay
+public class Day5 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day5()
+	public Day5() : base(2015, 5)
 	{
-		input = Helper.GetInput(5);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		string[] badStringParts = { "ab", "cd", "pq", "xy" };
 		int niceStrings = 0;
 		for (int i = 0; i < input.Length; i++)
 		{
 			string s = input[i];
-			if (s.Count(f => f == 'a' || f == 'e' || f == 'i' || f == 'o' || f == 'u') < 3) continue;
+			if (s.Count(f => f is 'a' or 'e' or 'i' or 'o' or 'u') < 3) continue;
 
-			if (!containsCharTwoTimesInRow(s)) continue;
+			if (!ContainsCharTwoTimesInRow(s)) continue;
 
-			if (stringContainsBadString(s, badStringParts)) continue;
+			if (StringContainsBadString(s, badStringParts)) continue;
 
 			niceStrings++;
 		}
@@ -28,23 +28,16 @@ public class Day5 : IAdventDay
 		return niceStrings;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
-		int counter = 0;
-		foreach (string s in input)
-		{
-			if (PartTwoRuleOne(s) && PartTwoRuleTwo(s)) counter++;
-		}
-
-		return counter;
+		return input.Count(s => PartTwoRuleOne(s) && PartTwoRuleTwo(s));
 	}
 
 	private bool PartTwoRuleOne(string line)
 	{
-		string pair;
 		for (int i = 0; i < line.Length - 3; i++)
 		{
-			pair = line.Substring(i, 2);
+			string pair = line.Substring(i, 2);
 			for (int j = i + 2; j < line.Length - 1; j++)
 			{
 				string pairTwo = line.Substring(j, 2);
@@ -65,7 +58,7 @@ public class Day5 : IAdventDay
 		return false;
 	}
 
-	private bool stringContainsBadString(string input, string[] stringToCheckFor)
+	private bool StringContainsBadString(string input, string[] stringToCheckFor)
 	{
 		foreach (string s in stringToCheckFor)
 		{
@@ -75,7 +68,7 @@ public class Day5 : IAdventDay
 		return false;
 	}
 
-	private bool containsCharTwoTimesInRow(string input)
+	private bool ContainsCharTwoTimesInRow(string input)
 	{
 		for (int i = 1; i < input.Length; i++)
 		{

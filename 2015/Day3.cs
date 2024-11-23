@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2015;
 
-public class Day3 : IAdventDay
+public class Day3 : AdventBase
 {
 	private readonly string input;
 
-	public Day3()
+	public Day3() : base(2015, 3)
 	{
-		input = Helper.GetInputOneLine(3);
+		input = InputOneLine;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		Dictionary<Point, int> visitedHouses = new();
 		Point currentPos = new(0, 0);
@@ -43,7 +43,7 @@ public class Day3 : IAdventDay
 		return visitedHouses.Count + 1;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Dictionary<Point, int> visitedHouses = new();
 		Point[] positions = new Point[2];

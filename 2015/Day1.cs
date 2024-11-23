@@ -1,37 +1,52 @@
 ﻿namespace AdventOfCode._2015;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
-	private readonly string input;
-
-	public Day1()
+	private readonly string _input;
+	
+	public Day1() : base(2015, 1)
 	{
-		input = Helper.GetInputOneLine(1);
+		_input = InputOneLine;
 	}
-
-	public long PartOne()
+	
+	public override long PartOne()
 	{
 		int currentFloor = 0;
-		for (int i = 0; i < input.Length; i++)
+		foreach (char c in _input)
 		{
-			if (input[i] == '(')
-				currentFloor++;
-			else if (input[i] == ')') currentFloor--;
+			switch (c)
+			{
+				case '(':
+					currentFloor++;
+					break;
+				case ')':
+					currentFloor--;
+					break;
+			}
 		}
 
 		return currentFloor;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int currentFloor = 0;
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < _input.Length; i++)
 		{
-			if (input[i] == '(')
-				currentFloor++;
-			else if (input[i] == ')') currentFloor--;
+			switch (_input[i])
+			{
+				case '(':
+					currentFloor++;
+					break;
+				case ')':
+					currentFloor--;
+					break;
+			}
 
-			if (currentFloor == -1) return i + 1;
+			if (currentFloor == -1)
+			{
+				return i + 1;
+			}
 		}
 
 		return long.MinValue;

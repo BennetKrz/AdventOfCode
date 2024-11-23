@@ -1,20 +1,20 @@
 ﻿namespace AdventOfCode._2015;
 
-public class Day2 : IAdventDay
+public class Day2 : AdventBase
 {
-	private readonly string[] input;
+	private string[] _input;
 
-	public Day2()
+	public Day2() : base(2015, 2)
 	{
-		input = Helper.GetInput(2);
+		_input = Input;
 	}
-
-	public long PartOne()
+	
+	public override long PartOne()
 	{
 		List<int> allArea = new();
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < _input.Length; i++)
 		{
-			int[] t = Array.ConvertAll(input[i].Split('x'), s => int.Parse(s));
+			int[] t = Array.ConvertAll(_input[i].Split('x'), int.Parse);
 			//t[0] = l; t[1] = w; t[2] = h;
 			int[] allThreeSites = { t[0] * t[1], t[1] * t[2], t[2] * t[0] };
 			allArea.Add(allThreeSites[0] * 2 + allThreeSites[1] * 2 + allThreeSites[2] * 2 + allThreeSites.Min());
@@ -23,12 +23,12 @@ public class Day2 : IAdventDay
 		return allArea.Sum();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<int> ribbonNeeded = new();
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < _input.Length; i++)
 		{
-			int[] t = Array.ConvertAll(input[i].Split('x'), s => int.Parse(s)).Order().ToArray();
+			int[] t = Array.ConvertAll(_input[i].Split('x'), int.Parse).Order().ToArray();
 			//t[0] = l; t[1] = w; t[2] = h;
 			ribbonNeeded.Add(t[0] + t[0] + t[1] + t[1] + t[0] * t[1] * t[2]);
 		}
