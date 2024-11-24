@@ -2,13 +2,18 @@
 
 namespace AdventOfCode._2019;
 
-public class Day8 : IAdventDay
+public class Day8 : AdventBase
 {
-    private string input = Helper.GetInputOneLine(8);
+    private readonly string input;
     private const int ImageWidth = 25;
     private const int ImageHeight = 6;
+
+    public Day8() : base(2019, 8)
+    {
+        input = InputOneLine;
+    }
     
-    public long PartOne()
+    public override long PartOne()
     {
         int layerSize = ImageHeight * ImageWidth;
         int layerCount = this.input.Length / layerSize;
@@ -20,7 +25,7 @@ public class Day8 : IAdventDay
         return minLayer.Count(c => c == '1') * minLayer.Count(c => c == '2');
     }
 
-    public long PartTwo()
+    public override long PartTwo()
     {
         int layerSize = ImageHeight * ImageWidth;
         int layerCount = this.input.Length / layerSize;

@@ -1,22 +1,20 @@
-﻿using System.Xml.Schema;
+﻿namespace AdventOfCode._2019;
 
-namespace AdventOfCode._2019;
-
-public class Day6 : IAdventDay
+public class Day6 : AdventBase
 {
     private readonly string[] input;
 
-    public Day6()
+    public Day6() : base(2019, 6)
     {
-        input = Helper.GetInput(6);
+        input = Input;
     }
 
-    public long PartOne()
+    public override long PartOne()
     {
         Dictionary<string, Planet> planets = CreatePlanetSystem();
 
         long orbits = 0;
-        
+
         foreach (KeyValuePair<string, Planet> kvp in planets)
         {
             string planet = kvp.Key;
@@ -26,11 +24,11 @@ public class Day6 : IAdventDay
                 planet = planets[planet].Previous.Name;
             }
         }
-        
+
         return orbits;
     }
 
-    public long PartTwo()
+    public override long PartTwo()
     {
         Dictionary<string, Planet> planets = CreatePlanetSystem();
         return ShortestTransfer(planets, planets["YOU"], planets["SAN"]) - 1;
@@ -77,7 +75,7 @@ public class Day6 : IAdventDay
         {
             planets.Add(planet, new Planet(planet));
         }
-        
+
         foreach (string line in this.input)
         {
             string[] p = line.Split(")");
@@ -105,17 +103,15 @@ public class Day6 : IAdventDay
 
     private class Planet
     {
+        private readonly List<Planet> neighbors;
 
-        private List<Planet> neighbors;
-        private Planet previous;
-        
         public Planet Previous
         {
-            get => previous;
+            get;
             set
             {
                 neighbors.Add(value);
-                previous = value;
+                field = value;
             }
         }
 
@@ -141,12 +137,12 @@ public class Day6 : IAdventDay
         {
             return p1.Name == p2.Name;
         }
-        
+
         public static bool operator !=(Planet p1, Planet p2)
         {
             return p1.Name != p2.Name;
         }
-        
+
         protected bool Equals(Planet other)
         {
             return Name == other.Name;

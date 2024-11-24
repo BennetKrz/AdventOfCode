@@ -1,11 +1,16 @@
 ﻿namespace AdventOfCode._2019;
 
-public class Day10 : IAdventDay
+public class Day10 : AdventBase
 {
-	private readonly List<string> input = Helper.GetInput(10).ToList();
+	private readonly List<string> input;
 	private (int x, int y) bestPosition = (-1, -1);
 
-	public long PartOne()
+	public Day10() : base(2019, 10)
+	{
+		input = Input.ToList();
+	}
+
+	public override long PartOne()
 	{
 		HashSet<(int x, int y)> asteroids = ParseInput();
 		int asteroidsCount = asteroids.Count;
@@ -21,7 +26,7 @@ public class Day10 : IAdventDay
 		return visibleAsteroidsPerAstroid.MaxBy(kvp => kvp.Value).Value;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		(int x, int y) position;
 		Dictionary<int, (int x, int y)> destroyedIndex = new();
@@ -42,9 +47,8 @@ public class Day10 : IAdventDay
 
 		position = bestPosition;
 		//Get radians to every asteroid from the selected
-		 
-		Dictionary<(int x, int y), double> degreesToEveryAsteroid = new();
-		degreesToEveryAsteroid = GetDegreesToEveryAsteroid(position);
+
+		Dictionary<(int x, int y), double> degreesToEveryAsteroid = GetDegreesToEveryAsteroid(position);
 
 		//Jetzt alle nach grad sortieren
 		degreesToEveryAsteroid =
@@ -81,7 +85,7 @@ public class Day10 : IAdventDay
 	private bool AsteroidIsVisible((int x, int y) pos, (int x, int y) targetPos, HashSet<(int x, int y)> asteroids)
 	{
 		(int x, int y) line = GetLine(targetPos, pos);
-		int gcd = Math.Abs(CalculateGCD(line.x, line.y));
+		int gcd = Math.Abs(CalculateGcd(line.x, line.y));
 		line = (line.x / gcd, line.y / gcd);
 		(int x, int y) currentPos = pos;
 		while (currentPos.x < input[0].Length && currentPos.x >= 0 &&
@@ -165,7 +169,7 @@ public class Day10 : IAdventDay
 			//Get the gradient
 			(int x, int y) line = GetLine(nearestAsteroid, positionToCheck);
 
-			int gcd = Math.Abs(CalculateGCD(line.x, line.y));
+			int gcd = Math.Abs(CalculateGcd(line.x, line.y));
 			line = (line.x / gcd, line.y / gcd);
 
 			//go this line until out of bounds and remove every asteroid in line
@@ -221,7 +225,7 @@ public class Day10 : IAdventDay
 		return asteroids;
 	}
 
-	private int CalculateGCD(int a, int b)
+	private static int CalculateGcd(int a, int b)
 	{
 		while (b != 0)
 		{

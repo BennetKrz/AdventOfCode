@@ -1,27 +1,25 @@
 namespace AdventOfCode._2019;
 
-public class Day5 : IAdventDay
+public class Day5 : AdventBase
 {
     private string[] input;
-
-    private int latestOutputPartOne;
-    private int latestOutputPartTwo;
-    public Day5()
+    
+    public Day5() : base(2019, 5)
     {
-        input = Helper.GetInputOneLine(5).Split(',');
+        input = InputOneLine.Split(',');
     }
 
-    public long PartOne()
+    public override long PartOne()
     {
-        IntCodeEmulator emulator = new(input, new List<int> { 1 }, false);
+        IntCodeEmulator emulator = new(input, [1], false);
         emulator.ExecuteProgram();
         return long.Parse(emulator.GetLatestOutput());
     }
 
-    public long PartTwo()
+    public override long PartTwo()
     {
-        input = Helper.GetInputOneLine(5).Split(",");
-        IntCodeEmulator emulator = new(input, new List<int> { 5 }, false);
+        input = InputOneLine.Split(",");
+        IntCodeEmulator emulator = new(input, [5], false);
         emulator.ExecuteProgram();
         return long.Parse(emulator.GetLatestOutput());
     }

@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2019;
 
-public class Day3 : IAdventDay
+public class Day3 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day3()
+	public Day3() : base(2019, 3)
 	{
-		input = Helper.GetInput(3);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		Dictionary<(int x, int y), int> wireOne = SimulateWire(input[0]);
 		Dictionary<(int x, int y), int> wireTwo = SimulateWire(input[1]);
@@ -19,7 +19,7 @@ public class Day3 : IAdventDay
 		return distance;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Dictionary<(int x, int y), int> wireOne = SimulateWire(input[0]);
 		Dictionary<(int x, int y), int> wireTwo = SimulateWire(input[1]);

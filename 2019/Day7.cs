@@ -1,15 +1,15 @@
 namespace AdventOfCode._2019;
 
-public class Day7 : IAdventDay
+public class Day7 : AdventBase
 {
 
-    private string[] instructions = Helper.GetInputOneLine(7).Split(",");
+    private readonly string[] instructions;
     
-    public Day7()
+    public Day7() : base(2019, 7)
     {
-        
+        instructions = InputOneLine.Split(",");
     }
-    public long PartOne()
+    public override long PartOne()
     {
         List<int> result = new();
         List<int[]> permutations = GetAllPermutations();
@@ -62,7 +62,7 @@ public class Day7 : IAdventDay
                             {
                                 continue;
                             }
-                            permutations.Add(new []{d1, d2, d3, d4, d5});
+                            permutations.Add([d1, d2, d3, d4, d5]);
                         }
                     }
                 }
@@ -72,7 +72,7 @@ public class Day7 : IAdventDay
         return permutations;
     }
 
-    public long PartTwo()
+    public override long PartTwo()
     {
         return 0;
     }

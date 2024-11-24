@@ -1,26 +1,26 @@
 ﻿namespace AdventOfCode._2019;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day1()
+	public Day1() : base(2019, 1)
 	{
-		input = Helper.GetInput(1);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		return input.Select(i => Convert.ToInt32(i) / 3 - 2).Sum();
+		return input.Select(i => int.Parse(i) / 3 - 2).Sum();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int result = 0;
 		int[] fuel = new int[input.Length];
 		for (int i = 0; i < fuel.Length; i++)
 		{
-			fuel[i] = Convert.ToInt32(input[i]);
+			fuel[i] = int.Parse(input[i]);
 			fuel[i] = fuel[i] / 3 - 2;
 			result += fuel[i];
 		}

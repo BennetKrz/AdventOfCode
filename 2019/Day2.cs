@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2019;
 
-public class Day2 : IAdventDay
+public class Day2 : AdventBase
 {
 	private string[] input;
 
-	public Day2()
+	public Day2() : base(2019, 2)
 	{
-		input = Helper.GetInputOneLine(2).Split(',');
+		input = InputOneLine.Split(',');
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		input[1] = 12.ToString();
 		input[2] = 2.ToString();
@@ -18,9 +18,9 @@ public class Day2 : IAdventDay
 		return long.Parse(emulator.GetAddress(0));
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
-		input = Helper.GetInputOneLine(2).Split(",");
+		input = InputOneLine.Split(",");
 		string[] instructions = new string[input.Length];
 		Array.Copy(input, instructions, this.input.Length);
 		for (int noun = 0; noun < 100; noun++)
