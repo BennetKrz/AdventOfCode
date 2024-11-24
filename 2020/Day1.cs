@@ -1,30 +1,30 @@
 ﻿namespace AdventOfCode._2020;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day1()
+	public Day1() : base(2020, 1)
 	{
-		input = Helper.GetInput(1);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		for (int i = 0; i < input.Length; i++)
 		{
 			for (int j = 0; j < input.Length; j++)
 			{
-				int in_i = Convert.ToInt32(input[i]);
-				int in_j = Convert.ToInt32(input[j]);
-				if (in_i + in_j == 2020) return in_j * in_i;
+				int inI = Convert.ToInt32(input[i]);
+				int inJ = Convert.ToInt32(input[j]);
+				if (inI + inJ == 2020) return inJ * inI;
 			}
 		}
 
 		return long.MinValue;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		for (int i = 0; i < input.Length; i++)
 		{
@@ -32,10 +32,10 @@ public class Day1 : IAdventDay
 			{
 				for (int k = 0; k < input.Length; k++)
 				{
-					int in_i = Convert.ToInt32(input[i]);
-					int in_j = Convert.ToInt32(input[j]);
-					int in_k = Convert.ToInt32(input[k]);
-					if (in_i + in_j + in_k == 2020) return in_i * in_j * in_k;
+					int inI = Convert.ToInt32(input[i]);
+					int inJ = Convert.ToInt32(input[j]);
+					int inK = Convert.ToInt32(input[k]);
+					if (inI + inJ + inK == 2020) return inI * inJ * inK;
 				}
 			}
 		}

@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2020;
 
-public class Day4 : IAdventDay
+public class Day4 : AdventBase
 {
 	private readonly string input;
 
-	public Day4()
+	public Day4() : base(2020, 4)
 	{
-		input = Helper.GetInputOneLine(4);
+		input = InputOneLine;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int validPasswords = 0;
 		Dictionary<string, bool> fieldIds = new()
@@ -47,7 +47,7 @@ public class Day4 : IAdventDay
 		return validPasswords;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int validPasswords = 0;
 		Func<string, int, int, bool> fourDigitsValue = (val, min, max) =>

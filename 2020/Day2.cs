@@ -1,54 +1,54 @@
 ﻿namespace AdventOfCode._2020;
 
-public class Day2 : IAdventDay
+public class Day2 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day2()
+	public Day2() : base(2020, 2)
 	{
-		input = Helper.GetInput(2);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		string[] input = new string[this.input.Length];
-		this.input.CopyTo(input, 0);
-		int[] lowest = new int[input.Length];
-		int[] highest = new int[input.Length];
-		string[] c = new string[input.Length];
-		string[] passwords = new string[input.Length];
+		string[] localInput = new string[this.input.Length];
+		this.input.CopyTo(localInput, 0);
+		int[] lowest = new int[localInput.Length];
+		int[] highest = new int[localInput.Length];
+		string[] c = new string[localInput.Length];
+		string[] passwords = new string[localInput.Length];
 		int validPasswords = 0;
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			//seperate by '-'
-			string s = input[i];
+			string s = localInput[i];
 			int min = Convert.ToInt32(s.Substring(0, s.IndexOf('-')));
 			s = s.Remove(0, s.IndexOf('-') + 1);
 			int max = Convert.ToInt32(s.Substring(0, s.IndexOf(' ')));
 			s = s.Remove(0, s.IndexOf(' ') + 1);
 			lowest[i] = min;
 			highest[i] = max;
-			input[i] = s;
+			localInput[i] = s;
 		}
 
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			//get the gesuchten char
-			string s = input[i];
+			string s = localInput[i];
 			c[i] = s.Substring(0, s.IndexOf(':'));
 			s = s.Remove(0, s.IndexOf(':') + 2);
-			input[i] = s;
+			localInput[i] = s;
 		}
 
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			//Get all Passwords
-			string s = input[i];
+			string s = localInput[i];
 			passwords[i] = s;
 		}
 
 		//Jetzt überprüfen
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			string password = passwords[i];
 			string gesuchterChar = c[i];
@@ -60,46 +60,46 @@ public class Day2 : IAdventDay
 		return validPasswords;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
-		string[] input = new string[this.input.Length];
-		this.input.CopyTo(input, 0);
-		int[] minPos = new int[input.Length];
-		int[] maxPos = new int[input.Length];
-		string[] c = new string[input.Length];
-		string[] passwords = new string[input.Length];
+		string[] localInput = new string[this.input.Length];
+		this.input.CopyTo(localInput, 0);
+		int[] minPos = new int[localInput.Length];
+		int[] maxPos = new int[localInput.Length];
+		string[] c = new string[localInput.Length];
+		string[] passwords = new string[localInput.Length];
 		int validPasswords = 0;
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			//seperate by '-'
-			string s = input[i];
+			string s = localInput[i];
 			int min = Convert.ToInt32(s.Substring(0, s.IndexOf('-')));
 			s = s.Remove(0, s.IndexOf('-') + 1);
 			int max = Convert.ToInt32(s.Substring(0, s.IndexOf(' ')));
 			s = s.Remove(0, s.IndexOf(' ') + 1);
 			minPos[i] = min;
 			maxPos[i] = max;
-			input[i] = s;
+			localInput[i] = s;
 		}
 
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			//get the gesuchten char
-			string s = input[i];
+			string s = localInput[i];
 			c[i] = s.Substring(0, s.IndexOf(':'));
 			s = s.Remove(0, s.IndexOf(':') + 2);
-			input[i] = s;
+			localInput[i] = s;
 		}
 
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			//Get all Passwords
-			string s = input[i];
+			string s = localInput[i];
 			passwords[i] = s;
 		}
 
 		//Jetzt überprüfen
-		for (int i = 0; i < input.Length; i++)
+		for (int i = 0; i < localInput.Length; i++)
 		{
 			string password = passwords[i];
 			string gesuchterChar = c[i];

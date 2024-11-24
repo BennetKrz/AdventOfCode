@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode._2020;
 
-public class Day3 : IAdventDay
+public class Day3 : AdventBase
 {
 	private readonly bool[,] field;
 	private readonly string[] input;
@@ -8,27 +8,27 @@ public class Day3 : IAdventDay
 	private int posX;
 	private int posY;
 
-	public Day3()
+	public Day3() : base(2020, 3)
 	{
-		input = Helper.GetInput(3);
+		input = Input;
 		field = new bool[input.Length, input[0].Length];
 		width = input[0].Length;
-		umwandeln();
+		Umwandeln();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		return countTrees(3, 1);
+		return CountTrees(3, 1);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int[] right = { 1, 3, 5, 7, 1 };
 		int[] down = { 1, 1, 1, 1, 2 };
 		int[] results = new int[5];
 		for (int i = 0; i < 5; i++)
 		{
-			results[i] = countTrees(right[i], down[i]);
+			results[i] = CountTrees(right[i], down[i]);
 		}
 
 		long result = 1;
@@ -40,7 +40,7 @@ public class Day3 : IAdventDay
 		return result;
 	}
 
-	private void umwandeln()
+	private void Umwandeln()
 	{
 		for (int y = 0; y < input.Length; y++)
 		{
@@ -51,7 +51,7 @@ public class Day3 : IAdventDay
 		}
 	}
 
-	private int countTrees(int r, int d)
+	private int CountTrees(int r, int d)
 	{
 		int count = 0;
 		posX = 0;
