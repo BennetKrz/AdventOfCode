@@ -1,16 +1,16 @@
 ﻿namespace AdventOfCode._2023;
 using Position = (long x, long y);
 
-public class Day11 : IAdventDay
+public class Day11 : AdventBase
 {
 	private readonly List<string> input;
 
-	public Day11()
+	public Day11() : base(2023, 11)
 	{
-		input = Helper.GetInput(11).ToList();
+		input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<string> map = ExpandStarMap();
 		Dictionary<int, Position> positionsOfStars = GetPositionsOfStars(map);
@@ -18,7 +18,7 @@ public class Day11 : IAdventDay
 		return distances.Sum(d => d.distance);
 	}
 	
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Dictionary<int, Position> positionOfStars = GetPositionsOfStars(input);
 		positionOfStars = UpdatePositions(positionOfStars, 1_000_000 - 1);
@@ -83,16 +83,9 @@ public class Day11 : IAdventDay
 
 	private List<int> GetRequiredStarsY(Dictionary<int, Position> positionOfStars, long pos)
 	{
-		List<int> result = new();
-		foreach (KeyValuePair<int,Position> star in positionOfStars)
-		{
-			if (star.Value.y > pos)
-			{
-				result.Add(star.Key);
-			}
-		}
-
-		return result;
+		return positionOfStars.Where(star => star.Value.y > pos)
+			.Select(star => star.Key)
+			.ToList();
 	}
 
 	private HashSet<(int starIdOne, int starIdTwo, long distance)> GetSumOfDistances(Dictionary<int, Position> positionsOfStars)
@@ -165,7 +158,7 @@ public class Day11 : IAdventDay
 			}
 		}
 
-		List<string> result = new();
+		List<string> result = [];
 		foreach (List<char> list in resultMap)
 		{
 			string line = string.Empty;

@@ -2,7 +2,7 @@ namespace AdventOfCode._2023;
 
 public class Box
 {
-    private List<Lens> lensSlots = new();
+    private readonly List<Lens> lensSlots = [];
 
     public void OverwriteLens(Lens lensToInsert)
     {

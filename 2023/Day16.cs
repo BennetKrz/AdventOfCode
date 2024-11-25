@@ -3,24 +3,24 @@ using Position = (int x, int y);
 
 namespace AdventOfCode._2023;
 
-public class Day16 : IAdventDay
+public class Day16 : AdventBase
 {
-	private List<string> input;
+	private readonly List<string> input;
 	private int[,] lightMap;
 	private Dictionary<Position, Obstacle> obstacleMap;
 	private List<(Position pos, Direction movingDir)> lightHeads;
-	private List<int> toRemove;
+	private readonly List<int> toRemove;
 	
-	public Day16()
+	public Day16() : base(2023, 16)
 	{
-		this.input = Helper.GetInput(16).ToList();
+		this.input = Input.ToList();
 		lightMap = new int[input.Count, input[0].Length];
 		obstacleMap = new();
 		lightHeads = new();
 		toRemove = new();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		obstacleMap = ParseObstacles();
 		lightHeads.Add(((0, 0), Direction.Right));
@@ -32,7 +32,7 @@ public class Day16 : IAdventDay
 		return lightMap.Cast<int>().Sum(i => i);
 	}
 	
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		obstacleMap = ParseObstacles();
 		List<int> energizedTiles = new();

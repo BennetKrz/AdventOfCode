@@ -1,15 +1,15 @@
 namespace AdventOfCode._2023;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
 	private List<string> input;
 
-	public Day1()
+	public Day1() : base(2023, 1)
 	{
-		input = Helper.GetInput(1).ToList();
+		input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		long sum = 0;
 		foreach (string line in input)
@@ -20,7 +20,7 @@ public class Day1 : IAdventDay
 		return sum;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		ReplaceEverything();
 		long sum = 0;

@@ -7,16 +7,16 @@ namespace AdventOfCode._2023;
 
 using Position = (long x, long y);
 
-public class Day18 : IAdventDay
+public class Day18 : AdventBase
 {
 	private readonly List<Position> neighbourPositions;
-	private List<string> input;
+	private readonly List<string> input;
 
-	public Day18()
+	public Day18() : base(2023, 18)
 	{
-		this.input = Helper.GetInput(18).ToList();
-		neighbourPositions = new List<Position>
-		{
+		this.input = Input.ToList();
+		neighbourPositions =
+		[
 			(0, 1),
 			(0, -1),
 			(1, 0),
@@ -25,10 +25,10 @@ public class Day18 : IAdventDay
 			(-1, 1),
 			(1, -1),
 			(-1, -1)
-		};
+		];
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<Instruction> instructions = ParseInputPartOne();
 		HashSet<Position> wall = DigWall(instructions);
@@ -37,7 +37,7 @@ public class Day18 : IAdventDay
 		return map.Cast<byte>().Count(p => p != 2);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<Instruction> instructions = ParseInputPartTwo();
 		HashSet<Position> wall = DigWall(instructions);

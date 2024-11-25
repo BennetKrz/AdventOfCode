@@ -2,22 +2,23 @@
 
 namespace AdventOfCode._2023;
 
-public class Day3 : IAdventDay
+public class Day3 : AdventBase
 {
-	char[][] input;
+	private readonly char[][] input;
 
-	public Day3()
+	public Day3() : base(2023, 3)
 	{
-		this.input = Helper.GetInput(3).Select(s => s.Select(c => c).ToArray()).ToArray();
+		this.input = Input.Select(s => s.Select(c => c).ToArray())
+			.ToArray();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<Part> parts = ParseInput();
 		return parts.Select(p => p.PartId).Sum();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		long sum = 0;
 		

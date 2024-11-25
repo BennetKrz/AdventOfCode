@@ -4,16 +4,16 @@ namespace AdventOfCode._2023;
 
 using Position = (double x, double y);
 
-public class Day24 : IAdventDay
+public class Day24 : AdventBase
 {
-	List<string> input;
+	private readonly List<string> input;
 
-	public Day24()
+	public Day24() : base(2023, 24)
 	{
-		this.input = Helper.GetInput(24).ToList();
+		this.input = Input.ToList();
 	}
-
-	public long PartOne()
+	
+	public override long PartOne()
 	{
 		const long min = 200000000000000;
 		const long max = 400000000000000;
@@ -43,7 +43,7 @@ public class Day24 : IAdventDay
 		return counter;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return 0;
 	}

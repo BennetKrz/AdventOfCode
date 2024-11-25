@@ -1,14 +1,14 @@
 namespace AdventOfCode._2023;
 
-public class Day5 : IAdventDay
+public class Day5 : AdventBase
 {
-    private List<string> input;
+    private readonly List<string> input;
 
-    public Day5()
+    public Day5() : base(2023, 5)
     {
-        this.input = Helper.GetInput(5).ToList();
+        this.input = Input.ToList();
     }
-    public long PartOne()
+    public override long PartOne()
     {
         List<long> seeds = GetSeeds();
         
@@ -38,7 +38,7 @@ public class Day5 : IAdventDay
 
 
     //Runtime 22 Minuten xD - 10 als exe
-    public long PartTwo()
+    public override long PartTwo()
     {
         List<long> rawSeeds = GetSeeds();
         List<(long start, long length)> seeds = new List<(long start, long length)>();
@@ -146,7 +146,7 @@ public class Day5 : IAdventDay
             .Split(":")[1]
             .Split(" ")
             .Where(s => s != "")
-            .Select(n => long.Parse(n))
+            .Select(long.Parse)
             .ToList();
     }
 }

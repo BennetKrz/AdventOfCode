@@ -3,16 +3,16 @@ using AdventOfCode._2023;
 
 namespace AdventOfCode._2023;
 
-public class Day19 : IAdventDay
+public class Day19 : AdventBase
 {
-	private List<string> input;
+	private readonly List<string> input;
 
-	public Day19()
+	public Day19() : base(2023, 19)
 	{
-		this.input = Helper.GetInput(19).ToList();
+		this.input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		long sum = 0;
 		Dictionary<string, Workflow> workflows = new();
@@ -23,11 +23,10 @@ public class Day19 : IAdventDay
 		{
 			Part p = parts[i];
 			string nextWorkflow = "in";
-			Workflow currentWorkflow;
 			int conditionCounter = 0;
 			while (nextWorkflow != "A" && nextWorkflow != "R")
 			{
-				currentWorkflow = workflows[nextWorkflow];
+				var currentWorkflow = workflows[nextWorkflow];
 				if (conditionCounter >= currentWorkflow.Conditions.Count)
 				{
 					nextWorkflow = currentWorkflow.ExitFlow;
@@ -58,7 +57,7 @@ public class Day19 : IAdventDay
 		return sum;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return 0;
 	}
@@ -88,14 +87,13 @@ public class Day19 : IAdventDay
 		for (int i = 0; i < emptyLine; i++)
 		{
 			string workflowName = input[i].Split("{")[0];
-			string exitCondition = string.Empty;
 			List<Condition> conditions = new();
 			string[] cons = input[i].Substring(input[i].IndexOf("{") + 1).Split(",");
 			for (int c = 0; c < cons.Length; c++)
 			{
 				if (c == cons.Length - 1)
 				{
-					exitCondition = cons[c][0..^1];
+					var exitCondition = cons[c][0..^1];
 					workflows.Add(workflowName, new Workflow(conditions, exitCondition));
 					continue;
 				}

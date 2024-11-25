@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2023;
 
-public class Day9 : IAdventDay
+public class Day9 : AdventBase
 {
 	List<string> input;
 
-	public Day9()
+	public Day9() : base(2023, 9)
 	{
-		this.input = Helper.GetInput(9).ToList();
+		this.input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<Sequence> sequences = ParseInputPartOne();
 		for (int i = 0; i < sequences.Count; i++)
@@ -27,7 +27,7 @@ public class Day9 : IAdventDay
 		return sequences.Sum(s => s.Values[0][^1]);
 	}
 	
-	public long PartTwo()
+	public override long PartTwo()
 	{                                                               
 		List<Sequence> sequences = ParseInputPartTwo();
 		for (int i = 0; i < sequences.Count; i++)
@@ -85,7 +85,7 @@ public class Day9 : IAdventDay
 		{
 			List<int> values = line
 			                   .Split(" ")
-			                   .Select(s => int.Parse(s))
+			                   .Select(int.Parse)
 			                   .ToList();
 			List<List<int>> data =
 			[
@@ -104,7 +104,7 @@ public class Day9 : IAdventDay
 		{
 			List<int> values = line
 			                   .Split(" ")
-			                   .Select(s => int.Parse(s))
+			                   .Select(int.Parse)
 			                   .Reverse()
 			                   .ToList();
 			List<List<int>> data =

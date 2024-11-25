@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2023;
 
-public class Day8 : IAdventDay
+public class Day8 : AdventBase
 {
 	private readonly List<string> input;
 
-	public Day8()
+	public Day8() : base(2023, 8)
 	{
-		this.input = Helper.GetInput(8).ToList();
+		this.input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		Dictionary<string, (string l, string r)> map = ParseInput();
 		string instructions = input[0];
@@ -44,7 +44,7 @@ public class Day8 : IAdventDay
 		return steps;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Dictionary<string, (string l, string r)> map = ParseInput();
 		string instructions = input[0];

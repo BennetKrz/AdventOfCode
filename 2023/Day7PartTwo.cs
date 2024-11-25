@@ -1,20 +1,20 @@
 namespace AdventOfCode._2023;
 
-public class Day7PartTwo : IAdventDay
+public class Day7PartTwo : AdventBase
 {
 	private readonly List<string> input;
 
-	public Day7PartTwo()
+	public Day7PartTwo() : base(2023, 7)
 	{
-		input = Helper.GetInput(7).ToList();
+		input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		return long.MinValue;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		long sum = 0;
 		List<CardDeck> allDecks = ParseInput();

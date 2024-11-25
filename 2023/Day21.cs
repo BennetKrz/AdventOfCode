@@ -2,20 +2,20 @@
 
 namespace AdventOfCode._2023;
 
-public class Day21 : IAdventDay
+public class Day21 : AdventBase
 {
-	private List<string> input;
-	private HashSet<(int x, int y)> rocks;
-	private HashSet<Position> visited;
+	private readonly List<string> input;
+	private readonly HashSet<(int x, int y)> rocks;
+	private readonly HashSet<Position> visited;
 	
-	public Day21()
+	public Day21() : base(2023, 21)
 	{
-		this.input = Helper.GetInput(21).ToList();
-		rocks = new();
-		visited = new();
+		this.input = Input.ToList();
+		rocks = [];
+		visited = [];
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int maxSteps = 64;
 		ParseRocks();
@@ -33,7 +33,7 @@ public class Day21 : IAdventDay
 		return visited.Count(p => p.Steps == maxSteps);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return 0;
 	}

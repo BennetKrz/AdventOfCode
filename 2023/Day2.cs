@@ -2,20 +2,20 @@
 
 namespace AdventOfCode._2023;
 
-public class Day2 : IAdventDay
+public class Day2 : AdventBase
 {
-	private List<string> input;
+	private readonly List<string> input;
 	
 	private const int MaxRed = 12;
 	private const int MaxGreen = 13;
 	private const int MaxBlue = 14;
 
-	public Day2()
+	public Day2() : base(2023, 2)
 	{
-		this.input = Helper.GetInput(2).ToList();
+		this.input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<Game> games = ParseInput();
 
@@ -33,7 +33,7 @@ public class Day2 : IAdventDay
 		return sum;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<Game> games = ParseInput();
 		return games.Select(g => g.Red * g.Green * g.Blue).Sum();

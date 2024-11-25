@@ -2,18 +2,18 @@
 
 namespace AdventOfCode._2023;
 
-public class Day14 : IAdventDay
+public class Day14 : AdventBase
 {
 	private readonly List<string> input;
 	private List<Position> positionOfRocks;
 	private List<Position> positionsOfFixedRocks;
 
-	public Day14()
+	public Day14() : base(2023, 14)
 	{
-		input = Helper.GetInput(14).ToList();
+		input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		positionsOfFixedRocks = GetPositionsOf('#');
 		positionOfRocks = GetPositionsOf('O');
@@ -30,7 +30,7 @@ public class Day14 : IAdventDay
 		return WeightOnNorthBeams();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		positionsOfFixedRocks = GetPositionsOf('#');
 		positionOfRocks = GetPositionsOf('O');

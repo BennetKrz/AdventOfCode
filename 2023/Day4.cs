@@ -1,20 +1,20 @@
 namespace AdventOfCode._2023;
 
-public class Day4 : IAdventDay
+public class Day4 : AdventBase
 {
     private List<string> input;
     
-    public Day4()
+    public Day4() : base(2023, 4)
     {
-        input = Helper.GetInput(4).ToList();
+        input = Input.ToList();
     }
-    public long PartOne()
+    public override long PartOne()
     {
         List<Card> cards = ParseInput();
         return cards.Sum(card => CalculateCardPoints(card));
     }
 
-    public long PartTwo()
+    public override long PartTwo()
     {
         List<Card> cards = ParseInput();
 

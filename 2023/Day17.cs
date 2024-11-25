@@ -3,22 +3,22 @@ using Position = (int x, int y);
 namespace AdventOfCode._2023;
 using Map = Dictionary<Position, int>;
 
-public class Day17 : IAdventDay
+public class Day17 : AdventBase
 {
-	private List<string> input;
+	private readonly List<string> input;
 
-	public Day17()
+	public Day17() : base(2023, 17)
 	{
-		input = Helper.GetInput(17).ToList();
+		input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		Map map = ParseInput();
 		return FindShortest(map, 0, 3);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Map map = ParseInput();
 		return FindShortest(map, 4, 10);

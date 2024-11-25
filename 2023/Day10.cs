@@ -3,7 +3,7 @@ using Result = (int wayLength, char pipe);
 
 namespace AdventOfCode._2023;
 
-public class Day10 : IAdventDay
+public class Day10 : AdventBase
 {
 	private readonly Dictionary<Lookup, Direction> cameFromMapping;
 	private readonly Dictionary<Lookup, Direction> goNextMapping;
@@ -12,9 +12,9 @@ public class Day10 : IAdventDay
 	private readonly Dictionary<Lookup, string> validMoves;
 	private readonly List<string> input;
 
-	public Day10()
+	public Day10() : base(2023, 10)
 	{
-		input = Helper.GetInput(10).ToList();
+		input = Input.ToList();
 		validMoves = new Dictionary<Lookup, string>
 		{
 			{ new Lookup('|', Direction.North), "JL|" },
@@ -60,8 +60,8 @@ public class Day10 : IAdventDay
 			{ new Lookup('F', Direction.East), Direction.North },
 			{ new Lookup('F', Direction.South), Direction.West }
 		};
-		neighbourPositions = new List<Position>
-		{
+		neighbourPositions =
+		[
 			(0, 0),
 			(0, 1),
 			(0, -1),
@@ -71,18 +71,18 @@ public class Day10 : IAdventDay
 			(-1, 1),
 			(1, -1),
 			(-1, -1)
-		};
+		];
 		loopPositions = new Dictionary<Position, Result>();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		Position startPos = GetStartPos();
 		DepthFirstSearchLoop(startPos, 0, Direction.North);
 		return loopPositions.Values.ToArray()[^1].wayLength / 2 + 1;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Dictionary<Position, Result> tmp = TransferLoop();
 

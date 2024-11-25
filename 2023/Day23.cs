@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2023;
 
-public class Day23 : IAdventDay
+public class Day23 : AdventBase
 {
-	List<string> input;
+	private readonly List<string> input;
 
-	public Day23()
+	public Day23() : base(2023, 23)
 	{
-		this.input = Helper.GetInput(23).ToList();
+		this.input = Input.ToList();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		Position startPos = new(input[0].IndexOf('.'), 0);
 		Position endPos = new(input[^1].IndexOf('.'), input.Count - 1);
@@ -21,7 +21,7 @@ public class Day23 : IAdventDay
 		return FindLongestPath(graph, [], startPos, endPos);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Position startPos = new(input[0].IndexOf('.'), 0);
 		Position endPos = new(input[^1].IndexOf('.'), input.Count - 1);
@@ -124,10 +124,10 @@ public class Day23 : IAdventDay
 
 	private record Direction(int X, int Y)
 	{
-		public static Direction Up = new(0, -1);
-		public static Direction Right = new(1, 0);
-		public static Direction Down = new(0, 1);
-		public static Direction Left = new(-1, 0);
+		public static readonly Direction Up = new(0, -1);
+		public static readonly Direction Right = new(1, 0);
+		public static readonly Direction Down = new(0, 1);
+		public static readonly Direction Left = new(-1, 0);
 	}
 	
 	private record Position(int X, int Y){

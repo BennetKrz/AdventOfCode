@@ -1,15 +1,16 @@
 namespace AdventOfCode._2023;
 
-public class Day15 : IAdventDay
+public class Day15 : AdventBase
 {
-
-    private List<string> input;
+    private readonly List<string> input;
     
-    public Day15()
+    public Day15() : base(2023, 15)
     {
-        this.input = Helper.GetInputOneLine(15).Split(",").ToList();
+        this.input = InputOneLine
+            .Split(",")
+            .ToList();
     }
-    public long PartOne()
+    public override long PartOne()
     {
         long sum = 0;
         Hasher h = new(input[0]);
@@ -23,7 +24,7 @@ public class Day15 : IAdventDay
         return sum;
     }
 
-    public long PartTwo()
+    public override long PartTwo()
     {
         Box[] boxes = InitializeBoxes(256);
         List<Instruction> instructions = ParseInput();

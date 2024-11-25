@@ -2,8 +2,8 @@ namespace AdventOfCode._2023;
 
 public class Hasher(string wordToHash)
 {
-    private const int factor = 17;
-    private const int divisor = 256;
+    private const int Factor = 17;
+    private const int Divisor = 256;
     private string wordToHash = wordToHash;
     private int currentValue = 0;
 
@@ -12,8 +12,8 @@ public class Hasher(string wordToHash)
         foreach (int asciiValue in wordToHash)
         {
             currentValue += asciiValue;
-            currentValue *= factor;
-            currentValue %= divisor;
+            currentValue *= Factor;
+            currentValue %= Divisor;
         }
 
         return currentValue;
