@@ -1,17 +1,17 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day4 : IAdventDay
+public class Day4 : AdventBase
 {
 	private readonly string[] input;
 
 	private int[] numbers;
 
-	public Day4()
+	public Day4() : base(2021, 4)
 	{
-		input = Helper.GetInput(4);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<int[][]> boards = ParseInput();
 		for (int i = 0; i < numbers.Length; i++)
@@ -34,24 +34,24 @@ public class Day4 : IAdventDay
 				//Horizontal:
 				for (int j = 0; j < 5; j++)
 				{
-					bool RowIsWin = true;
+					bool rowIsWin = true;
 					for (int k = 0; k < 5; k++)
 					{
-						if (boards[board][j][k] != -1) RowIsWin = false;
+						if (boards[board][j][k] != -1) rowIsWin = false;
 					}
 
-					if (RowIsWin) return CalculateScore(boards[board], numbers[i]);
+					if (rowIsWin) return CalculateScore(boards[board], numbers[i]);
 				}
 
 				for (int j = 0; j < 5; j++)
 				{
-					bool RowIsWin = true;
+					bool rowIsWin = true;
 					for (int k = 0; k < 5; k++)
 					{
-						if (boards[board][k][j] != -1) RowIsWin = false;
+						if (boards[board][k][j] != -1) rowIsWin = false;
 					}
 
-					if (RowIsWin) return CalculateScore(boards[board], numbers[i]);
+					if (rowIsWin) return CalculateScore(boards[board], numbers[i]);
 				}
 			}
 		}
@@ -59,7 +59,7 @@ public class Day4 : IAdventDay
 		return 0;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<int> allScores = new();
 		List<int[][]> boards = ParseInput();
@@ -84,13 +84,13 @@ public class Day4 : IAdventDay
 				bool win = false;
 				for (int j = 0; j < 5; j++)
 				{
-					bool RowIsWin = true;
+					bool rowIsWin = true;
 					for (int k = 0; k < 5; k++)
 					{
-						if (boards[board][j][k] != -1) RowIsWin = false;
+						if (boards[board][j][k] != -1) rowIsWin = false;
 					}
 
-					if (RowIsWin)
+					if (rowIsWin)
 					{
 						allScores.Add(CalculateScore(boards[board], numbers[i]));
 						boards.RemoveAt(board);
@@ -102,13 +102,13 @@ public class Day4 : IAdventDay
 				if (win) continue;
 				for (int j = 0; j < 5; j++)
 				{
-					bool RowIsWin = true;
+					bool rowIsWin = true;
 					for (int k = 0; k < 5; k++)
 					{
-						if (boards[board][k][j] != -1) RowIsWin = false;
+						if (boards[board][k][j] != -1) rowIsWin = false;
 					}
 
-					if (RowIsWin)
+					if (rowIsWin)
 					{
 						allScores.Add(CalculateScore(boards[board], numbers[i]));
 						boards.RemoveAt(board);
@@ -121,7 +121,7 @@ public class Day4 : IAdventDay
 			}
 		}
 
-		return allScores[allScores.Count - 1];
+		return allScores[^1];
 	}
 
 	private int CalculateScore(int[][] board, int number)
@@ -159,7 +159,7 @@ public class Day4 : IAdventDay
 		string board = string.Empty;
 		for (int i = 0; i < input.Length; i++)
 		{
-			if (i == 0 || i == 1) continue;
+			if (i is 0 or 1) continue;
 			if (input[i] == string.Empty)
 			{
 				nummern.Add(board);

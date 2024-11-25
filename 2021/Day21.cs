@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day21 : IAdventDay
+public class Day21 : AdventBase
 {
 	private string[] input;
 
-	public Day21()
+	public Day21() : base(2021, 21)
 	{
-		input = Helper.GetInput(21);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int rolls = 0;
 		int lastRoll = 0;
@@ -56,7 +56,7 @@ public class Day21 : IAdventDay
 		return 0;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return 0;
 	}

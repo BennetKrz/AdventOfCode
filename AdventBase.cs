@@ -10,6 +10,10 @@ public abstract class AdventBase(int year, int day) : IAdventDay
     protected string InputOneLine => File.ReadAllText(path);
 
     protected string[] Input => File.ReadAllLines(path);
+    protected T[] GetConvertedInput<T>()
+    {
+        return Input.Select(x => (T)x.Cast<T>()).ToArray();
+    }
 
     public virtual long PartOne()
     {

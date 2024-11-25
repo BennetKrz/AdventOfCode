@@ -1,30 +1,30 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day1()
+	public Day1() : base(2021, 1)
 	{
-		input = Helper.GetInput(1);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		return input.Where((num, index) =>
 			                   index > 0 && Convert.ToInt32(num) > Convert.ToInt32(input[index - 1]))
 		            .ToList().Count;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return input.Where((num, index) =>
-			                   index > 3 &&
-			                   Convert.ToInt32(input[index]) + Convert.ToInt32(input[index - 1]) +
-			                   Convert.ToInt32(input[index - 2])
-			                   >
-			                   Convert.ToInt32(input[index - 1]) + Convert.ToInt32(input[index - 2]) +
-			                   Convert.ToInt32(input[index - 3]))
-		            .ToList().Count;
+				index > 3 &&
+				int.Parse(input[index]) + int.Parse(input[index - 1]) +
+				int.Parse(input[index - 2])
+				>
+				int.Parse(input[index - 1]) + int.Parse(input[index - 2]) +
+				int.Parse(input[index - 3]))
+			.Count();
 	}
 }

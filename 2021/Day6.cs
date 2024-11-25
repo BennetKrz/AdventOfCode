@@ -1,22 +1,22 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day6 : IAdventDay
+public class Day6 : AdventBase
 {
 	private readonly string _input;
 	private readonly string[] input;
 
-	public Day6()
+	public Day6() : base(2021, 6)
 	{
-		_input = Helper.GetInputOneLine(6);
+		_input = InputOneLine;
 		input = _input.Split(',');
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		return SimulateFishes(80);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return SimulateFishes(256);
 	}
@@ -24,27 +24,27 @@ public class Day6 : IAdventDay
 	private long SimulateFishes(int days)
 	{
 		int maxDays = days;
-		ulong[] Ages = new ulong[9];
+		ulong[] ages = new ulong[9];
 		foreach (string s in input)
 		{
 			int i = int.Parse(s);
-			Ages[i]++;
+			ages[i]++;
 		}
 
 		for (int day = 0; day < maxDays; day++)
 		{
-			ulong fish = Ages[0];
+			ulong fish = ages[0];
 			for (int i = 0; i < 8; i++)
 			{
-				Ages[i] = Ages[i + 1];
+				ages[i] = ages[i + 1];
 			}
 
-			Ages[6] += fish;
-			Ages[8] = fish;
+			ages[6] += fish;
+			ages[8] = fish;
 		}
 
 		long fishes = 0;
-		foreach (ulong u in Ages)
+		foreach (ulong u in ages)
 		{
 			fishes += (long)u;
 		}

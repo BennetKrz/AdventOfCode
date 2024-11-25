@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day8 : IAdventDay
+public class Day8 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day8()
+	public Day8() : base(2021, 8)
 	{
-		input = Helper.GetInput(8);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int countOne = 0;
 		int countFour = 0;
@@ -33,7 +33,7 @@ public class Day8 : IAdventDay
 		return countOne + countFour + countSeven + countEight;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<(List<string> left, List<string> right)> lines = ParseInput();
 		int total = 0;
@@ -45,26 +45,26 @@ public class Day8 : IAdventDay
 			string digit7 = line.left.Single(x => x.Length == 3);
 			string digit8 = line.left.Single(x => x.Length == 7);
 
-			List<string> d2_3_5 = line.left.Where(x => x.Length == 5).ToList();
+			List<string> d235 = line.left.Where(x => x.Length == 5).ToList();
 
-			List<string> d0_6_9 = line.left.Where(x => x.Length == 6).ToList();
+			List<string> d069 = line.left.Where(x => x.Length == 6).ToList();
 
-			string digit3 = d2_3_5.Single(x => digit1.All(x.Contains));
-			d2_3_5.Remove(digit3);
+			string digit3 = d235.Single(x => digit1.All(x.Contains));
+			d235.Remove(digit3);
 
-			string digit9 = d0_6_9.Single(x => digit3.All(x.Contains));
-			d0_6_9.Remove(digit9);
+			string digit9 = d069.Single(x => digit3.All(x.Contains));
+			d069.Remove(digit9);
 
-			string digit0 = d0_6_9.Single(x => digit1.All(x.Contains));
-			d0_6_9.Remove(digit0);
-			string digit6 = d0_6_9[0];
+			string digit0 = d069.Single(x => digit1.All(x.Contains));
+			d069.Remove(digit0);
+			string digit6 = d069[0];
 
-			string digit5 = d2_3_5.Single(x => x.All(digit6.Contains));
-			d2_3_5.Remove(digit5);
-			string digit2 = d2_3_5[0];
+			string digit5 = d235.Single(x => x.All(digit6.Contains));
+			d235.Remove(digit5);
+			string digit2 = d235[0];
 
-			List<string> numbers = new()
-			{
+			List<string> numbers =
+			[
 				string.Join(string.Empty, digit0.OrderBy(x => x)),
 				string.Join(string.Empty, digit1.OrderBy(x => x)),
 				string.Join(string.Empty, digit2.OrderBy(x => x)),
@@ -75,7 +75,7 @@ public class Day8 : IAdventDay
 				string.Join(string.Empty, digit7.OrderBy(x => x)),
 				string.Join(string.Empty, digit8.OrderBy(x => x)),
 				string.Join(string.Empty, digit9.OrderBy(x => x))
-			};
+			];
 
 			string output = string.Empty;
 

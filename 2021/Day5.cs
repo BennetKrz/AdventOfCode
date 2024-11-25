@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2021;
 
-public class Day5 : IAdventDay
+public class Day5 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day5()
+	public Day5() : base(2021, 5)
 	{
-		input = Helper.GetInput(5);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<(int x1, int y1, int x2, int y2)> lines = ParseInput();
 		//Create Map
@@ -64,12 +64,13 @@ public class Day5 : IAdventDay
 
 			output += sb + "\n";
 		}
-		//Console.WriteLine(output);
-
-		return map.Cast<int>().Where(x => x > 1).Count();
+#if DEBUG
+		Console.WriteLine(output);
+#endif
+		return map.Cast<int>().Count(x => x > 1);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<(int x1, int y1, int x2, int y2)> lines = ParseInput();
 		//Create Map
@@ -164,7 +165,7 @@ public class Day5 : IAdventDay
 		}
 
 		//Console.WriteLine(output);
-		return map.Cast<int>().Where(x => x > 1).Count();
+		return map.Cast<int>().Count(x => x > 1);
 	}
 
 	private List<(int x1, int y1, int x2, int y2)> ParseInput()
@@ -181,57 +182,3 @@ public class Day5 : IAdventDay
 		return output;
 	}
 }
-
-//Müsste eigentlich funktionieren
-/*
-                    if (line.x1 > line.x2) {
-                        int xT = line.x2;
-                        line.x2 = line.x1;
-                        line.x1 = xT;
-                    }
-                    if (line.y1 > line.y2) {
-                        int yT = line.y2;
-                        line.y2 = line.y1;
-                        line.y1 = yT;
-                    }
-                    //Jetzt markieren
-                    int y = line.y1;
-                    for (int x = line.x1; x <= line.x2; x++) {
-                        map[x, y]++;
-                        y++;
-                    }*/
-
-//Müsste auch gehen:
-/*if (line.x1 < line.x2 && line.y1 < line.y2) {
-    int x = line.x1;
-    int y = line.y1;
-    while (x <= line.x2) {
-        map[x, y]++;
-        x++;
-        y++;
-    }
-} else if (line.x1 > line.x2 && line.y1 > line.y2) {
-    int x = line.x1;
-    int y = line.y1;
-    while (x >= line.x2) {
-        map[x, y]++;
-        x--;
-        y--;
-    }
-} else if (line.x1 < line.x2 && line.y1 > line.y2) {
-    int x = line.x1;
-    int y = line.y1;
-    while (x <= line.x2) {
-        x++;
-        y--;
-    }
-} else if (line.x1 > line.x2 && line.y1 < line.y2) {
-    int x = line.x1;
-    int y = line.y1;
-    while (x >= line.x2) {
-        map[x, y]++;
-        x--;
-        y++;
-    }
-}
-*/

@@ -1,23 +1,23 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day13 : IAdventDay
+public class Day13 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day13()
+	public Day13() : base(2021, 13)
 	{
-		input = Helper.GetInput(13);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		List<FoldInstruction> foldinstructions = GetInstructions();
+		GetInstructions();
 		HashSet<(int x, int y)> map = ParseInput();
 		map = FoldMap(false, 655, map);
 		return map.Count;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<FoldInstruction> foldinstructions = GetInstructions();
 		HashSet<(int x, int y)> map = ParseInput();

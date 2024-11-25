@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day25 : IAdventDay
+public class Day25 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day25()
+	public Day25() : base(2021, 25)
 	{
-		input = Helper.GetInput(25);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		char[,] map = ParseInput();
 		//PrintArray(map);
@@ -54,7 +54,7 @@ public class Day25 : IAdventDay
 		return long.MinValue;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return long.MinValue;
 	}
@@ -128,13 +128,3 @@ public class Day25 : IAdventDay
 		Console.WriteLine(output);
 	}
 }
-
-/*
-            for(int y = 0; y < input.GetLength(1); y++) {
-                for(int x  = 0; x < input.GetLength(0); x++) {
-
-                }
-            }
-
-
- */

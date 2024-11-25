@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day9 : IAdventDay
+public class Day9 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day9()
+	public Day9() : base(2021, 9)
 	{
-		input = Helper.GetInput(9);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int[,] map = ParseInput();
 		List<int> lowPoints = new();
@@ -88,7 +88,7 @@ public class Day9 : IAdventDay
 		return lowPoints.Sum() + lowPoints.Count;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return 0;
 	}

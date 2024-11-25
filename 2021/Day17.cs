@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day17 : IAdventDay
+public class Day17 : AdventBase
 {
 	private string input;
 
-	public Day17()
+	public Day17() : base(2021, 17)
 	{
-		input = Helper.GetInputOneLine(17);
+		input = InputOneLine;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		(int x1, int x2, int y1, int y2) targetZone = ReturnTargetArea();
 		Dictionary<(int x, int y), int> velocityToHighestY = new();
@@ -24,20 +24,20 @@ public class Day17 : IAdventDay
 		return velocityToHighestY.Values.Max();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		(int x1, int x2, int y1, int y2) targetZone = ReturnTargetArea();
-		HashSet<(int x, int y)> ReachTarget = new();
+		HashSet<(int x, int y)> reachTarget = new();
 		for (int x = 0; x < 1000; x++)
 		{
 			for (int y = -1000; y < 1000; y++)
 			{
 				(int x, int y, int maxY) endPosition = SimulateTrajectory(x, y, targetZone);
-				if (endPosition != (-1, 1, -1)) ReachTarget.Add((x, y));
+				if (endPosition != (-1, 1, -1)) reachTarget.Add((x, y));
 			}
 		}
 
-		return ReachTarget.Count;
+		return reachTarget.Count;
 	}
 
 	private (int x, int y, int maxY) SimulateTrajectory(int velocityX, int velocityY,

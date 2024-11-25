@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day11 : IAdventDay
+public class Day11 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day11()
+	public Day11() : base(2021, 11)
 	{
-		input = Helper.GetInput(11);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int flashed = 0;
 		int[,] map = ParseInput();
@@ -53,7 +53,7 @@ public class Day11 : IAdventDay
 		return flashed;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		Dictionary<(int x, int y), bool> hasFlashed = new();
 		int[,] map = ParseInput();
@@ -104,9 +104,9 @@ public class Day11 : IAdventDay
 
 	private List<(int x, int y)> GetAdjacent((int x, int y) currentPosition, List<(int x, int y)> FlashedAlready)
 	{
-		List<(int x, int y)> adjacent = new();
-		List<(int x, int y)> standardMoves = new()
-		{
+		List<(int x, int y)> adjacent = [];
+		List<(int x, int y)> standardMoves =
+		[
 			(1, 0),
 			(-1, 0),
 			(0, 1),
@@ -115,7 +115,7 @@ public class Day11 : IAdventDay
 			(1, 1),
 			(-1, 1),
 			(-1, -1)
-		};
+		];
 		for (int i = 0; i < standardMoves.Count; i++)
 		{
 			int targetX = currentPosition.x + standardMoves[i].x;

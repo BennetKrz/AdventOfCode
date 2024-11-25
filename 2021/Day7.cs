@@ -1,52 +1,38 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day7 : IAdventDay
+public class Day7 : AdventBase
 {
 	private readonly int[] input;
-	private readonly string[] input_string;
 
-	public Day7()
+	public Day7() : base(2021, 7)
 	{
-		input_string = Helper.GetInputOneLine(7).Split(',');
-		input = new int[input_string.Length];
-		for (int i = 0; i < input_string.Length; i++)
-		{
-			int.TryParse(input_string[i], out input[i]);
-		}
+		input = GetConvertedInput<int>();
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		Dictionary<int, int> FuelForPosition = new();
+		Dictionary<int, int> fuelForPosition = new();
 		for (int i = 0; i < input.Max(); i++)
 		{
-			List<int> FuelNeededAllCrabs = new();
-			for (int c = 0; c < input.Length; c++)
-			{
-				FuelNeededAllCrabs.Add(CalculateFuel(input[c], i));
-			}
+			List<int> fuelNeededAllCrabs = input.Select(t => CalculateFuel(t, i)).ToList();
 
-			FuelForPosition.Add(i, FuelNeededAllCrabs.Sum());
+			fuelForPosition.Add(i, fuelNeededAllCrabs.Sum());
 		}
 
-		return FuelForPosition.Values.Min();
+		return fuelForPosition.Values.Min();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
-		Dictionary<int, int> FuelForPosition = new();
+		Dictionary<int, int> fuelForPosition = new();
 		for (int i = 0; i < input.Max(); i++)
 		{
-			List<int> FuelNeededAllCrabs = new();
-			for (int c = 0; c < input.Length; c++)
-			{
-				FuelNeededAllCrabs.Add(CalculateFuelPartTwo(input[c], i));
-			}
+			List<int> fuelNeededAllCrabs = input.Select(t => CalculateFuelPartTwo(t, i)).ToList();
 
-			FuelForPosition.Add(i, FuelNeededAllCrabs.Sum());
+			fuelForPosition.Add(i, fuelNeededAllCrabs.Sum());
 		}
 
-		return FuelForPosition.Values.Min();
+		return fuelForPosition.Values.Min();
 	}
 
 	private int CalculateFuel(int startPosition, int targetPosition)

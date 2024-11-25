@@ -1,22 +1,22 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day22 : IAdventDay
+public class Day22 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day22()
+	public Day22() : base(2021, 22)
 	{
-		input = Helper.GetInput(22);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		Dictionary<(int x, int y, int z), bool> reactor = new();
 		List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> cubes = ParseInput();
 		for (int i = 0; i < cubes.Count; i++)
 		{
 			(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn) cube = cubes[i];
-			if (cube.x1 > 50 || cube.x1 < -50) continue;
+			if (cube.x1 is > 50 or < -50) continue;
 
 			for (int x = cube.x1; x <= cube.x2; x++)
 			{
@@ -33,10 +33,10 @@ public class Day22 : IAdventDay
 			}
 		}
 
-		return reactor.Values.Where(x => x).Count();
+		return reactor.Values.Count(x => x);
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> resultCubes = new();
 		List<(int x1, int y1, int z1, int x2, int y2, int z2, bool turnOn)> cubes = ParseInput();

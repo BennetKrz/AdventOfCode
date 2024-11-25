@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2021;
 
-public class Day24 : IAdventDay
+public class Day24 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day24()
+	public Day24() : base(2021, 24)
 	{
-		input = Helper.GetInput(24);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<long> possibleNumbers = new();
 		for (long i = 11111111111111; i < 99999999999999; i++)
@@ -18,18 +18,18 @@ public class Day24 : IAdventDay
 
 			if (i.ToString().Contains("0")) continue;
 
-			if (validateNumber(i.ToString()) == 0) possibleNumbers.Add(i);
+			if (ValidateNumber(i.ToString()) == 0) possibleNumbers.Add(i);
 		}
 
 		return possibleNumbers.Max();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		return 0;
 	}
 
-	private long validateNumber(string number)
+	private long ValidateNumber(string number)
 	{
 		string serialNumber = "13579246899999";
 		int counter = 0;
@@ -59,27 +59,27 @@ public class Day24 : IAdventDay
 			{
 				case "add":
 				{
-					variables[target] = add(variables[target], b);
+					variables[target] = Add(variables[target], b);
 					break;
 				}
 				case "mul":
 				{
-					variables[target] = mul(variables[target], b);
+					variables[target] = Mul(variables[target], b);
 					break;
 				}
 				case "div":
 				{
-					variables[target] = div(variables[target], b);
+					variables[target] = Div(variables[target], b);
 					break;
 				}
 				case "mod":
 				{
-					variables[target] = mod(variables[target], b);
+					variables[target] = Mod(variables[target], b);
 					break;
 				}
 				case "eql":
 				{
-					variables[target] = eql(variables[target], b);
+					variables[target] = Eql(variables[target], b);
 					break;
 				}
 			}
@@ -88,27 +88,27 @@ public class Day24 : IAdventDay
 		return variables['z'];
 	}
 
-	private int add(int a, int b)
+	private int Add(int a, int b)
 	{
 		return a + b;
 	}
 
-	private int mul(int a, int b)
+	private int Mul(int a, int b)
 	{
 		return a * b;
 	}
 
-	private int div(int a, int b)
+	private int Div(int a, int b)
 	{
 		return a / b;
 	}
 
-	private int mod(int a, int b)
+	private int Mod(int a, int b)
 	{
 		return a % b;
 	}
 
-	private int eql(int a, int b)
+	private int Eql(int a, int b)
 	{
 		return a == b ? 1 : 0;
 	}
