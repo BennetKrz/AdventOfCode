@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2022;
 
-public class Day9 : IAdventDay
+public class Day9 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day9()
+	public Day9() : base(2022, 5)
 	{
-		input = Helper.GetInput(9);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<Instruction> instructions = new();
 		for (int i = 0; i < input.Length; i++)
@@ -31,15 +31,15 @@ public class Day9 : IAdventDay
 		for (int numberOfInstruction = 0; numberOfInstruction < instructions.Count; numberOfInstruction++)
 		{
 			Instruction a = instructions[numberOfInstruction];
-			for (int i = 0; i < instructions[numberOfInstruction].steps; i++)
+			for (int i = 0; i < instructions[numberOfInstruction].Steps; i++)
 			{
-				if (a.direction == "R")
+				if (a.Direction == "R")
 					headPos.X++;
-				else if (a.direction == "U")
+				else if (a.Direction == "U")
 					headPos.Y++;
-				else if (a.direction == "D")
+				else if (a.Direction == "D")
 					headPos.Y--;
-				else if (a.direction == "L") headPos.X--;
+				else if (a.Direction == "L") headPos.X--;
 
 				//Um wie weit weicht der tail vom Kopf ab, größer als 1?
 				int deltaX = headPos.X - tailPos.X;
@@ -58,7 +58,7 @@ public class Day9 : IAdventDay
 		return visititPoints.Count;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<Instruction> instructions = new();
 		for (int i = 0; i < input.Length; i++)
@@ -77,15 +77,15 @@ public class Day9 : IAdventDay
 		for (int numberOfInstruction = 0; numberOfInstruction < instructions.Count; numberOfInstruction++)
 		{
 			Instruction a = instructions[numberOfInstruction];
-			for (int i = 0; i < instructions[numberOfInstruction].steps; i++)
+			for (int i = 0; i < instructions[numberOfInstruction].Steps; i++)
 			{
-				if (a.direction == "R")
+				if (a.Direction == "R")
 					knots[0].X++;
-				else if (a.direction == "U")
+				else if (a.Direction == "U")
 					knots[0].Y++;
-				else if (a.direction == "D")
+				else if (a.Direction == "D")
 					knots[0].Y--;
-				else if (a.direction == "L") knots[0].X--;
+				else if (a.Direction == "L") knots[0].X--;
 
 				//Ist der Tail noch im direkten Umkreis des Kopfes? Wenn ja, mache nichts, sonst hinterherbewegen
 				for (int j = 1; j < knots.Length; j++)
@@ -108,15 +108,9 @@ public class Day9 : IAdventDay
 		return visititPoints.Count;
 	}
 
-	public struct Instruction
+	private struct Instruction(string direction, int steps)
 	{
-		public string direction;
-		public int steps;
-
-		public Instruction(string _direction, int _steps)
-		{
-			direction = _direction;
-			steps = _steps;
-		}
+		public readonly string Direction = direction;
+		public readonly int Steps = steps;
 	}
 }

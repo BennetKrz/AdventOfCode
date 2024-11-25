@@ -1,20 +1,20 @@
 ﻿namespace AdventOfCode._2022;
 
-public class Day7 : IAdventDay
+public class Day7 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day7()
+	public Day7() : base(2022, 7)
 	{
-		input = Helper.GetInput(7);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		return DictionarySizes(input).Where(size => size < 100_000).Sum();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<long> sizes = DictionarySizes(input);
 		return sizes.Where(size => size + (70_000_000 - sizes.Max()) >= 30_000_000).Min();

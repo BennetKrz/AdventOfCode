@@ -2,16 +2,16 @@
 
 namespace AdventOfCode._2022;
 
-public class Day11 : IAdventDay
+public class Day11 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day11()
+	public Day11() : base(2022, 11)
 	{
-		input = Helper.GetInput(11);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<Monkey> monkeys = new();
 		//Parsing:
@@ -71,33 +71,29 @@ public class Day11 : IAdventDay
 			for (int affe = 0; affe < monkeys.Count; affe++)
 			{
 				//Für jedes Item welches der Affe besitzt wiederholen: Am ende immer die ganze list clearen
-				for (int i = 0; i < monkeys[affe].holdingItems.Count; i++)
+				for (int i = 0; i < monkeys[affe].HoldingItems.Count; i++)
 				{
 					//Worry level increasen:
-					monkeys[affe].holdingItems[i] = monkeys[affe].operation(monkeys[affe].holdingItems[i]);
-					monkeys[affe].inspectedItems++;
+					monkeys[affe].HoldingItems[i] = monkeys[affe].Operation(monkeys[affe].HoldingItems[i]);
+					monkeys[affe].InspectedItems++;
 					//Divide by 3 round down to nearest integer:
-					double tmp = (double)monkeys[affe].holdingItems[i];
+					double tmp = (double)monkeys[affe].HoldingItems[i];
 					tmp /= 3;
-					monkeys[affe].holdingItems[i] = (int)Math.Floor(tmp);
+					monkeys[affe].HoldingItems[i] = (int)Math.Floor(tmp);
 					//Dividable check:
-					if (monkeys[affe].holdingItems[i] % monkeys[affe].testDivisor == 0)
+					if (monkeys[affe].HoldingItems[i] % monkeys[affe].TestDivisor == 0)
 						//Werfe zu test = true
-						monkeys[monkeys[affe].testTrueMonkey].holdingItems.Add(monkeys[affe].holdingItems[i]);
+						monkeys[monkeys[affe].TestTrueMonkey].HoldingItems.Add(monkeys[affe].HoldingItems[i]);
 					else
-						monkeys[monkeys[affe].testFalseMonkey].holdingItems.Add(monkeys[affe].holdingItems[i]);
+						monkeys[monkeys[affe].TestFalseMonkey].HoldingItems.Add(monkeys[affe].HoldingItems[i]);
 				}
 
-				monkeys[affe].holdingItems.Clear();
+				monkeys[affe].HoldingItems.Clear();
 			}
 		}
 
 		//Jetzt die 2 activsten finden:
-		List<int> inspectedItems = new();
-		for (int i = 0; i < monkeys.Count; i++)
-		{
-			inspectedItems.Add(monkeys[i].inspectedItems);
-		}
+		List<int> inspectedItems = monkeys.Select(t => t.InspectedItems).ToList();
 
 		inspectedItems.Sort();
 		Console.WriteLine(inspectedItems[inspectedItems.Count - 1]);
@@ -107,7 +103,7 @@ public class Day11 : IAdventDay
 		return inspectedItems[inspectedItems.Count - 1] * inspectedItems[inspectedItems.Count - 2];
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<Monkey> monkeys = new();
 		//Parsing:
@@ -162,7 +158,7 @@ public class Day11 : IAdventDay
 		List<int> divisors = new();
 		for (int i = 0; i < monkeys.Count; i++)
 		{
-			divisors.Add(monkeys[i].testDivisor);
+			divisors.Add(monkeys[i].TestDivisor);
 		}
 
 		int modulo = divisors.Aggregate((x, y) => x * y);
@@ -176,21 +172,21 @@ public class Day11 : IAdventDay
 			for (int affe = 0; affe < monkeys.Count; affe++)
 			{
 				//Für jedes Item welches der Affe besitzt wiederholen: Am ende immer die ganze list clearen
-				for (int i = 0; i < monkeys[affe].holdingItems.Count; i++)
+				for (int i = 0; i < monkeys[affe].HoldingItems.Count; i++)
 				{
 					//Worry level increasen:
-					monkeys[affe].holdingItems[i] = monkeys[affe].operation(monkeys[affe].holdingItems[i]);
-					monkeys[affe].holdingItems[i] = monkeys[affe].holdingItems[i] % modulo;
-					monkeys[affe].inspectedItems++;
+					monkeys[affe].HoldingItems[i] = monkeys[affe].Operation(monkeys[affe].HoldingItems[i]);
+					monkeys[affe].HoldingItems[i] = monkeys[affe].HoldingItems[i] % modulo;
+					monkeys[affe].InspectedItems++;
 					//Dividable check:
-					if (monkeys[affe].holdingItems[i] % monkeys[affe].testDivisor == 0)
+					if (monkeys[affe].HoldingItems[i] % monkeys[affe].TestDivisor == 0)
 						//Werfe zu test = true
-						monkeys[monkeys[affe].testTrueMonkey].holdingItems.Add(monkeys[affe].holdingItems[i]);
+						monkeys[monkeys[affe].TestTrueMonkey].HoldingItems.Add(monkeys[affe].HoldingItems[i]);
 					else
-						monkeys[monkeys[affe].testFalseMonkey].holdingItems.Add(monkeys[affe].holdingItems[i]);
+						monkeys[monkeys[affe].TestFalseMonkey].HoldingItems.Add(monkeys[affe].HoldingItems[i]);
 				}
 
-				monkeys[affe].holdingItems.Clear();
+				monkeys[affe].HoldingItems.Clear();
 			}
 		}
 
@@ -198,7 +194,7 @@ public class Day11 : IAdventDay
 		List<int> inspectedItems = new();
 		for (int i = 0; i < monkeys.Count; i++)
 		{
-			inspectedItems.Add(monkeys[i].inspectedItems);
+			inspectedItems.Add(monkeys[i].InspectedItems);
 		}
 
 		inspectedItems.Sort();
@@ -213,40 +209,38 @@ public class Day11 : IAdventDay
 
 public class Monkey
 {
-	public int factor;
-	public bool factorIsOld;
-	public List<BigInteger> holdingItems = new();
-	public int inspectedItems;
-	private int modulo;
-	public bool operationIsPlus;
-	public int testDivisor;
-	public int testFalseMonkey;
-	public int testTrueMonkey;
+	public readonly int Factor;
+	public readonly bool FactorIsOld;
+	public readonly List<BigInteger> HoldingItems;
+	public int InspectedItems;
+	public readonly bool OperationIsPlus;
+	public readonly int TestDivisor;
+	public readonly int TestFalseMonkey;
+	public readonly int TestTrueMonkey;
 
 	public Monkey(List<BigInteger> holdingItems, bool operationIsPlus, int factor, int testDivisor,
 	              int testTrueMonkey, int testFalseMonkey, bool factorIsOld)
 	{
-		this.holdingItems = holdingItems;
-		this.operationIsPlus = operationIsPlus;
-		this.factor = factor;
-		this.testDivisor = testDivisor;
-		this.testTrueMonkey = testTrueMonkey;
-		this.testFalseMonkey = testFalseMonkey;
-		this.factorIsOld = factorIsOld;
+		this.HoldingItems = holdingItems;
+		this.OperationIsPlus = operationIsPlus;
+		this.Factor = factor;
+		this.TestDivisor = testDivisor;
+		this.TestTrueMonkey = testTrueMonkey;
+		this.TestFalseMonkey = testFalseMonkey;
+		this.FactorIsOld = factorIsOld;
 	}
 
-	public BigInteger operation(BigInteger value)
+	public BigInteger Operation(BigInteger value)
 	{
-		BigInteger newValue = 0;
-		if (factorIsOld)
+		if (FactorIsOld)
 		{
-			if (operationIsPlus)
-				return newValue = value + value;
-			return newValue = value * value;
+			if (OperationIsPlus)
+				return value + value;
+			return value * value;
 		}
 
-		if (operationIsPlus)
-			return newValue = value + factor;
-		return newValue = value * factor;
+		if (OperationIsPlus)
+			return value + Factor;
+		return value * Factor;
 	}
 }

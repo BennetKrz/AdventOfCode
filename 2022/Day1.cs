@@ -1,17 +1,17 @@
 ﻿namespace AdventOfCode._2022;
 
-public class Day1 : IAdventDay
+public class Day1 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day1()
+	public Day1() : base(2022, 1)
 	{
-		input = Helper.GetInput(1);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		List<int> CaloriesPerElf = new();
+		List<int> caloriesPerElf = new();
 		int count = 0;
 		for (int i = 0; i < input.Length; i++)
 		{
@@ -20,17 +20,17 @@ public class Day1 : IAdventDay
 				count += Convert.ToInt32(input[i]);
 			} else
 			{
-				CaloriesPerElf.Add(count);
+				caloriesPerElf.Add(count);
 				count = 0;
 			}
 		}
 
-		return CaloriesPerElf.Max();
+		return caloriesPerElf.Max();
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
-		List<int> CaloriesPerElf = new();
+		List<int> caloriesPerElf = new();
 		int count = 0;
 		for (int i = 0; i < input.Length; i++)
 		{
@@ -39,11 +39,11 @@ public class Day1 : IAdventDay
 				count += Convert.ToInt32(input[i]);
 			} else
 			{
-				CaloriesPerElf.Add(count);
+				caloriesPerElf.Add(count);
 				count = 0;
 			}
 		}
 
-		return CaloriesPerElf.OrderByDescending(i => i).Take(3).Sum();
+		return caloriesPerElf.OrderByDescending(i => i).Take(3).Sum();
 	}
 }

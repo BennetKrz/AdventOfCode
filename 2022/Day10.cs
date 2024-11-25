@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2022;
 
-public class Day10 : IAdventDay
+public class Day10 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day10()
+	public Day10() : base(2022, 10)
 	{
-		input = Helper.GetInput(10);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int cicle = 0;
 		int regX = 1;
@@ -38,8 +38,7 @@ public class Day10 : IAdventDay
 				string val = input[instruction].Substring(input[instruction].IndexOf(" "),
 				                                          input[instruction].Length -
 				                                          input[instruction].IndexOf(" "));
-				int int_32Val = Convert.ToInt32(val);
-				regX += int_32Val;
+				regX += int.Parse(val);
 			}
 
 			instruction++;
@@ -48,9 +47,8 @@ public class Day10 : IAdventDay
 		return sum;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
-		int cicle = 0;
 		int regX = 1;
 		int ciclesToWait = 0;
 		int instruction = 0;
@@ -66,7 +64,6 @@ public class Day10 : IAdventDay
 
 			for (int i = 0; i < ciclesToWait; i++)
 			{
-				cicle++;
 				ctr = ctrPos - 1 == regX || ctrPos == regX || ctrPos + 1 == regX ? ctr + "#" : ctr + ".";
 				ctrPos++;
 				if (ctrPos > 39) ctrPos = 0;
@@ -78,8 +75,7 @@ public class Day10 : IAdventDay
 				string val = input[instruction].Substring(input[instruction].IndexOf(" "),
 				                                          input[instruction].Length -
 				                                          input[instruction].IndexOf(" "));
-				int int_32Val = Convert.ToInt32(val);
-				regX += int_32Val;
+				regX += int.Parse(val);
 			}
 
 			instruction++;

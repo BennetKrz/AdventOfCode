@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2022;
 
-public class Day6 : IAdventDay
+public class Day6 : AdventBase
 {
 	private readonly string input;
 
-	public Day6()
+	public Day6() : base(2022, 6)
 	{
-		input = Helper.GetInputOneLine(6);
+		input = InputOneLine;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		int counter = 0;
 		while (counter < input.Length - 4)
@@ -23,7 +23,7 @@ public class Day6 : IAdventDay
 		return counter + 4;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int counter = 0;
 		while (counter < input.Length - 14)

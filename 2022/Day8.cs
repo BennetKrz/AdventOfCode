@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2022;
 
-public class Day8 : IAdventDay
+public class Day8 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day8()
+	public Day8() : base(2022, 8)
 	{
-		input = Helper.GetInput(8);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		List<List<int>> forest = input.Select(line =>
 		{
@@ -37,7 +37,7 @@ public class Day8 : IAdventDay
 		return visibleTrees;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		List<List<int>> forest = input.Select(line =>
 		{

@@ -1,17 +1,18 @@
 ﻿namespace AdventOfCode._2022;
 
-public class Day3 : IAdventDay
+public class Day3 : AdventBase
 {
 	private readonly string[] input;
+	private const string Points = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	public Day3()
+	public Day3() : base(2022, 3)
 	{
-		input = Helper.GetInput(3);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
-		string points = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		
 		string[] inputFirstHalf = new string[input.Length];
 		string[] inputSecondHalf = new string[input.Length];
 
@@ -30,7 +31,7 @@ public class Day3 : IAdventDay
 				if (inputFirstHalf[i].Contains(inputSecondHalf[i][j]))
 				{
 					char c = inputSecondHalf[i][j];
-					int index = points.IndexOf(c);
+					int index = Points.IndexOf(c);
 					score += index + 1;
 					break;
 				}
@@ -40,7 +41,7 @@ public class Day3 : IAdventDay
 		return score;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		int score = 0;
 		string[] group = new string[input.Length / 3];
@@ -56,7 +57,6 @@ public class Day3 : IAdventDay
 
 		for (int i = 0; i < group.Length; i++)
 		{
-			string points = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			IEnumerable<IGrouping<char, char>> groups = group[i].GroupBy(c => c).Where(g => g.Count() > 2);
 			char c = 'A';
 			foreach (IGrouping<char, char> item in groups)
@@ -64,7 +64,7 @@ public class Day3 : IAdventDay
 				c = item.Key;
 			}
 
-			int index = points.IndexOf(c);
+			int index = Points.IndexOf(c);
 			score += index + 1;
 		}
 

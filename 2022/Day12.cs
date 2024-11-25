@@ -2,7 +2,7 @@
 
 namespace AdventOfCode._2022;
 
-public class Day12 : IAdventDay
+public class Day12 : AdventBase
 {
 	private readonly char endChar = 'E';
 	private readonly char endCharToHightValue = 'z';
@@ -11,12 +11,12 @@ public class Day12 : IAdventDay
 	private readonly char startChar = 'S';
 	private readonly char startCharToHightValue = 'a';
 
-	public Day12()
+	public Day12() : base(2022, 12)
 	{
-		input = Helper.GetInput(12);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		char[][] map = Map(input);
 		int rows = map.Length, cols = map[0].Length;
@@ -38,7 +38,7 @@ public class Day12 : IAdventDay
 		return result;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		char[][] map = Map(input);
 		int rows = map.Length, cols = map[0].Length;
@@ -104,11 +104,8 @@ public class Day12 : IAdventDay
 	                             int maxY,
 	                             (int y, int x)[] moves)
 	{
-		char targetVal;
-
 		while (q.Count > 0)
 		{
-			(int y, int x) targetPos;
 			((int y, int x) pos, int stepsTaken) target = q.Dequeue();
 			char currentVal = map[target.pos.y][target.pos.x];
 			if (visitedFields.ContainsKey(target.pos)) continue;
@@ -117,10 +114,10 @@ public class Day12 : IAdventDay
 			{
 				int x = target.pos.x + move.x;
 				int y = target.pos.y + move.y;
-				targetPos = (y, x);
+				var targetPos = (y, x);
 				if (x >= 0 && y >= 0 && x <= maxX && y <= maxY && !visitedFields.ContainsKey(targetPos))
 				{
-					targetVal = map[y][x];
+					var targetVal = map[y][x];
 					if (isValidMove((y, x), currentVal, targetVal))
 					{
 						int stepsTaken = target.stepsTaken + 1;

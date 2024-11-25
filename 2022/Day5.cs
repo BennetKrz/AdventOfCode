@@ -1,15 +1,15 @@
 ﻿namespace AdventOfCode._2022;
 
-public class Day5 : IAdventDay
+public class Day5 : AdventBase
 {
 	private readonly string[] input;
 
-	public Day5()
+	public Day5() : base(2022, 5)
 	{
-		input = Helper.GetInput(5);
+		input = Input;
 	}
 
-	public long PartOne()
+	public override long PartOne()
 	{
 		string[] input = new string[this.input.Length];
 		this.input.CopyTo(input, 0);
@@ -73,7 +73,7 @@ public class Day5 : IAdventDay
 		return long.MinValue;
 	}
 
-	public long PartTwo()
+	public override long PartTwo()
 	{
 		string[] input = new string[this.input.Length];
 		this.input.CopyTo(input, 0);
