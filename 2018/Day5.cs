@@ -1,37 +1,46 @@
 namespace AdventOfCode._2018;
 
-public class Day5 : AdventBase
+public class Day5() : AdventBase(2018, 5)
 {
-    private string input;
-
-    public Day5() : base(2018, 5)
-    {
-        input = InputOneLine;
-    }
-
     public override long PartOne()
     {
-        int i = 0;
-        while(i < input.Length - 1)
+        return React(InputOneLine).Length;
+    }
+
+    public override long PartTwo()
+    {
+        HashSet<char> chars = InputOneLine.ToLower().ToHashSet();
+        
+        string original = InputOneLine;
+        
+        List<int> counts = [];
+        foreach (char c in chars)
         {
-            char c1 = input[i];
-            char c2 = input[i + 1];
+            string cleanString = original.Replace(c.ToString().ToLower(), "").Replace(c.ToString().ToUpper(), "");
+            counts.Add(React(cleanString).Length);
+        }
+
+        return counts.Min();
+    }
+
+    private string React(string polymereChain)
+    {
+        int i = 0;
+        while(i < polymereChain.Length - 1)
+        {
+            char c1 = polymereChain[i];
+            char c2 = polymereChain[i + 1];
             
             if (c1 - 32 == c2 || c1 == c2 - 32)
             {
-                input = input.Remove(i, 2);
+                polymereChain = polymereChain.Remove(i, 2);
                 i = 0;
                 continue;
             }
 
             i++;
         }
-        
-        return input.Length;
-    }
 
-    public override long PartTwo()
-    {
-        return base.PartTwo();
+        return polymereChain;
     }
 }
