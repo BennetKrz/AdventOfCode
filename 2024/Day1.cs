@@ -6,7 +6,6 @@ public class Day1 : AdventBase
 
     private List<int> leftList = [];
     private List<int> rightList = [];
-    private List<(int l, int r)> pairs = [];
     
     public Day1() : base(2024, 1)
     {
@@ -16,22 +15,14 @@ public class Day1 : AdventBase
 
     public override long PartOne()
     {
-        while (leftList.Count > 0)
-        {
-            int leftMin = leftList.Min();
-            int rightMin = rightList.Min();
-            leftList.Remove(leftMin);
-            rightList.Remove(rightMin);
-            
-            pairs.Add((leftMin, rightMin));
-        }
+        leftList.Sort();
+        rightList.Sort();
         
-        return pairs.Select(x => Math.Abs(x.r - x.l)).Sum();
+        return Enumerable.Range(0, leftList.Count).Select(i => Math.Abs(leftList[i] - rightList[i])).Sum();
     }
 
     public override long PartTwo()
     {
-        ParseInput();
         return leftList.Select(x => rightList.Count(r => r == x) * x).Sum();
     }
 
