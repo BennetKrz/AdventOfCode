@@ -20,16 +20,22 @@ public class Day2 : AdventBase
         
         for (int i = 0; i < input.Length; i++)
         {
+            bool oneBadValue = false;
+            
             List<int> testReport = input[i].Split(" ").Select(int.Parse).ToList();
             for (int j = 0; j < testReport.Count; j++)
             {
-                List<int> localReport = new(testReport);
-                localReport.Remove(j);
-                if (ValidTestReport(localReport))
+                List<int> removed = testReport.Take(j).Concat(testReport.Skip(j + 1)).ToList();
+                if (ValidTestReport(removed))
                 {
-                    safeReports++;
+                    oneBadValue = true;
                     break;
                 }
+            }
+
+            if (ValidTestReport(testReport) || oneBadValue)
+            {
+                safeReports++;
             }
         }
         
@@ -38,32 +44,17 @@ public class Day2 : AdventBase
 
     private bool ValidTestReport(List<int> testReport)
     {
-        if (testReport[0] == testReport[1])
+        List<int> diffs = [];
+
+        for (int i = 1; i < testReport.Count; i++)
         {
-            return false;
+            diffs.Add(testReport[i] - testReport[i - 1]);
         }
+
+        bool increasing = diffs.All(d => d is >= 1 and <= 3);
+        bool decreasing = diffs.All(d => d is <= -1 and >= -3);
         
-        bool isIncreasing = testReport[0] < testReport[1];
-
-        for (int i = 0; i < testReport.Count - 1; i++)
-        {
-            if (testReport[i] == testReport[i + 1])
-            {
-                return false;
-            }
-
-            if ((isIncreasing && testReport[i] > testReport[i + 1]) || (!isIncreasing && testReport[i] < testReport[i + 1]))
-            {
-                return false;
-            }
-
-            if (Math.Abs(testReport[i] - testReport[i + 1]) > 3)
-            {
-                return false;
-            }
-        }
-        
-        return true;
+        return increasing || decreasing;
     }
 
 }
