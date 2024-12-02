@@ -4,7 +4,7 @@ namespace AdventOfCode;
 
 public abstract class AdventBase(int year, int day) : IAdventDay
 {
-    private readonly string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? @$"H:\C#\AdventOfCode\{year}\Input\day_{day}.txt" 
+    private readonly string path = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? @$"..\..\..\{year}\Input\day_{day}.txt" 
         : $"/home/dodo/AdventOfCode/{year}/Input/day_{day}.txt";
 
     protected string InputOneLine
