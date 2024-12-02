@@ -26,7 +26,6 @@
         <Folder Include="2021\Input\"/>
         <Folder Include="2022\Input\"/>
         <Folder Include="2023\Input\"/>
-        <Folder Include="2024\Input\" />
     </ItemGroup>
 
     <ItemGroup>
