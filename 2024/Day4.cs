@@ -17,103 +17,105 @@ public class Day4 : AdventBase
         {
             for (int x = 0; x < input[y].Length; x++)
             {
-                if (input[y][x] == 'X')
+                if (input[y][x] != 'X')
                 {
-                    xmasFound += SearchForXmasAtLocation(x, y);
+                    continue;
                 }
+
+                xmasFound += GetAllStringsInDirectionsPartOne(x, y).Count(x => x == "XMAS");
             }
         }
         
         return xmasFound;
     }
 
-    private long SearchForXmasAtLocation(int x, int y)
+    public override long PartTwo()
     {
-        int found = 0;
-        found += SearchForward(x, y);
-        found += SearchBackwards(x, y);
-        found += SearchUpwards(x, y);
-        found += SearchDownwards(x, y);
-        found += SearchDiagonalLeftUp(x, y);
-        found += SearchDiagonalRightUp(x, y);
-        found += SearchDiagonalLeftDown(x, y);
-        found += SearchDiagonalRightDown(x, y);
-        return found;
-    }
+        long xmasFound = 0;
+        
+        for (int y = 0; y < input.Length; y++)
+        {
+            for (int x = 0; x < input[y].Length; x++)
+            {
+                if (input[y][x] != 'A')
+                {
+                    continue;
+                }
 
-    private int SearchDiagonalRightUp(int x, int y)
-    {
-        if (x + 3 >= input[0].Length || y - 3 < 0)
-        {
-            return 0;
-        }
-        return input[y][x] == 'X' &&
-               input[y - 1][x + 1] == 'M' &&
-               input[y - 2][x + 2] == 'A' &&
-               input[y - 3][x + 3] == 'S'
-            ? 1
-            : 0;
-    }
-
-    private int SearchForward(int x, int y)
-    {
-        if (x + 4 >= input[0].Length)
-        {
-            return 0;
-        }
-        return input[y].Substring(x, 4) == "XMAS" ? 1 : 0;
-    }
-    
-    private int SearchBackwards(int x, int y)
-    {
-        if (x - 4 < 0)
-        {
-            return 0;
-        }
-        return input[y].Substring(x - 4, 4) == "XMAS" ? 1 : 0;
-    }
-    
-    private int SearchUpwards(int x, int y)
-    {
-        if (y - 3 < 0)
-        {
-            return 0;
+                if (IsXmas(x, y))
+                {
+                    xmasFound++;
+                }
+            }
         }
 
-        return input[y][x] == 'X' &&
-               input[y - 1][x] == 'M' &&
-               input[y - 2][x] == 'A' &&
-               input[y - 3][x] == 'S'
-            ? 1
-            : 0;
+        return xmasFound;
     }
-    
-    private int SearchDownwards(int x, int y)
+
+    private bool IsXmas(int x, int y)
     {
-        if (y + 3 >= input.Length)
+        List<(int deltaX, int deltaY)> directions =
+        [
+            (-1, -1),   // DiagonalUpLeft
+            (1, -1),   // DiagonalUpRight
+            (-1, 1),   // DiagonalDownLeft
+            (1, 1),   // DiagonalDownRight
+        ];
+
+        foreach ((int deltaX, int deltaY) direction in directions)
         {
-            return 0;
+            if (!IsInGrid(x + direction.deltaX, y + direction.deltaY))
+            {
+                return false;
+            }
         }
 
-        return input[y][x] == 'X' &&
-               input[y + 1][x] == 'M' &&
-               input[y + 2][x] == 'A' &&
-               input[y + 3][x] == 'S'
-            ? 1
-            : 0;
+        return ((input[y - 1][x - 1] == 'M' && input[y + 1][x + 1] == 'S') ||
+                (input[y - 1][x - 1] == 'S' && input[y + 1][x + 1] == 'M'))
+               &&
+               ((input[y - 1][x + 1] == 'M' && input[y + 1][x - 1] == 'S') ||
+                (input[y - 1][x + 1] == 'S' && input[y + 1][x - 1] == 'M'));
+    }
+
+    private List<string> GetAllStringsInDirectionsPartOne(int x, int y)
+    {
+        List<string> allStrings = [];
+        List<(int xDelta, int yDelta)> directions =
+        [
+            (1, 0),     // Forwards
+            (-1, 0),    // Backwards
+            (0, -1),    // Upwards
+            (0, 1),     // Downwards
+            (-1, -1),   // UpLeftDiagonal
+            (1, -1),    // UpRightDiagonal
+            (-1, 1),    // DownLeftDiagonal
+            (1, 1),     // DownRightDiagonal
+        ];
+
+        foreach ((int xDelta, int yDelta) direction in directions)
+        {
+            allStrings.Add(GetString(direction, x, y));
+        }
+        
+        return allStrings;
+    }
+
+    private string GetString((int xDelta, int yDelta) direction, int x, int y)
+    {
+        string result = "X";
+        for (int i = 0; i < 3; i++)
+        {
+            x += direction.xDelta;
+            y += direction.yDelta;
+            if (!IsInGrid(x, y))
+            {
+                return result;
+            }
+            result += input[y][x];
+        }
+
+        return result;
     }
     
-    private int SearchDiagonalLeftUp(int x, int y)
-    {
-        if (x - 3 < 0 || y - 3 < 0)
-        {
-            return 0;
-        }
-        return input[y][x] == 'X' &&
-               input[y - 1][x - 1] == 'M' &&
-               input[y - 2][x - 2] == 'A' &&
-               input[y - 3][x - 3] == 'S' 
-            ? 1
-            : 0;
-    }
+    private bool IsInGrid(int x, int y) => x >= 0 && x < input[0].Length && y >= 0 && y < input.Length;
 }
