@@ -16,16 +16,51 @@ public class Day5 : AdventBase
 
     public override long PartOne()
     {
+        long sum = 0;
+        
         ParseInput();
+        for (int i = 0; i < updates.Length; i++)
+        {
+            List<int> update = updates[i];
+            if (UpdateIsInOrder(update))
+            {
+                sum += MiddlePageNumber(update);
+            }
+        }
+
+        return sum;
+    }
+
+    private bool UpdateIsInOrder(List<int> update)
+    {
+        foreach (Rule rule in rules)
+        {
+            if (!update.Contains(rule.x) || !update.Contains(rule.y))
+            {
+                continue;
+            }
+
+            if (update.IndexOf(rule.x) > update.IndexOf(rule.y))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private int MiddlePageNumber(List<int> update)
+    {
+        return update[update.Count / 2];
     }
 
     private void ParseInput()
     {
         rules = input
             .Where(s => s.Contains('|'))
-            .Select(s => (int.Parse(s.Split("|")[0]), int.Parse(s.Split("|")[0])))
+            .Select(s => (int.Parse(s.Split("|")[0]), int.Parse(s.Split("|")[1])))
             .ToList();
-
+        
         updates = input
             .Where(s => s.Contains(','))
             .Select(s => s.Split(',')
