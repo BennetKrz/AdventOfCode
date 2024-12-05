@@ -4,7 +4,7 @@ using Rule = (int x, int y);
 
 public class Day5 : AdventBase
 {
-    private string[] input;
+    private readonly string[] input;
     
     private List<Rule> rules;
     private List<int>[] updates;
@@ -16,19 +16,32 @@ public class Day5 : AdventBase
 
     public override long PartOne()
     {
+        ParseInput();
+        return updates.Where(UpdateIsInOrder).Sum(MiddlePageNumber);
+    }
+
+    public override long PartTwo()
+    {
         long sum = 0;
         
         ParseInput();
-        for (int i = 0; i < updates.Length; i++)
+        List<int>[] wrongOrderedUpdates = updates
+            .Where(u => !UpdateIsInOrder(u))
+            .ToArray();
+
+        foreach (List<int> update in wrongOrderedUpdates)
         {
-            List<int> update = updates[i];
-            if (UpdateIsInOrder(update))
-            {
-                sum += MiddlePageNumber(update);
-            }
+            List<int> correctlyOrderedUpdate = OrderUpdate(update);
+            Console.WriteLine($"Correct order: {string.Join(", ", correctlyOrderedUpdate)}");
+            sum += MiddlePageNumber(correctlyOrderedUpdate);
         }
 
         return sum;
+    }
+
+    private List<int> OrderUpdate(List<int> update)
+    {
+        return update.Order(new Day5UpdateComparer(rules)).ToList();
     }
 
     private bool UpdateIsInOrder(List<int> update)

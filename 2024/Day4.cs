@@ -2,7 +2,7 @@ namespace AdventOfCode._2024;
 
 public class Day4 : AdventBase
 {
-    private string[] input;
+    private readonly string[] input;
 
     public Day4() : base(2024, 4)
     {
