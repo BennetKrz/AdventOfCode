@@ -4,35 +4,67 @@ namespace AdventOfCode._2024;
 
 public class Day6 : AdventBase
 {
-    private readonly string[] input;
-    private Direction currentDirection; 
+    private readonly char[][] input;
+    private Direction currentDirection;
+    private bool foundLoop = false;
     
     public Day6() : base(2024, 6)
     {
-        this.input = Input;
+        this.input = Input.Select(x => x.ToCharArray()).ToArray();
     }
 
     public override long PartOne()
     {
-        return GetAllVisited().Count;
+        return GetAllVisited()
+            .Select(x => x.position)
+            .ToHashSet()
+            .Count;
     }
 
-    private HashSet<Point> GetAllVisited()
+    public override long PartTwo()
     {
+        long possibleSpots = 0;
         Point curPos = GetStartPosOfGuard();
-        HashSet<Point> visited = [];
-        while (true)
+        HashSet<Point> visited = GetAllVisited()
+            .Select(x => x.position)
+            .Where(x => x != curPos)
+            .ToHashSet();
+        
+        foreach (Point pos in visited)
+        {
+            char valueBefore = input[pos.y][pos.x];
+            input[pos.y][pos.x] = '#';
+            GetAllVisited();
+            if (foundLoop)
+            {
+                possibleSpots++;
+            }
+            input[pos.y][pos.x] = valueBefore;
+        }
+
+        return possibleSpots;
+    }
+
+    private HashSet<(Point position, Direction direction)> GetAllVisited()
+    {
+        foundLoop = false;
+        
+        Point curPos = GetStartPosOfGuard();
+        HashSet<(Point points, Direction direction)> visited = [];
+        while (visited.Add((curPos, currentDirection)))
         {
             try
             {
-                visited.Add(curPos);
                 curPos = GetNextPos(curPos);
             }
-            catch (IndexOutOfRangeException iore)
+            catch (IndexOutOfRangeException _)
             {
                 return visited;
             }
         }
+        
+        foundLoop = true;
+        return visited;
     }
 
     private Point GetNextPos(Point curPos)
