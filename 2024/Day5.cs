@@ -12,54 +12,32 @@ public class Day5 : AdventBase
     public Day5() : base(2024, 5)
     {
         this.input = base.Input;
+        ParseInput();
     }
 
     public override long PartOne()
     {
-        ParseInput();
-        return updates.Where(UpdateIsInOrder).Sum(MiddlePageNumber);
+        return updates
+            .Where(UpdateIsInOrder)
+            .Sum(MiddlePageNumber);
     }
 
     public override long PartTwo()
     {
-        long sum = 0;
-        
-        ParseInput();
-        List<int>[] wrongOrderedUpdates = updates
+        IComparer<int> comparer = new Day5UpdateComparer(rules);
+        return updates
             .Where(u => !UpdateIsInOrder(u))
-            .ToArray();
-
-        foreach (List<int> update in wrongOrderedUpdates)
-        {
-            List<int> correctlyOrderedUpdate = OrderUpdate(update);
-            Console.WriteLine($"Correct order: {string.Join(", ", correctlyOrderedUpdate)}");
-            sum += MiddlePageNumber(correctlyOrderedUpdate);
-        }
-
-        return sum;
-    }
-
-    private List<int> OrderUpdate(List<int> update)
-    {
-        return update.Order(new Day5UpdateComparer(rules)).ToList();
+            .Select(l => l
+                .Order(comparer)
+                .ToList())
+            .Sum(MiddlePageNumber);
     }
 
     private bool UpdateIsInOrder(List<int> update)
     {
-        foreach (Rule rule in rules)
-        {
-            if (!update.Contains(rule.x) || !update.Contains(rule.y))
-            {
-                continue;
-            }
-
-            if (update.IndexOf(rule.x) > update.IndexOf(rule.y))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return rules
+            .Where(rule => update.Contains(rule.x) && update.Contains(rule.y))
+            .All(rule => update.IndexOf(rule.x) < update.IndexOf(rule.y));
     }
 
     private int MiddlePageNumber(List<int> update)

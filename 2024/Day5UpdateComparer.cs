@@ -4,45 +4,22 @@ namespace AdventOfCode._2024;
 
 public class Day5UpdateComparer(List<Rule> rules) : IComparer<int>
 {
+    private readonly Func<int, int, Rule, bool> violatedRuleChecker = (x, y, rule) => rule.x == y && rule.y == x;
+    private readonly Func<int, int, Rule, bool> correctRuleChecker = (x, y, rule) => rule.x == x && rule.y == y;
+    
     public int Compare(int x, int y)
     {
-        Rule violatedRule = GetViolatedRule(x, y);
-        if (violatedRule == (-1, -1))
+        Rule violatedRule = GetCorrespondingRule(x, y, violatedRuleChecker);
+        if (violatedRule != (-1, -1))
         {
-            Rule correctRule = GetCorrectRule(x, y);
-            if (correctRule.x == x && correctRule.y == y)
-            {
-                return -1;
-            }
-            return 0;
+            return 1;
         }
-
-        return 1;
+        Rule correctRule = GetCorrespondingRule(x, y, correctRuleChecker);
+        return correctRule.x == x && correctRule.y == y ? -1 : 0;
     }
 
-    private Rule GetViolatedRule(int x, int y)
+    private Rule GetCorrespondingRule(int x, int y, Func<int, int, Rule, bool> ruleChecker)
     {
-        foreach (Rule rule in rules)
-        {
-            if (rule.x == y && rule.y == x)
-            {
-                return rule;
-            }
-        }
-
-        return (-1, -1);
-    }
-
-    private Rule GetCorrectRule(int x, int y)
-    {
-        foreach (Rule rule in rules)
-        {
-            if (rule.x == x && rule.y == y)
-            {
-                return rule;
-            }
-        }
-
-        return (-1, -1);
+        return rules.FirstOrDefault(rule => ruleChecker(x, y, rule), (-1, -1));
     }
 }
