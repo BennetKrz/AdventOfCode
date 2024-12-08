@@ -3,7 +3,7 @@ namespace AdventOfCode._2024;
 public class Day7 : AdventBase
 {
     private readonly string[] input;
-    private bool useConcatination = false;
+    private bool useConcatenation = false;
     
     public Day7() : base(2024, 7)
     {
@@ -17,7 +17,7 @@ public class Day7 : AdventBase
 
     public override long PartTwo()
     {
-        useConcatination = true;
+        useConcatenation = true;
         return PartOne();
     }
 
@@ -53,7 +53,7 @@ public class Day7 : AdventBase
             return true;
         }
         
-        return useConcatination && AllPossibleEquations(numbers, target, index + 1,
-            long.Parse((accumulator.ToString() + nextNumber.ToString())));
+        return useConcatenation && AllPossibleEquations(numbers, target, index + 1,
+            long.Parse((accumulator.ToString() + nextNumber)));
     }
 }
