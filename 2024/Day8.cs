@@ -33,8 +33,8 @@ public class Day8 : AdventBase
         
         foreach (char key in allAntennaPositions.Keys)
         {
-            List<Point> antennaPositions = allAntennaPositions[key];
-            HashSet<Point> antiNodeForFrequency = PlaceAntiNodeForFrequency(antennaPositions);
+            List<Point> antennas = allAntennaPositions[key];
+            HashSet<Point> antiNodeForFrequency = PlaceAntiNodeForFrequency(antennas);
             
             uniqueAntiNodePositions.UnionWith(antiNodeForFrequency);
         }
@@ -42,26 +42,26 @@ public class Day8 : AdventBase
         return uniqueAntiNodePositions;
     }
 
-    private HashSet<Point> PlaceAntiNodeForFrequency(List<Point> antennaPositions)
+    private HashSet<Point> PlaceAntiNodeForFrequency(List<Point> positionsOfAntenna)
     {
         HashSet<Point> antiNodeForFrequency = [];
         
-        if(antennaPositions.Count <= 1)
+        if(positionsOfAntenna.Count <= 1)
         {
             return antiNodeForFrequency;
         }
 
-        for (int i = 0; i < antennaPositions.Count; i++)
+        for (int i = 0; i < positionsOfAntenna.Count; i++)
         {
-            for (int j = 0; j < antennaPositions.Count; j++)
+            for (int j = 0; j < positionsOfAntenna.Count; j++)
             {
                 if (j == i)
                 {
                     continue;
                 }
                 
-                Point point = antennaPositions[i];
-                Point delta = CalculateDelta(antennaPositions[i], antennaPositions[j]);
+                Point point = positionsOfAntenna[i];
+                Point delta = CalculateDelta(positionsOfAntenna[i], positionsOfAntenna[j]);
 
                 if (partTwo)
                 {
@@ -104,7 +104,7 @@ public class Day8 : AdventBase
 
     private Dictionary<char, List<Point>> ParseInput()
     {
-        Dictionary<char, List<Point>> antennaPositions = [];
+        Dictionary<char, List<Point>> positions = [];
         
         for (int y = 0; y < input.Length; y++)
         {
@@ -116,15 +116,15 @@ public class Day8 : AdventBase
                     continue;
                 }
 
-                if (!antennaPositions.ContainsKey(frequency))
+                if (!positions.ContainsKey(frequency))
                 {
-                    antennaPositions.Add(frequency, new List<Point>());
+                    positions.Add(frequency, []);
                 }
                 
-                antennaPositions[frequency].Add((x, y));
+                positions[frequency].Add((x, y));
             }
         }
         
-        return antennaPositions;
+        return positions;
     }
 }
