@@ -6,7 +6,6 @@ public class Day8 : AdventBase
 {
     private readonly string[] input;
     private bool partTwo;
-    private Dictionary<char, List<Point>> antennaPositions;
     
     public Day8() : base(2024, 8)
     {
@@ -16,15 +15,13 @@ public class Day8 : AdventBase
     public override long PartOne()
     {
         partTwo = false;
-        antennaPositions = ParseInput();
-        
-        return PlaceAllAntiNodes(antennaPositions).Count;
+        return PlaceAllAntiNodes(ParseInput()).Count;
     }
 
     public override long PartTwo()
     {
         partTwo = true;
-        return PlaceAllAntiNodes(antennaPositions).Count;
+        return PlaceAllAntiNodes(ParseInput()).Count;
     }
 
     private HashSet<Point> PlaceAllAntiNodes(Dictionary<char,List<Point>> allAntennaPositions)
