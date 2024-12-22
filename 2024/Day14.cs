@@ -144,12 +144,13 @@ public class Day14 : AdventBase
     
     private double CalculateEntropy(List<(double x, double y)> points, double binSize)
     {
-        var binCounts = new Dictionary<(int, int), int>();
-        foreach (var point in points)
+        // Step 1: Create a dictionary to count points in each bin
+        Dictionary<Point, int> binCounts = [];
+        foreach (Point point in points)
         {
             int binX = (int)(point.x / binSize);
             int binY = (int)(point.y / binSize);
-            var bin = (binX, binY);
+            Point bin = (binX, binY);
             if (!binCounts.TryAdd(bin, 1))
                 binCounts[bin]++;
         }
