@@ -41,7 +41,5 @@ public class Day1 : AdventBase
 				frequency = frequency + inputInt[i];
 			}
 		}
-
-		return long.MinValue;
 	}
 }
