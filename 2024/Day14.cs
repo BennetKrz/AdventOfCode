@@ -142,7 +142,7 @@ public class Day14 : AdventBase
         Console.WriteLine(sb.ToString());
     }
     
-    private static double CalculateEntropy(List<(double x, double y)> points, double binSize)
+    private double CalculateEntropy(List<(double x, double y)> points, double binSize)
     {
         var binCounts = new Dictionary<(int, int), int>();
         foreach (var point in points)
