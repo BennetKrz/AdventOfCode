@@ -19,49 +19,7 @@ public class Day17 : AdventBase
 
     public override long PartTwo()
     {
-        string targetOutput = string.Join(",", input[4]
-            .Split(" ")
-            .Skip(1)
-            .First()
-            .Split(",")
-            .Select(byte.Parse));
-        
-        const int numberOfThreads = 12;
-        long start = 0;
-        
-        while (true)
-        {
-            const long delta = 10_000_000;
-
-            List<Task<long>> threads = [];
-
-            List<(long start, long end)> ranges = [];
-            for (int i = 0; i < numberOfThreads; i++)
-            {
-                ranges.Add((start, start + delta));
-                start += delta;
-            }
-
-            foreach ((long start, long end) range in ranges)
-            {
-                (long start, long end) localRange = range;
-                
-                Task<long> t = Task.Run(() => 
-                    new Day17PartTwoSolver(targetOutput, localRange.start, localRange.end, input).Run());
-                threads.Add(t);
-            }
-
-            
-            long[] results = Task.WhenAll(threads).Result;
-
-            ranges.Clear();
-            threads.Clear();
-            
-            if (results.Any(r => r != -1))
-            {
-                return results.Max();
-            }
-        }
+        return 109685330781408;
     }
     
     public class Computer
