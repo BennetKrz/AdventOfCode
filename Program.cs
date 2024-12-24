@@ -7,7 +7,7 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        IAdventDay day = new Day19();
+        IAdventDay day = new Day20();
         Console.WriteLine(day.GetType().FullName + ":");
         Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
         var sw = Stopwatch.StartNew();
