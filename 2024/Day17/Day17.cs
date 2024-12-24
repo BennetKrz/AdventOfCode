@@ -1,4 +1,4 @@
-namespace AdventOfCode._2024;
+namespace AdventOfCode._2024.Day17;
 
 public class Day17 : AdventBase
 {

@@ -8,7 +8,7 @@ public class Day17PartTwoSolver(string targetOutput, long localStart, long local
         
         for (long a = localStart; a < localEnd; a++)
         {
-            Day17.Computer computer = new(input, a);
+            Day17.Day17.Computer computer = new(input, a);
             List<byte> output = computer.Execute();
             if (string.Join(",", output) == targetOutput)
             {
