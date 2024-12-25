@@ -45,8 +45,6 @@ public class Day20 : AdventBase
             }
         }
         
-        var grouped = cheatIdentifierAndSavedDistance.GroupBy(x => x.Value).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Count());
-        
         return cheatIdentifierAndSavedDistance
             .Count(x => x.Value >= 100);
     }
