@@ -3,11 +3,11 @@ using AdventOfCode._2024;
 
 namespace AdventOfCode;
 
-public class Program
+public static class Program
 {
     private static void Main(string[] args)
     {
-        IAdventDay day = new Day25();
+        IAdventDay day = new Day13();
         Console.WriteLine(day.GetType().FullName + ":");
         Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
         var sw = Stopwatch.StartNew();
