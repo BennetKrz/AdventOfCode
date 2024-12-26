@@ -18,7 +18,7 @@ public class Day1 : AdventBase
         leftList.Sort();
         rightList.Sort();
         
-        return Enumerable.Range(0, leftList.Count).Select(i => Math.Abs(leftList[i] - rightList[i])).Sum();
+        return Enumerable.Zip(leftList, rightList, (l, r) => Math.Abs(l - r)).Sum();
     }
 
     public override long PartTwo()
