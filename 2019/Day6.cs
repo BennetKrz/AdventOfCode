@@ -105,13 +105,15 @@ public class Day6 : AdventBase
     {
         private readonly List<Planet> neighbors;
 
+        private Planet previous;
+        
         public Planet Previous
         {
-            get;
+            get => previous;
             set
             {
                 neighbors.Add(value);
-                field = value;
+                previous = value;
             }
         }
 

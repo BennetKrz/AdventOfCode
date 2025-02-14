@@ -13,7 +13,6 @@ public class Day7 : AdventBase
     {
         List<Rule> rules = ParseInput();
 
-        int count = 0;
         HashSet<string> colorsFound = [];
         List<string> toLookForNext = ["shiny gold"];
         
@@ -30,6 +29,39 @@ public class Day7 : AdventBase
         }
         
         return colorsFound.Count;
+    }
+
+    public override long PartTwo()
+    {
+        List<Rule> rules = ParseInput();
+        return GetCostsFrom("shiny gold", rules);
+    }
+
+    private long GetCostsFrom(string color, List<Rule> rules)
+    {
+        Rule rule = rules.Find(x => x.Color == color) ?? throw new InvalidOperationException();
+
+        long cost = 0;
+        
+        if (rule.BagsContained.Count == 0)
+        {
+            return -1;
+        }
+
+        foreach ((string color, int amount) bag in rule.BagsContained)
+        {
+            long nextCost = GetCostsFrom(bag.color, rules);
+            if (nextCost == -1)
+            {
+                cost += bag.amount;
+            }
+            else
+            {
+                cost += bag.amount * nextCost;   
+            }
+        }
+
+        return cost;
     }
 
     private List<Rule> ParseInput()
