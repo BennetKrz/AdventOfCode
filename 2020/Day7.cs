@@ -39,29 +39,26 @@ public class Day7 : AdventBase
 
     private long GetCostsFrom(string color, List<Rule> rules)
     {
+        return GetCostsFrom(color, 1, rules) - 1;
+    }
+
+    private long GetCostsFrom(string color, long amount, List<Rule> rules)
+    {
         Rule rule = rules.Find(x => x.Color == color) ?? throw new InvalidOperationException();
 
         long cost = 0;
         
         if (rule.BagsContained.Count == 0)
         {
-            return -1;
+            return amount;
         }
 
         foreach ((string color, int amount) bag in rule.BagsContained)
         {
-            long nextCost = GetCostsFrom(bag.color, rules);
-            if (nextCost == -1)
-            {
-                cost += bag.amount;
-            }
-            else
-            {
-                cost += bag.amount * nextCost;   
-            }
+            cost += GetCostsFrom(bag.color, amount * bag.amount, rules);
         }
 
-        return cost;
+        return cost + amount;
     }
 
     private List<Rule> ParseInput()
