@@ -1,3 +1,5 @@
+using Bag = (string colorName, int amount);
+
 namespace AdventOfCode._2020;
 
 public class Day7 : AdventBase
@@ -18,7 +20,7 @@ public class Day7 : AdventBase
         
         while (toLookForNext.Count > 0)
         {
-            List<string> tmp = rules.Where(x => x.BagsContained.Any(y => y.Item1 == toLookForNext[0]))
+            List<string> tmp = rules.Where(x => x.BagsContained.Any(y => y.colorName == toLookForNext[0]))
                 .Select(x => x.Color)
                 .ToList();
 
@@ -39,29 +41,21 @@ public class Day7 : AdventBase
 
     private long GetCostsFrom(string color, List<Rule> rules)
     {
+        return GetCostsFrom(color, 1, rules) - 1;
+    }
+
+    private long GetCostsFrom(string color, long amount, List<Rule> rules)
+    {
         Rule rule = rules.Find(x => x.Color == color) ?? throw new InvalidOperationException();
 
-        long cost = 0;
-        
         if (rule.BagsContained.Count == 0)
         {
-            return -1;
+            return amount;
         }
 
-        foreach ((string color, int amount) bag in rule.BagsContained)
-        {
-            long nextCost = GetCostsFrom(bag.color, rules);
-            if (nextCost == -1)
-            {
-                cost += bag.amount;
-            }
-            else
-            {
-                cost += bag.amount * nextCost;   
-            }
-        }
-
-        return cost;
+        long cost = rule.BagsContained.Sum(x => GetCostsFrom(x.colorName, amount * x.amount, rules));
+        
+        return cost + amount;
     }
 
     private List<Rule> ParseInput()
@@ -81,13 +75,13 @@ public class Day7 : AdventBase
 
             List<(string, int)> bagsContained = [];
             
-            for (int i = 0; i < contained.Length; i++)
+            foreach (string part in contained)
             {
-                if (contained[i] == "no other")
+                if (part == "no other")
                 {
                     break;
                 }
-                bagsContained.Add((contained[i].Substring(contained[i].IndexOf(" ") + 1), int.Parse(contained[i].Split(" ")[0])));
+                bagsContained.Add((part.Substring(part.IndexOf(" ") + 1), int.Parse(part.Split(" ")[0])));
             }
 
             rules.Add(new(colorOfBag, bagsContained));
@@ -96,5 +90,5 @@ public class Day7 : AdventBase
         return rules;
     }
 
-    private record Rule(string Color, List<(string, int)> BagsContained);
+    private record Rule(string Color, List<Bag> BagsContained);
 }
