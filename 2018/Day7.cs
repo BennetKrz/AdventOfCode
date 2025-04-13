@@ -19,9 +19,10 @@ public class Day7 : AdventBase
 
         HashSet<Step> done = [];
         Step curStep = steps
-            .Where(x => x.IsReady)
+            .Where(x => x.AllBeforeReady())
             .OrderBy(x => x.Name)
             .First();
+        curStep.IsReady = true;
         done.Add(curStep);
         orderedOutput += curStep.Name;
 
@@ -80,7 +81,7 @@ public class Day7 : AdventBase
 
 internal record Step(string Name)
 {
-    public bool IsReady { get; set; } = true;
+    public bool IsReady { get; set; } = false;
     private readonly List<Step> mustBeReady = [];
 
     public bool AllBeforeReady()
@@ -90,7 +91,6 @@ internal record Step(string Name)
     
     public void AddStepBefore(Step stepBefore)
     {
-        IsReady = false;
         mustBeReady.Add(stepBefore);
     }
     
