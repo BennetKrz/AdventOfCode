@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using AdventOfCode._2018;
+using AdventOfCode._2025;
 
 namespace AdventOfCode;
 
@@ -7,7 +7,7 @@ public static class Program
 {
     private static void Main(string[] args)
     {
-        IAdventDay day = new Day7();
+        IAdventDay day = new Day1();
         Console.WriteLine(day.GetType().FullName + ":");
         Console.WriteLine("- - - - - - - - - PART ONE - - - - - - - - -  Starting Stopwatch...");
         var sw = Stopwatch.StartNew();
