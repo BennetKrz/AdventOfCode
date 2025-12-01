@@ -40,4 +40,41 @@ public class Day1 : AdventBase
         
         return timesAtZero;
     }
+    
+    public override long PartTwo()
+    {
+        int curPosition = 50;
+        int timesAtZero = 0;
+        
+        foreach (string line in input)
+        {
+            char direction = line[0];
+            int count = int.Parse(line[1..]);
+
+            while (count > 100)
+            {
+                count -= 100;
+                timesAtZero++;
+            }
+
+            int prevPosition = curPosition;
+            curPosition += direction == 'R' ? count : -count;
+
+            if (curPosition is < 0 or > 99)
+            {
+                curPosition += direction == 'R' ? -100 : 100;
+                if (curPosition != 0 && prevPosition != 0)
+                {
+                    timesAtZero++;
+                }
+            }
+
+            if (curPosition == 0)
+            {
+                timesAtZero++;
+            }
+        }
+
+        return timesAtZero;
+    }
 }
