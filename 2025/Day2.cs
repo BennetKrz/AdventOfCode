@@ -1,22 +1,18 @@
-using System.Text.RegularExpressions;
-
 namespace AdventOfCode._2025;
 
 public class Day2 : AdventBase
 {
-    private readonly string input;
-    private readonly Dictionary<int, List<long>> invalidsCache = [];
+    private readonly List<(long start, long end)> ranges;
 
     public Day2() : base(2025, 2)
     {
-        input = InputOneLine;
-        invalidsCache.Add(2, [1,2,3,4,5,6,7,8,9]);
+        var input = InputOneLine;
+        ranges = ParseInput(input);
     }
 
     public override long PartOne()
     {
         long count = 0;
-        var ranges = ParseInput(input);
         foreach (var range in ranges)
         {
             for (long n = range.start; n <= range.end; n++)
@@ -39,7 +35,6 @@ public class Day2 : AdventBase
     public override long PartTwo()
     {
         long count = 0;
-        var ranges =  ParseInput(input);
         foreach (var range in ranges)
         {
             for (long n = range.start; n <= range.end; n++)
@@ -48,9 +43,8 @@ public class Day2 : AdventBase
                 for (int i = 1; i <= value.Length / 2; i++)
                 {
                     string part = value.Substring(0, i);
-                    //int occurences = Regex.Matches(value, part).Count;
-                    int occurences = CountOccurences(value, part);
-                    if ((double)occurences == (double)value.Length / (double)i)
+                    int occurrences = CountOccurrences(value, part);
+                    if (occurrences == value.Length / (double)i)
                     {
                         count += n;
                         break;
@@ -62,14 +56,19 @@ public class Day2 : AdventBase
         return count;
     }
 
-    private int CountOccurences(string number, string part)
+    private int CountOccurrences(string number, string part)
     {
-        int count = 0;
+        if ((double)number.Length / part.Length % 1 != 0)
+        {
+            return -1;
+        }
+
+        int count = 1;
         for (int i = part.Length; i < number.Length; i += part.Length)
         {
             for (int x = 0; x < part.Length; x++)
             {
-                if (part[i] != number[i + x])
+                if (part[x] != number[i + x])
                 {
                     return -1;
                 }
