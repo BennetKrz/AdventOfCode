@@ -32,7 +32,7 @@ public class Day3 : AdventBase
         {
             List<IndexValue> numbers =
             [
-                bank.Where(x => x.index < bank.Count - 12).MaxBy(x => x.value)
+                bank.Where(x => x.index < bank.Count - 11).MaxBy(x => x.value)
             ];
 
             for (int i = 0; i < 11; i++)
