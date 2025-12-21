@@ -46,6 +46,50 @@ public class Day7 : AdventBase
         return count;
     }
 
+    public override long PartTwo()
+    {
+        long[] counter = new long[input[0].Length];
+        int startX = GetPositionOfStart().First().x;
+        counter[startX] = 1;
+
+        for (int y = 0; y < input.Count; y++)
+        {
+            long[] nextCounter = new long[input[0].Length];
+
+            for (int x = 0; x < input[y].Length; x++)
+            {
+                if (counter[x] == 0) continue;
+
+                long currentCount = counter[x];
+
+                int nextY = y + 1;
+                if (nextY >= input.Count)
+                {
+                    continue;
+                }
+
+                char nextCell = input[nextY][x];
+
+                if (nextCell == '^')
+                {
+                    if (x - 1 >= 0) nextCounter[x - 1] += currentCount;
+                    if (x + 1 < input[0].Length) nextCounter[x + 1] += currentCount;
+                }
+                else
+                {
+                    nextCounter[x] += currentCount;
+                }
+            }
+
+            if (y != input.Count - 1)
+            {
+                counter = nextCounter;
+            }
+        }
+
+        return counter.Sum();
+    }
+
     private HashSet<Position> GetSpliters()
     {
         HashSet<Position> positions = [];
@@ -76,10 +120,5 @@ public class Day7 : AdventBase
         }
 
         return [(-1, -1)];
-    }
-
-    public override long PartTwo()
-    {
-        return long.MaxValue;
     }
 }
