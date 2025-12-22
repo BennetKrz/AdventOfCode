@@ -21,7 +21,7 @@ public class Day8 : AdventBase
         for (int i = 0; i < Limit; i++)
         {
             (Position p1, Position p2) = closest[i];
-            var indices = GetCircuits(circuits, p1, p2);
+            var indices = GetCircuitIndices(circuits, p1, p2);
             if (indices is { i1: -1, i2: -1 })
             {
                 circuits.Add([p1, p2]);
@@ -48,28 +48,59 @@ public class Day8 : AdventBase
 
         return sorted[0] * sorted[1] * sorted[2];
     }
+    public override long PartTwo()
+    {
+        List<Position> positions = ParseInput();
+        var closest = OrderByClosest(positions);
 
-    private (int i1, int i2) GetCircuits(List<HashSet<Position>> circuits, Position p1, Position p2)
+        List<HashSet<Position>> circuits = [];
+
+        int count = 0;
+        while(!positions.All(p => circuits.Any(c => c.Contains(p))))
+        {
+            (Position p1, Position p2) = closest[count++];
+            var indices = GetCircuitIndices(circuits, p1, p2);
+            if (indices is { i1: -1, i2: -1 })
+            {
+                circuits.Add([p1, p2]);
+            } else if (indices.i1 == -1)
+            {
+                circuits[indices.i2].Add(p1);
+            } else if (indices.i2 == -1)
+            {
+                circuits[indices.i1].Add(p2);
+            }
+            else
+            {
+                var c1 = circuits[indices.i1];
+                var c2 = circuits[indices.i2];
+
+                var result = c1.Union(c2).ToHashSet();
+                circuits.Remove(c1);
+                circuits.Remove(c2);
+                circuits.Add(result);
+            }
+        }
+
+        return closest[count - 1].p1.X * closest[count - 1].p2.X;
+    }
+
+    private (int i1, int i2) GetCircuitIndices(List<HashSet<Position>> circuits, Position p1, Position p2)
     {
         (int i1, int i2) result = (-1, -1);
         for (int i = 0; i < circuits.Count; i++)
         {
             if (circuits[i].Contains(p1))
             {
-                result = (i, result.i2);
+                result = result with { i1 = i };
             }
             else if (circuits[i].Contains(p2))
             {
-                result = (result.i1, i);
+                result = result with { i2 = i };
             }
         }
 
         return result;
-    }
-
-    public override long PartTwo()
-    {
-        return long.MaxValue;
     }
 
     private List<(Position p1, Position p2)> OrderByClosest(List<Position> positions)
@@ -104,7 +135,7 @@ public class Day8 : AdventBase
 
     private class Position(long x, long y, long z)
     {
-        private long X { get; } = x;
+        public long X { get; } = x;
         private long Y { get; } = y;
         private long Z { get; } = z;
 
