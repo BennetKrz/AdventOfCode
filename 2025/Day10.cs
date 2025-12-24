@@ -16,13 +16,26 @@ public class Day10 : AdventBase
         int sum = 0;
         for (int i = 0; i < machines.Count; i++)
         {
-            sum += FindLeastButtonPresses(machines[i]);
+            sum += FindLeastButtonPressesLight(machines[i]);
         }
 
         return sum;
     }
 
-    private int FindLeastButtonPresses(Machine machine)
+    public override long PartTwo()
+    {
+        List<Machine> machines = ParseInput();
+
+        long sum = 0;
+        for (int i = 0; i < machines.Count; i++)
+        {
+            sum += FindLeastButtonPressesCounters(machines[i]);
+        }
+
+        return sum;
+    }
+
+    private int FindLeastButtonPressesLight(Machine machine)
     {
         bool[] targetState = machine.IndicatorLightsTarget;
 
@@ -49,9 +62,38 @@ public class Day10 : AdventBase
         throw new Exception("No such state");
     }
 
-    public override long PartTwo()
+    private int FindLeastButtonPressesCounters(Machine machine)
     {
-        return long.MaxValue;
+        int[] targetState = machine.JoltageTarget;
+
+        Queue<(int[] state, Button button, int count)> queue = [];
+        for (int i = 0; i < machine.Buttons.Count; i++)
+        {
+            queue.Enqueue((new int[targetState.Length], machine.Buttons[i], 0));
+        }
+
+        int lastCount = 0;
+        while (queue.TryDequeue(out (int[] state, Button button, int count) result))
+        {
+            if (result.count != lastCount)
+            {
+                Console.WriteLine(result.count);
+                lastCount = result.count;
+            }
+
+            int[] newState = result.button.IncreaseCounters(result.state);
+            if (newState.SequenceEqual(targetState))
+            {
+                return result.count + 1;
+            }
+
+            for (int i = 0; i < machine.Buttons.Count; i++)
+            {
+                queue.Enqueue((newState, machine.Buttons[i], result.count + 1));
+            }
+        }
+
+        throw new Exception("No such state");
     }
 
     private List<Machine> ParseInput()
